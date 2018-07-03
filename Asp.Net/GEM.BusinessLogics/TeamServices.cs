@@ -20,6 +20,15 @@ namespace GEM.BusinessLogics
             return objteam;
         }
 
+        public List<team> GetDefaultTeamNameCount()
+        {
+            gemdb = new gemEntities1();
+
+            var objteam = (from t1 in gemdb.teams where  t1.Name.Contains("[Name me soon]") select t1).ToList();
+
+            return objteam;
+        }
+
         public List<team> GetTeam(int userid)
         {
             gemdb = new gemEntities1();
@@ -36,6 +45,15 @@ namespace GEM.BusinessLogics
             var objteamMember = (from tm in gemdb.team_member where tm.TeamId == TeamId select tm).ToList();
 
             return objteamMember;
+        }
+
+        public List<team> GetTeam(string Teamname)
+        {
+            gemdb = new gemEntities1();
+
+            var objteam = (from t in gemdb.teams where t.Name == Teamname select t).ToList();
+
+            return objteam;
         }
 
         public int AddorUpdateTeam(team team)

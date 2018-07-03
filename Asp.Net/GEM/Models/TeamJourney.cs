@@ -10,5 +10,6 @@ namespace GEM.Models
     {
         public List<JourneyInformation> JourneyList { get; set; }
         public journey Journey { get; set; }
+        public string TeamCount { get; set; }
     }
 }

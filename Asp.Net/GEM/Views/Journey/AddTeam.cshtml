@@ -1,0 +1,33 @@
+﻿@model  GEM.Models.TeamJourney
+
+<script src="~/Scripts/Team/Team.js" type="text/jscript"></script>
+
+<div class="modal-content" id="divAddTeam">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Add Team</h4>
+    </div>
+    <div class="modal-body">
+        <form class="create-team" method="post" name="team-form" action="team-page.html">
+            <div class="input-group team-group">
+                <label class="team-name"> Team Name </label>
+                <input type="text" id="txtTeamName" class="form-control" value="@Model.TeamCount" placeholder="Enter a team name">
+            </div>
+            <div class="input-group team-group">
+                <label name="profile-pic"> Add an avathar </label>
+                <div class="input-group-append-img">
+                    <span class="input-group-text avatharimg" id="basic-addon2"><img src="../images/add-avathar-icon.png"></span>
+                </div>
+                <input type="file" name="pic" accept="image/*" class="form-control avatharspace" placeholder="Click to upload an image" aria-label="avathar">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <input type="submit" id="btnCreateTeam" class="btn btn-primary create-team-btn" placeholder="" value="Add Team" aria-label="create-team">
+    </div>
+</div>
+
+<script type="text/javascript">
+    var _TeamDet = new TeamDet();
+    _TeamDet.Load();
+</script>

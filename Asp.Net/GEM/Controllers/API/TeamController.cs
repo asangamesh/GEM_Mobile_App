@@ -15,6 +15,7 @@ namespace GEM.Controllers.API
     public class TeamController : ApiController
     {
         TeamServices objTeam = new TeamServices();
+        JourneyServices objJourney = new JourneyServices();
 
         [HttpGet, Route("api/team")]
         public IHttpActionResult Get()
@@ -49,6 +50,24 @@ namespace GEM.Controllers.API
             }
         }
 
+        public IHttpActionResult GetDefaultTeamNameCount()
+        {
+            try
+            {
+                var Team = objTeam.GetDefaultTeamNameCount();
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
+                {
+                    Count = Team.Count + 1,
+                    Status = true
+                }).Content));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
         [HttpPost, Route("api/team")]
         public IHttpActionResult Post([FromBody]dynamic name)
         {
@@ -68,7 +87,13 @@ namespace GEM.Controllers.API
 
                 if (result == 1)
                 {
-                    var _Team = objTeam.GetTeamMembers(team.TeamId);
+                    var Team = objTeam.GetTeam(json["Name"].ToString());
+
+                    team_journey teamJourney = new team_journey();
+                    teamJourney.TeamId = Team[0].TeamId;
+                    teamJourney.JourneyId = Convert.ToInt32(json["JourneyId"]);
+                    result += objJourney.AddorUpdatetTeamJourney(teamJourney);
+
                     return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { UserID = team.TeamId, Message = "your request is saved", Status = true }).Content));
                 }
 
