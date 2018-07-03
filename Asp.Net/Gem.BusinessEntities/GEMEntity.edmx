@@ -1,0 +1,1319 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="gemModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="fluency_level">
+          <Key>
+            <PropertyRef Name="FluencyLevelId" />
+          </Key>
+          <Property Name="FluencyLevelId" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="journey">
+          <Key>
+            <PropertyRef Name="JourneyId" />
+          </Key>
+          <Property Name="JourneyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamFocusId" Type="int" />
+          <Property Name="SelectJourneyId" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="journey_practice">
+          <Key>
+            <PropertyRef Name="JourneyPracticeId" />
+          </Key>
+          <Property Name="JourneyPracticeId" Type="int" Nullable="false" />
+          <Property Name="JourneyId" Type="int" />
+          <Property Name="PracticeId" Type="int" />
+        </EntityType>
+        <EntityType Name="measure">
+          <Key>
+            <PropertyRef Name="MeasureId" />
+          </Key>
+          <Property Name="MeasureId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PracticeId" Type="int" />
+          <Property Name="Measure" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="Why" Type="varchar" MaxLength="250" />
+          <Property Name="When" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="member">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mission">
+          <Key>
+            <PropertyRef Name="MissionId" />
+          </Key>
+          <Property Name="MissionId" Type="int" Nullable="false" />
+          <Property Name="TeamJourneyId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Score" Type="decimal" Precision="4" Scale="2" />
+        </EntityType>
+        <EntityType Name="mission_member_measure_assesment">
+          <Key>
+            <PropertyRef Name="MissionAssesmentId" />
+          </Key>
+          <Property Name="MissionAssesmentId" Type="int" Nullable="false" />
+          <Property Name="MissionId" Type="int" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="MeasureId" Type="int" />
+          <Property Name="Assesment" Type="int" />
+        </EntityType>
+        <EntityType Name="mission_practice">
+          <Key>
+            <PropertyRef Name="MissionPracticeId" />
+          </Key>
+          <Property Name="MissionPracticeId" Type="int" Nullable="false" />
+          <Property Name="MissionId" Type="int" Nullable="false" />
+          <Property Name="PracticeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="practice">
+          <Key>
+            <PropertyRef Name="PracticeId" />
+          </Key>
+          <Property Name="PracticeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FluencyLevelId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SequenceNum" Type="int" />
+          <Property Name="PrerequisiteNum" Type="int" />
+        </EntityType>
+        <EntityType Name="team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+          <Property Name="CreatedDate" Type="datetime" Precision="0" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="UpdatedDate" Type="datetime" Precision="0" />
+          <Property Name="UpdatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="team_focus">
+          <Key>
+            <PropertyRef Name="TeamFocusId" />
+          </Key>
+          <Property Name="TeamFocusId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="team_journey">
+          <Key>
+            <PropertyRef Name="TeamJourneyId" />
+          </Key>
+          <Property Name="TeamJourneyId" Type="int" Nullable="false" />
+          <Property Name="TeamId" Type="int" />
+          <Property Name="JourneyId" Type="int" />
+        </EntityType>
+        <EntityType Name="team_journey_member">
+          <Key>
+            <PropertyRef Name="TeamJourneyMemberId" />
+          </Key>
+          <Property Name="TeamJourneyMemberId" Type="int" Nullable="false" />
+          <Property Name="TeamJourneyId" Type="int" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="TeamJourneyMemberRoleId" Type="int" />
+        </EntityType>
+        <EntityType Name="team_journey_member_role">
+          <Key>
+            <PropertyRef Name="TeamJourneyMemberRoleId" />
+          </Key>
+          <Property Name="TeamJourneyMemberRoleId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="team_member">
+          <Key>
+            <PropertyRef Name="TeamMemberId" />
+          </Key>
+          <Property Name="TeamMemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="TeamMemberRoleId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="team_member_role">
+          <Key>
+            <PropertyRef Name="TeamMemberRoleId" />
+          </Key>
+          <Property Name="TeamMemberRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="CreatedByJourney">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="journey" Type="Self.journey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="journey">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CreatedByTeam">
+          <End Role="member" Type="Self.member" Multiplicity="0..1" />
+          <End Role="team" Type="Self.team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CreatedByTeamUser">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="team_member" Type="Self.team_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team_member">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FluencyLevelId">
+          <End Role="fluency_level" Type="Self.fluency_level" Multiplicity="0..1" />
+          <End Role="practice" Type="Self.practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fluency_level">
+              <PropertyRef Name="FluencyLevelId" />
+            </Principal>
+            <Dependent Role="practice">
+              <PropertyRef Name="FluencyLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JourneyIdJP">
+          <End Role="journey" Type="Self.journey" Multiplicity="0..1" />
+          <End Role="journey_practice" Type="Self.journey_practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="journey">
+              <PropertyRef Name="JourneyId" />
+            </Principal>
+            <Dependent Role="journey_practice">
+              <PropertyRef Name="JourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JourneyIdTJ">
+          <End Role="journey" Type="Self.journey" Multiplicity="0..1" />
+          <End Role="team_journey" Type="Self.team_journey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="journey">
+              <PropertyRef Name="JourneyId" />
+            </Principal>
+            <Dependent Role="team_journey">
+              <PropertyRef Name="JourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MeasureIdMMM">
+          <End Role="measure" Type="Self.measure" Multiplicity="0..1" />
+          <End Role="mission_member_measure_assesment" Type="Self.mission_member_measure_assesment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="measure">
+              <PropertyRef Name="MeasureId" />
+            </Principal>
+            <Dependent Role="mission_member_measure_assesment">
+              <PropertyRef Name="MeasureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberIdMMM">
+          <End Role="member" Type="Self.member" Multiplicity="0..1" />
+          <End Role="mission_member_measure_assesment" Type="Self.mission_member_measure_assesment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="mission_member_measure_assesment">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberIdTJM">
+          <End Role="member" Type="Self.member" Multiplicity="0..1" />
+          <End Role="team_journey_member" Type="Self.team_journey_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team_journey_member">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissionIdMMM">
+          <End Role="mission" Type="Self.mission" Multiplicity="0..1" />
+          <End Role="mission_member_measure_assesment" Type="Self.mission_member_measure_assesment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mission">
+              <PropertyRef Name="MissionId" />
+            </Principal>
+            <Dependent Role="mission_member_measure_assesment">
+              <PropertyRef Name="MissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissionIdMP">
+          <End Role="mission" Type="Self.mission" Multiplicity="1" />
+          <End Role="mission_practice" Type="Self.mission_practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mission">
+              <PropertyRef Name="MissionId" />
+            </Principal>
+            <Dependent Role="mission_practice">
+              <PropertyRef Name="MissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PracticeIdJP">
+          <End Role="practice" Type="Self.practice" Multiplicity="0..1" />
+          <End Role="journey_practice" Type="Self.journey_practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="practice">
+              <PropertyRef Name="PracticeId" />
+            </Principal>
+            <Dependent Role="journey_practice">
+              <PropertyRef Name="PracticeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PracticeIdMeasure">
+          <End Role="practice" Type="Self.practice" Multiplicity="0..1" />
+          <End Role="measure" Type="Self.measure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="practice">
+              <PropertyRef Name="PracticeId" />
+            </Principal>
+            <Dependent Role="measure">
+              <PropertyRef Name="PracticeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PracticeIdMP">
+          <End Role="practice" Type="Self.practice" Multiplicity="1" />
+          <End Role="mission_practice" Type="Self.mission_practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="practice">
+              <PropertyRef Name="PracticeId" />
+            </Principal>
+            <Dependent Role="mission_practice">
+              <PropertyRef Name="PracticeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamFocusIdJourney">
+          <End Role="team_focus" Type="Self.team_focus" Multiplicity="0..1" />
+          <End Role="journey" Type="Self.journey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_focus">
+              <PropertyRef Name="TeamFocusId" />
+            </Principal>
+            <Dependent Role="journey">
+              <PropertyRef Name="TeamFocusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamIdTeamUser">
+          <End Role="team" Type="Self.team" Multiplicity="1" />
+          <End Role="team_member" Type="Self.team_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="team_member">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamIdTJ">
+          <End Role="team" Type="Self.team" Multiplicity="0..1" />
+          <End Role="team_journey" Type="Self.team_journey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="team_journey">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamJourneyId">
+          <End Role="team_journey" Type="Self.team_journey" Multiplicity="1" />
+          <End Role="mission" Type="Self.mission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_journey">
+              <PropertyRef Name="TeamJourneyId" />
+            </Principal>
+            <Dependent Role="mission">
+              <PropertyRef Name="TeamJourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamJourneyIdTJM">
+          <End Role="team_journey" Type="Self.team_journey" Multiplicity="0..1" />
+          <End Role="team_journey_member" Type="Self.team_journey_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_journey">
+              <PropertyRef Name="TeamJourneyId" />
+            </Principal>
+            <Dependent Role="team_journey_member">
+              <PropertyRef Name="TeamJourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamJourneyMemberRoleIdTJM">
+          <End Role="team_journey_member_role" Type="Self.team_journey_member_role" Multiplicity="0..1" />
+          <End Role="team_journey_member" Type="Self.team_journey_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_journey_member_role">
+              <PropertyRef Name="TeamJourneyMemberRoleId" />
+            </Principal>
+            <Dependent Role="team_journey_member">
+              <PropertyRef Name="TeamJourneyMemberRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UpdatedByTeam">
+          <End Role="member" Type="Self.member" Multiplicity="0..1" />
+          <End Role="team" Type="Self.team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserIdTeamUser">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="team_member" Type="Self.team_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team_member">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserRoleIdTeamUser">
+          <End Role="team_member_role" Type="Self.team_member_role" Multiplicity="1" />
+          <End Role="team_member" Type="Self.team_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_member_role">
+              <PropertyRef Name="TeamMemberRoleId" />
+            </Principal>
+            <Dependent Role="team_member">
+              <PropertyRef Name="TeamMemberRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="gemModelStoreContainer">
+          <EntitySet Name="fluency_level" EntityType="Self.fluency_level" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="journey" EntityType="Self.journey" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="journey_practice" EntityType="Self.journey_practice" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="measure" EntityType="Self.measure" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="member" EntityType="Self.member" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="mission" EntityType="Self.mission" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="mission_member_measure_assesment" EntityType="Self.mission_member_measure_assesment" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="mission_practice" EntityType="Self.mission_practice" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="practice" EntityType="Self.practice" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="team" EntityType="Self.team" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="team_focus" EntityType="Self.team_focus" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="team_journey" EntityType="Self.team_journey" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="team_journey_member" EntityType="Self.team_journey_member" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="team_journey_member_role" EntityType="Self.team_journey_member_role" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="team_member" EntityType="Self.team_member" Schema="gem" store:Type="Tables" />
+          <EntitySet Name="team_member_role" EntityType="Self.team_member_role" Schema="gem" store:Type="Tables" />
+          <AssociationSet Name="CreatedByJourney" Association="Self.CreatedByJourney">
+            <End Role="member" EntitySet="member" />
+            <End Role="journey" EntitySet="journey" />
+          </AssociationSet>
+          <AssociationSet Name="CreatedByTeam" Association="Self.CreatedByTeam">
+            <End Role="member" EntitySet="member" />
+            <End Role="team" EntitySet="team" />
+          </AssociationSet>
+          <AssociationSet Name="CreatedByTeamUser" Association="Self.CreatedByTeamUser">
+            <End Role="member" EntitySet="member" />
+            <End Role="team_member" EntitySet="team_member" />
+          </AssociationSet>
+          <AssociationSet Name="FluencyLevelId" Association="Self.FluencyLevelId">
+            <End Role="fluency_level" EntitySet="fluency_level" />
+            <End Role="practice" EntitySet="practice" />
+          </AssociationSet>
+          <AssociationSet Name="JourneyIdJP" Association="Self.JourneyIdJP">
+            <End Role="journey" EntitySet="journey" />
+            <End Role="journey_practice" EntitySet="journey_practice" />
+          </AssociationSet>
+          <AssociationSet Name="JourneyIdTJ" Association="Self.JourneyIdTJ">
+            <End Role="journey" EntitySet="journey" />
+            <End Role="team_journey" EntitySet="team_journey" />
+          </AssociationSet>
+          <AssociationSet Name="MeasureIdMMM" Association="Self.MeasureIdMMM">
+            <End Role="measure" EntitySet="measure" />
+            <End Role="mission_member_measure_assesment" EntitySet="mission_member_measure_assesment" />
+          </AssociationSet>
+          <AssociationSet Name="MemberIdMMM" Association="Self.MemberIdMMM">
+            <End Role="member" EntitySet="member" />
+            <End Role="mission_member_measure_assesment" EntitySet="mission_member_measure_assesment" />
+          </AssociationSet>
+          <AssociationSet Name="MemberIdTJM" Association="Self.MemberIdTJM">
+            <End Role="member" EntitySet="member" />
+            <End Role="team_journey_member" EntitySet="team_journey_member" />
+          </AssociationSet>
+          <AssociationSet Name="MissionIdMMM" Association="Self.MissionIdMMM">
+            <End Role="mission" EntitySet="mission" />
+            <End Role="mission_member_measure_assesment" EntitySet="mission_member_measure_assesment" />
+          </AssociationSet>
+          <AssociationSet Name="MissionIdMP" Association="Self.MissionIdMP">
+            <End Role="mission" EntitySet="mission" />
+            <End Role="mission_practice" EntitySet="mission_practice" />
+          </AssociationSet>
+          <AssociationSet Name="PracticeIdJP" Association="Self.PracticeIdJP">
+            <End Role="practice" EntitySet="practice" />
+            <End Role="journey_practice" EntitySet="journey_practice" />
+          </AssociationSet>
+          <AssociationSet Name="PracticeIdMeasure" Association="Self.PracticeIdMeasure">
+            <End Role="practice" EntitySet="practice" />
+            <End Role="measure" EntitySet="measure" />
+          </AssociationSet>
+          <AssociationSet Name="PracticeIdMP" Association="Self.PracticeIdMP">
+            <End Role="practice" EntitySet="practice" />
+            <End Role="mission_practice" EntitySet="mission_practice" />
+          </AssociationSet>
+          <AssociationSet Name="TeamFocusIdJourney" Association="Self.TeamFocusIdJourney">
+            <End Role="team_focus" EntitySet="team_focus" />
+            <End Role="journey" EntitySet="journey" />
+          </AssociationSet>
+          <AssociationSet Name="TeamIdTeamUser" Association="Self.TeamIdTeamUser">
+            <End Role="team" EntitySet="team" />
+            <End Role="team_member" EntitySet="team_member" />
+          </AssociationSet>
+          <AssociationSet Name="TeamIdTJ" Association="Self.TeamIdTJ">
+            <End Role="team" EntitySet="team" />
+            <End Role="team_journey" EntitySet="team_journey" />
+          </AssociationSet>
+          <AssociationSet Name="TeamJourneyId" Association="Self.TeamJourneyId">
+            <End Role="team_journey" EntitySet="team_journey" />
+            <End Role="mission" EntitySet="mission" />
+          </AssociationSet>
+          <AssociationSet Name="TeamJourneyIdTJM" Association="Self.TeamJourneyIdTJM">
+            <End Role="team_journey" EntitySet="team_journey" />
+            <End Role="team_journey_member" EntitySet="team_journey_member" />
+          </AssociationSet>
+          <AssociationSet Name="TeamJourneyMemberRoleIdTJM" Association="Self.TeamJourneyMemberRoleIdTJM">
+            <End Role="team_journey_member_role" EntitySet="team_journey_member_role" />
+            <End Role="team_journey_member" EntitySet="team_journey_member" />
+          </AssociationSet>
+          <AssociationSet Name="UpdatedByTeam" Association="Self.UpdatedByTeam">
+            <End Role="member" EntitySet="member" />
+            <End Role="team" EntitySet="team" />
+          </AssociationSet>
+          <AssociationSet Name="UserIdTeamUser" Association="Self.UserIdTeamUser">
+            <End Role="member" EntitySet="member" />
+            <End Role="team_member" EntitySet="team_member" />
+          </AssociationSet>
+          <AssociationSet Name="UserRoleIdTeamUser" Association="Self.UserRoleIdTeamUser">
+            <End Role="team_member_role" EntitySet="team_member_role" />
+            <End Role="team_member" EntitySet="team_member" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="gemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="gemEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="fluency_level" EntityType="gemModel.fluency_level" />
+          <EntitySet Name="journeys" EntityType="gemModel.journey" />
+          <EntitySet Name="journey_practice" EntityType="gemModel.journey_practice" />
+          <EntitySet Name="measures" EntityType="gemModel.measure" />
+          <EntitySet Name="members" EntityType="gemModel.member" />
+          <EntitySet Name="missions" EntityType="gemModel.mission" />
+          <EntitySet Name="mission_member_measure_assesment" EntityType="gemModel.mission_member_measure_assesment" />
+          <EntitySet Name="mission_practice" EntityType="gemModel.mission_practice" />
+          <EntitySet Name="practices" EntityType="gemModel.practice" />
+          <EntitySet Name="teams" EntityType="gemModel.team" />
+          <EntitySet Name="team_focus" EntityType="gemModel.team_focus" />
+          <EntitySet Name="team_journey" EntityType="gemModel.team_journey" />
+          <EntitySet Name="team_journey_member" EntityType="gemModel.team_journey_member" />
+          <EntitySet Name="team_journey_member_role" EntityType="gemModel.team_journey_member_role" />
+          <EntitySet Name="team_member" EntityType="gemModel.team_member" />
+          <EntitySet Name="team_member_role" EntityType="gemModel.team_member_role" />
+          <AssociationSet Name="FluencyLevelId" Association="gemModel.FluencyLevelId">
+            <End Role="fluency_level" EntitySet="fluency_level" />
+            <End Role="practice" EntitySet="practices" />
+          </AssociationSet>
+          <AssociationSet Name="CreatedByJourney" Association="gemModel.CreatedByJourney">
+            <End Role="member" EntitySet="members" />
+            <End Role="journey" EntitySet="journeys" />
+          </AssociationSet>
+          <AssociationSet Name="JourneyIdJP" Association="gemModel.JourneyIdJP">
+            <End Role="journey" EntitySet="journeys" />
+            <End Role="journey_practice" EntitySet="journey_practice" />
+          </AssociationSet>
+          <AssociationSet Name="JourneyIdTJ" Association="gemModel.JourneyIdTJ">
+            <End Role="journey" EntitySet="journeys" />
+            <End Role="team_journey" EntitySet="team_journey" />
+          </AssociationSet>
+          <AssociationSet Name="TeamFocusIdJourney" Association="gemModel.TeamFocusIdJourney">
+            <End Role="team_focus" EntitySet="team_focus" />
+            <End Role="journey" EntitySet="journeys" />
+          </AssociationSet>
+          <AssociationSet Name="PracticeIdJP" Association="gemModel.PracticeIdJP">
+            <End Role="practice" EntitySet="practices" />
+            <End Role="journey_practice" EntitySet="journey_practice" />
+          </AssociationSet>
+          <AssociationSet Name="MeasureIdMMM" Association="gemModel.MeasureIdMMM">
+            <End Role="measure" EntitySet="measures" />
+            <End Role="mission_member_measure_assesment" EntitySet="mission_member_measure_assesment" />
+          </AssociationSet>
+          <AssociationSet Name="PracticeIdMeasure" Association="gemModel.PracticeIdMeasure">
+            <End Role="practice" EntitySet="practices" />
+            <End Role="measure" EntitySet="measures" />
+          </AssociationSet>
+          <AssociationSet Name="CreatedByTeam" Association="gemModel.CreatedByTeam">
+            <End Role="member" EntitySet="members" />
+            <End Role="team" EntitySet="teams" />
+          </AssociationSet>
+          <AssociationSet Name="CreatedByTeamUser" Association="gemModel.CreatedByTeamUser">
+            <End Role="member" EntitySet="members" />
+            <End Role="team_member" EntitySet="team_member" />
+          </AssociationSet>
+          <AssociationSet Name="MemberIdMMM" Association="gemModel.MemberIdMMM">
+            <End Role="member" EntitySet="members" />
+            <End Role="mission_member_measure_assesment" EntitySet="mission_member_measure_assesment" />
+          </AssociationSet>
+          <AssociationSet Name="MemberIdTJM" Association="gemModel.MemberIdTJM">
+            <End Role="member" EntitySet="members" />
+            <End Role="team_journey_member" EntitySet="team_journey_member" />
+          </AssociationSet>
+          <AssociationSet Name="UpdatedByTeam" Association="gemModel.UpdatedByTeam">
+            <End Role="member" EntitySet="members" />
+            <End Role="team" EntitySet="teams" />
+          </AssociationSet>
+          <AssociationSet Name="UserIdTeamUser" Association="gemModel.UserIdTeamUser">
+            <End Role="member" EntitySet="members" />
+            <End Role="team_member" EntitySet="team_member" />
+          </AssociationSet>
+          <AssociationSet Name="MissionIdMMM" Association="gemModel.MissionIdMMM">
+            <End Role="mission" EntitySet="missions" />
+            <End Role="mission_member_measure_assesment" EntitySet="mission_member_measure_assesment" />
+          </AssociationSet>
+          <AssociationSet Name="MissionIdMP" Association="gemModel.MissionIdMP">
+            <End Role="mission" EntitySet="missions" />
+            <End Role="mission_practice" EntitySet="mission_practice" />
+          </AssociationSet>
+          <AssociationSet Name="TeamJourneyId" Association="gemModel.TeamJourneyId">
+            <End Role="team_journey" EntitySet="team_journey" />
+            <End Role="mission" EntitySet="missions" />
+          </AssociationSet>
+          <AssociationSet Name="PracticeIdMP" Association="gemModel.PracticeIdMP">
+            <End Role="practice" EntitySet="practices" />
+            <End Role="mission_practice" EntitySet="mission_practice" />
+          </AssociationSet>
+          <AssociationSet Name="TeamIdTeamUser" Association="gemModel.TeamIdTeamUser">
+            <End Role="team" EntitySet="teams" />
+            <End Role="team_member" EntitySet="team_member" />
+          </AssociationSet>
+          <AssociationSet Name="TeamIdTJ" Association="gemModel.TeamIdTJ">
+            <End Role="team" EntitySet="teams" />
+            <End Role="team_journey" EntitySet="team_journey" />
+          </AssociationSet>
+          <AssociationSet Name="TeamJourneyIdTJM" Association="gemModel.TeamJourneyIdTJM">
+            <End Role="team_journey" EntitySet="team_journey" />
+            <End Role="team_journey_member" EntitySet="team_journey_member" />
+          </AssociationSet>
+          <AssociationSet Name="TeamJourneyMemberRoleIdTJM" Association="gemModel.TeamJourneyMemberRoleIdTJM">
+            <End Role="team_journey_member_role" EntitySet="team_journey_member_role" />
+            <End Role="team_journey_member" EntitySet="team_journey_member" />
+          </AssociationSet>
+          <AssociationSet Name="UserRoleIdTeamUser" Association="gemModel.UserRoleIdTeamUser">
+            <End Role="team_member_role" EntitySet="team_member_role" />
+            <End Role="team_member" EntitySet="team_member" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="fluency_level">
+          <Key>
+            <PropertyRef Name="FluencyLevelId" />
+          </Key>
+          <Property Name="FluencyLevelId" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="practices" Relationship="gemModel.FluencyLevelId" FromRole="fluency_level" ToRole="practice" />
+        </EntityType>
+        <EntityType Name="journey">
+          <Key>
+            <PropertyRef Name="JourneyId" />
+          </Key>
+          <Property Name="JourneyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamFocusId" Type="Int32" />
+          <Property Name="SelectJourneyId" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="member" Relationship="gemModel.CreatedByJourney" FromRole="journey" ToRole="member" />
+          <NavigationProperty Name="journey_practice" Relationship="gemModel.JourneyIdJP" FromRole="journey" ToRole="journey_practice" />
+          <NavigationProperty Name="team_journey" Relationship="gemModel.JourneyIdTJ" FromRole="journey" ToRole="team_journey" />
+          <NavigationProperty Name="team_focus" Relationship="gemModel.TeamFocusIdJourney" FromRole="journey" ToRole="team_focus" />
+        </EntityType>
+        <EntityType Name="journey_practice">
+          <Key>
+            <PropertyRef Name="JourneyPracticeId" />
+          </Key>
+          <Property Name="JourneyPracticeId" Type="Int32" Nullable="false" />
+          <Property Name="JourneyId" Type="Int32" />
+          <Property Name="PracticeId" Type="Int32" />
+          <NavigationProperty Name="journey" Relationship="gemModel.JourneyIdJP" FromRole="journey_practice" ToRole="journey" />
+          <NavigationProperty Name="practice" Relationship="gemModel.PracticeIdJP" FromRole="journey_practice" ToRole="practice" />
+        </EntityType>
+        <EntityType Name="measure">
+          <Key>
+            <PropertyRef Name="MeasureId" />
+          </Key>
+          <Property Name="MeasureId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PracticeId" Type="Int32" />
+          <Property Name="Measure1" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="Why" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="When" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="mission_member_measure_assesment" Relationship="gemModel.MeasureIdMMM" FromRole="measure" ToRole="mission_member_measure_assesment" />
+          <NavigationProperty Name="practice" Relationship="gemModel.PracticeIdMeasure" FromRole="measure" ToRole="practice" />
+        </EntityType>
+        <EntityType Name="member">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="journeys" Relationship="gemModel.CreatedByJourney" FromRole="member" ToRole="journey" />
+          <NavigationProperty Name="teams" Relationship="gemModel.CreatedByTeam" FromRole="member" ToRole="team" />
+          <NavigationProperty Name="team_member" Relationship="gemModel.CreatedByTeamUser" FromRole="member" ToRole="team_member" />
+          <NavigationProperty Name="mission_member_measure_assesment" Relationship="gemModel.MemberIdMMM" FromRole="member" ToRole="mission_member_measure_assesment" />
+          <NavigationProperty Name="team_journey_member" Relationship="gemModel.MemberIdTJM" FromRole="member" ToRole="team_journey_member" />
+          <NavigationProperty Name="teams1" Relationship="gemModel.UpdatedByTeam" FromRole="member" ToRole="team" />
+          <NavigationProperty Name="team_member1" Relationship="gemModel.UserIdTeamUser" FromRole="member" ToRole="team_member" />
+        </EntityType>
+        <EntityType Name="mission">
+          <Key>
+            <PropertyRef Name="MissionId" />
+          </Key>
+          <Property Name="MissionId" Type="Int32" Nullable="false" />
+          <Property Name="TeamJourneyId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" />
+          <Property Name="Score" Type="Decimal" />
+          <NavigationProperty Name="mission_member_measure_assesment" Relationship="gemModel.MissionIdMMM" FromRole="mission" ToRole="mission_member_measure_assesment" />
+          <NavigationProperty Name="mission_practice" Relationship="gemModel.MissionIdMP" FromRole="mission" ToRole="mission_practice" />
+          <NavigationProperty Name="team_journey" Relationship="gemModel.TeamJourneyId" FromRole="mission" ToRole="team_journey" />
+        </EntityType>
+        <EntityType Name="mission_member_measure_assesment">
+          <Key>
+            <PropertyRef Name="MissionAssesmentId" />
+          </Key>
+          <Property Name="MissionAssesmentId" Type="Int32" Nullable="false" />
+          <Property Name="MissionId" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="MeasureId" Type="Int32" />
+          <Property Name="Assesment" Type="Int32" />
+          <NavigationProperty Name="measure" Relationship="gemModel.MeasureIdMMM" FromRole="mission_member_measure_assesment" ToRole="measure" />
+          <NavigationProperty Name="member" Relationship="gemModel.MemberIdMMM" FromRole="mission_member_measure_assesment" ToRole="member" />
+          <NavigationProperty Name="mission" Relationship="gemModel.MissionIdMMM" FromRole="mission_member_measure_assesment" ToRole="mission" />
+        </EntityType>
+        <EntityType Name="mission_practice">
+          <Key>
+            <PropertyRef Name="MissionPracticeId" />
+          </Key>
+          <Property Name="MissionPracticeId" Type="Int32" Nullable="false" />
+          <Property Name="MissionId" Type="Int32" Nullable="false" />
+          <Property Name="PracticeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="mission" Relationship="gemModel.MissionIdMP" FromRole="mission_practice" ToRole="mission" />
+          <NavigationProperty Name="practice" Relationship="gemModel.PracticeIdMP" FromRole="mission_practice" ToRole="practice" />
+        </EntityType>
+        <EntityType Name="practice">
+          <Key>
+            <PropertyRef Name="PracticeId" />
+          </Key>
+          <Property Name="PracticeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FluencyLevelId" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SequenceNum" Type="Int32" />
+          <Property Name="PrerequisiteNum" Type="Int32" />
+          <NavigationProperty Name="fluency_level" Relationship="gemModel.FluencyLevelId" FromRole="practice" ToRole="fluency_level" />
+          <NavigationProperty Name="journey_practice" Relationship="gemModel.PracticeIdJP" FromRole="practice" ToRole="journey_practice" />
+          <NavigationProperty Name="measures" Relationship="gemModel.PracticeIdMeasure" FromRole="practice" ToRole="measure" />
+          <NavigationProperty Name="mission_practice" Relationship="gemModel.PracticeIdMP" FromRole="practice" ToRole="mission_practice" />
+        </EntityType>
+        <EntityType Name="team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="UpdatedDate" Type="DateTime" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <NavigationProperty Name="member" Relationship="gemModel.CreatedByTeam" FromRole="team" ToRole="member" />
+          <NavigationProperty Name="member1" Relationship="gemModel.UpdatedByTeam" FromRole="team" ToRole="member" />
+          <NavigationProperty Name="team_member" Relationship="gemModel.TeamIdTeamUser" FromRole="team" ToRole="team_member" />
+          <NavigationProperty Name="team_journey" Relationship="gemModel.TeamIdTJ" FromRole="team" ToRole="team_journey" />
+        </EntityType>
+        <EntityType Name="team_focus">
+          <Key>
+            <PropertyRef Name="TeamFocusId" />
+          </Key>
+          <Property Name="TeamFocusId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="journeys" Relationship="gemModel.TeamFocusIdJourney" FromRole="team_focus" ToRole="journey" />
+        </EntityType>
+        <EntityType Name="team_journey">
+          <Key>
+            <PropertyRef Name="TeamJourneyId" />
+          </Key>
+          <Property Name="TeamJourneyId" Type="Int32" Nullable="false" />
+          <Property Name="TeamId" Type="Int32" />
+          <Property Name="JourneyId" Type="Int32" />
+          <NavigationProperty Name="journey" Relationship="gemModel.JourneyIdTJ" FromRole="team_journey" ToRole="journey" />
+          <NavigationProperty Name="missions" Relationship="gemModel.TeamJourneyId" FromRole="team_journey" ToRole="mission" />
+          <NavigationProperty Name="team" Relationship="gemModel.TeamIdTJ" FromRole="team_journey" ToRole="team" />
+          <NavigationProperty Name="team_journey_member" Relationship="gemModel.TeamJourneyIdTJM" FromRole="team_journey" ToRole="team_journey_member" />
+        </EntityType>
+        <EntityType Name="team_journey_member">
+          <Key>
+            <PropertyRef Name="TeamJourneyMemberId" />
+          </Key>
+          <Property Name="TeamJourneyMemberId" Type="Int32" Nullable="false" />
+          <Property Name="TeamJourneyId" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="TeamJourneyMemberRoleId" Type="Int32" />
+          <NavigationProperty Name="member" Relationship="gemModel.MemberIdTJM" FromRole="team_journey_member" ToRole="member" />
+          <NavigationProperty Name="team_journey" Relationship="gemModel.TeamJourneyIdTJM" FromRole="team_journey_member" ToRole="team_journey" />
+          <NavigationProperty Name="team_journey_member_role" Relationship="gemModel.TeamJourneyMemberRoleIdTJM" FromRole="team_journey_member" ToRole="team_journey_member_role" />
+        </EntityType>
+        <EntityType Name="team_journey_member_role">
+          <Key>
+            <PropertyRef Name="TeamJourneyMemberRoleId" />
+          </Key>
+          <Property Name="TeamJourneyMemberRoleId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="team_journey_member" Relationship="gemModel.TeamJourneyMemberRoleIdTJM" FromRole="team_journey_member_role" ToRole="team_journey_member" />
+        </EntityType>
+        <EntityType Name="team_member">
+          <Key>
+            <PropertyRef Name="TeamMemberId" />
+          </Key>
+          <Property Name="TeamMemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="TeamMemberRoleId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="member" Relationship="gemModel.CreatedByTeamUser" FromRole="team_member" ToRole="member" />
+          <NavigationProperty Name="member1" Relationship="gemModel.UserIdTeamUser" FromRole="team_member" ToRole="member" />
+          <NavigationProperty Name="team" Relationship="gemModel.TeamIdTeamUser" FromRole="team_member" ToRole="team" />
+          <NavigationProperty Name="team_member_role" Relationship="gemModel.UserRoleIdTeamUser" FromRole="team_member" ToRole="team_member_role" />
+        </EntityType>
+        <EntityType Name="team_member_role">
+          <Key>
+            <PropertyRef Name="TeamMemberRoleId" />
+          </Key>
+          <Property Name="TeamMemberRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="team_member" Relationship="gemModel.UserRoleIdTeamUser" FromRole="team_member_role" ToRole="team_member" />
+        </EntityType>
+        <Association Name="FluencyLevelId">
+          <End Type="gemModel.fluency_level" Role="fluency_level" Multiplicity="0..1" />
+          <End Type="gemModel.practice" Role="practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fluency_level">
+              <PropertyRef Name="FluencyLevelId" />
+            </Principal>
+            <Dependent Role="practice">
+              <PropertyRef Name="FluencyLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CreatedByJourney">
+          <End Type="gemModel.member" Role="member" Multiplicity="1" />
+          <End Type="gemModel.journey" Role="journey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="journey">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JourneyIdJP">
+          <End Type="gemModel.journey" Role="journey" Multiplicity="0..1" />
+          <End Type="gemModel.journey_practice" Role="journey_practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="journey">
+              <PropertyRef Name="JourneyId" />
+            </Principal>
+            <Dependent Role="journey_practice">
+              <PropertyRef Name="JourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JourneyIdTJ">
+          <End Type="gemModel.journey" Role="journey" Multiplicity="0..1" />
+          <End Type="gemModel.team_journey" Role="team_journey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="journey">
+              <PropertyRef Name="JourneyId" />
+            </Principal>
+            <Dependent Role="team_journey">
+              <PropertyRef Name="JourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamFocusIdJourney">
+          <End Type="gemModel.team_focus" Role="team_focus" Multiplicity="0..1" />
+          <End Type="gemModel.journey" Role="journey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_focus">
+              <PropertyRef Name="TeamFocusId" />
+            </Principal>
+            <Dependent Role="journey">
+              <PropertyRef Name="TeamFocusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PracticeIdJP">
+          <End Type="gemModel.practice" Role="practice" Multiplicity="0..1" />
+          <End Type="gemModel.journey_practice" Role="journey_practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="practice">
+              <PropertyRef Name="PracticeId" />
+            </Principal>
+            <Dependent Role="journey_practice">
+              <PropertyRef Name="PracticeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MeasureIdMMM">
+          <End Type="gemModel.measure" Role="measure" Multiplicity="0..1" />
+          <End Type="gemModel.mission_member_measure_assesment" Role="mission_member_measure_assesment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="measure">
+              <PropertyRef Name="MeasureId" />
+            </Principal>
+            <Dependent Role="mission_member_measure_assesment">
+              <PropertyRef Name="MeasureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PracticeIdMeasure">
+          <End Type="gemModel.practice" Role="practice" Multiplicity="0..1" />
+          <End Type="gemModel.measure" Role="measure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="practice">
+              <PropertyRef Name="PracticeId" />
+            </Principal>
+            <Dependent Role="measure">
+              <PropertyRef Name="PracticeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CreatedByTeam">
+          <End Type="gemModel.member" Role="member" Multiplicity="0..1" />
+          <End Type="gemModel.team" Role="team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CreatedByTeamUser">
+          <End Type="gemModel.member" Role="member" Multiplicity="1" />
+          <End Type="gemModel.team_member" Role="team_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team_member">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberIdMMM">
+          <End Type="gemModel.member" Role="member" Multiplicity="0..1" />
+          <End Type="gemModel.mission_member_measure_assesment" Role="mission_member_measure_assesment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="mission_member_measure_assesment">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberIdTJM">
+          <End Type="gemModel.member" Role="member" Multiplicity="0..1" />
+          <End Type="gemModel.team_journey_member" Role="team_journey_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team_journey_member">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UpdatedByTeam">
+          <End Type="gemModel.member" Role="member" Multiplicity="0..1" />
+          <End Type="gemModel.team" Role="team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserIdTeamUser">
+          <End Type="gemModel.member" Role="member" Multiplicity="1" />
+          <End Type="gemModel.team_member" Role="team_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="team_member">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissionIdMMM">
+          <End Type="gemModel.mission" Role="mission" Multiplicity="0..1" />
+          <End Type="gemModel.mission_member_measure_assesment" Role="mission_member_measure_assesment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mission">
+              <PropertyRef Name="MissionId" />
+            </Principal>
+            <Dependent Role="mission_member_measure_assesment">
+              <PropertyRef Name="MissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MissionIdMP">
+          <End Type="gemModel.mission" Role="mission" Multiplicity="1" />
+          <End Type="gemModel.mission_practice" Role="mission_practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mission">
+              <PropertyRef Name="MissionId" />
+            </Principal>
+            <Dependent Role="mission_practice">
+              <PropertyRef Name="MissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamJourneyId">
+          <End Type="gemModel.team_journey" Role="team_journey" Multiplicity="1" />
+          <End Type="gemModel.mission" Role="mission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_journey">
+              <PropertyRef Name="TeamJourneyId" />
+            </Principal>
+            <Dependent Role="mission">
+              <PropertyRef Name="TeamJourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PracticeIdMP">
+          <End Type="gemModel.practice" Role="practice" Multiplicity="1" />
+          <End Type="gemModel.mission_practice" Role="mission_practice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="practice">
+              <PropertyRef Name="PracticeId" />
+            </Principal>
+            <Dependent Role="mission_practice">
+              <PropertyRef Name="PracticeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamIdTeamUser">
+          <End Type="gemModel.team" Role="team" Multiplicity="1" />
+          <End Type="gemModel.team_member" Role="team_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="team_member">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamIdTJ">
+          <End Type="gemModel.team" Role="team" Multiplicity="0..1" />
+          <End Type="gemModel.team_journey" Role="team_journey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="team_journey">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamJourneyIdTJM">
+          <End Type="gemModel.team_journey" Role="team_journey" Multiplicity="0..1" />
+          <End Type="gemModel.team_journey_member" Role="team_journey_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_journey">
+              <PropertyRef Name="TeamJourneyId" />
+            </Principal>
+            <Dependent Role="team_journey_member">
+              <PropertyRef Name="TeamJourneyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamJourneyMemberRoleIdTJM">
+          <End Type="gemModel.team_journey_member_role" Role="team_journey_member_role" Multiplicity="0..1" />
+          <End Type="gemModel.team_journey_member" Role="team_journey_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_journey_member_role">
+              <PropertyRef Name="TeamJourneyMemberRoleId" />
+            </Principal>
+            <Dependent Role="team_journey_member">
+              <PropertyRef Name="TeamJourneyMemberRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserRoleIdTeamUser">
+          <End Type="gemModel.team_member_role" Role="team_member_role" Multiplicity="1" />
+          <End Type="gemModel.team_member" Role="team_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_member_role">
+              <PropertyRef Name="TeamMemberRoleId" />
+            </Principal>
+            <Dependent Role="team_member">
+              <PropertyRef Name="TeamMemberRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="gemModelStoreContainer" CdmEntityContainer="gemEntities1">
+          <EntitySetMapping Name="fluency_level">
+            <EntityTypeMapping TypeName="gemModel.fluency_level">
+              <MappingFragment StoreEntitySet="fluency_level">
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="FluencyLevelId" ColumnName="FluencyLevelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="journeys">
+            <EntityTypeMapping TypeName="gemModel.journey">
+              <MappingFragment StoreEntitySet="journey">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SelectJourneyId" ColumnName="SelectJourneyId" />
+                <ScalarProperty Name="TeamFocusId" ColumnName="TeamFocusId" />
+                <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="journey_practice">
+            <EntityTypeMapping TypeName="gemModel.journey_practice">
+              <MappingFragment StoreEntitySet="journey_practice">
+                <ScalarProperty Name="PracticeId" ColumnName="PracticeId" />
+                <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
+                <ScalarProperty Name="JourneyPracticeId" ColumnName="JourneyPracticeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="measures">
+            <EntityTypeMapping TypeName="gemModel.measure">
+              <MappingFragment StoreEntitySet="measure">
+                <ScalarProperty Name="When" ColumnName="When" />
+                <ScalarProperty Name="Why" ColumnName="Why" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Measure1" ColumnName="Measure" />
+                <ScalarProperty Name="PracticeId" ColumnName="PracticeId" />
+                <ScalarProperty Name="MeasureId" ColumnName="MeasureId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="members">
+            <EntityTypeMapping TypeName="gemModel.member">
+              <MappingFragment StoreEntitySet="member">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="missions">
+            <EntityTypeMapping TypeName="gemModel.mission">
+              <MappingFragment StoreEntitySet="mission">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeamJourneyId" ColumnName="TeamJourneyId" />
+                <ScalarProperty Name="MissionId" ColumnName="MissionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mission_member_measure_assesment">
+            <EntityTypeMapping TypeName="gemModel.mission_member_measure_assesment">
+              <MappingFragment StoreEntitySet="mission_member_measure_assesment">
+                <ScalarProperty Name="Assesment" ColumnName="Assesment" />
+                <ScalarProperty Name="MeasureId" ColumnName="MeasureId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="MissionId" ColumnName="MissionId" />
+                <ScalarProperty Name="MissionAssesmentId" ColumnName="MissionAssesmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mission_practice">
+            <EntityTypeMapping TypeName="gemModel.mission_practice">
+              <MappingFragment StoreEntitySet="mission_practice">
+                <ScalarProperty Name="PracticeId" ColumnName="PracticeId" />
+                <ScalarProperty Name="MissionId" ColumnName="MissionId" />
+                <ScalarProperty Name="MissionPracticeId" ColumnName="MissionPracticeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="practices">
+            <EntityTypeMapping TypeName="gemModel.practice">
+              <MappingFragment StoreEntitySet="practice">
+                <ScalarProperty Name="PrerequisiteNum" ColumnName="PrerequisiteNum" />
+                <ScalarProperty Name="SequenceNum" ColumnName="SequenceNum" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FluencyLevelId" ColumnName="FluencyLevelId" />
+                <ScalarProperty Name="PracticeId" ColumnName="PracticeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teams">
+            <EntityTypeMapping TypeName="gemModel.team">
+              <MappingFragment StoreEntitySet="team">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="team_focus">
+            <EntityTypeMapping TypeName="gemModel.team_focus">
+              <MappingFragment StoreEntitySet="team_focus">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeamFocusId" ColumnName="TeamFocusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="team_journey">
+            <EntityTypeMapping TypeName="gemModel.team_journey">
+              <MappingFragment StoreEntitySet="team_journey">
+                <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="TeamJourneyId" ColumnName="TeamJourneyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="team_journey_member">
+            <EntityTypeMapping TypeName="gemModel.team_journey_member">
+              <MappingFragment StoreEntitySet="team_journey_member">
+                <ScalarProperty Name="TeamJourneyMemberRoleId" ColumnName="TeamJourneyMemberRoleId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="TeamJourneyId" ColumnName="TeamJourneyId" />
+                <ScalarProperty Name="TeamJourneyMemberId" ColumnName="TeamJourneyMemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="team_journey_member_role">
+            <EntityTypeMapping TypeName="gemModel.team_journey_member_role">
+              <MappingFragment StoreEntitySet="team_journey_member_role">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeamJourneyMemberRoleId" ColumnName="TeamJourneyMemberRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="team_member">
+            <EntityTypeMapping TypeName="gemModel.team_member">
+              <MappingFragment StoreEntitySet="team_member">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="TeamMemberRoleId" ColumnName="TeamMemberRoleId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="TeamMemberId" ColumnName="TeamMemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="team_member_role">
+            <EntityTypeMapping TypeName="gemModel.team_member_role">
+              <MappingFragment StoreEntitySet="team_member_role">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeamMemberRoleId" ColumnName="TeamMemberRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,37 @@
+/**********************************
+Responsive navbar-brand image CSS
+- Remove navbar-brand padding for firefox bug workaround
+- add 100% height and width auto ... similar to how bootstrap img-responsive class works
+***********************************/
+
+.navbar-brand {padding: 0px;}
+.navbar-brand>img {height: 100%; padding: 15px; width: auto;}
+
+/*.navbar-right{display:none;}*/
+.navbar-default .navbar-toggle{display: block; float: right; position: absolute; right: 2%; border: none; height: 80px; padding: 8px 20px; background-color: rgba(148, 59, 17, 0.5); margin:0 !important;}
+.navbar-default {background-color: #fff; border: none !important; border-radius: 0; height: 80px;}
+.navbar-brand {float: none; height: auto; width: 100%; text-align:center; margin-left:0 !important;}
+.navbar-toggle h2{float: left; margin: 0; font-family: Jura; font-weight: bold; color: rgba(250,250,250,0.5); margin-right: 15px;}
+.nav.navbar-nav.navbar-right {float: right; width: 300px; height: auto; background-color: #f7a539; position:relative; top: 80px; margin-right: 8px; display:none;}
+.navbar-right li {width: 100%;}
+.navbar-default .navbar-nav > li > a {color: #933a12;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {color: #f1f1f1; background-color: #c57025;}
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {background-color: rgba(1,1,1,0.25);}
+
+.navbar-header{float:left; width:100%; text-align:center;}
+.menubar {margin-top: -110px;}
+.navbar-brand a {z-index: 100; position: relative;}
+
+/* CSS Transform Align Navbar Brand Text ... This could also be achieved with table / table-cells */
+.navbar-alignit .navbar-header {-webkit-transform-style: preserve-3d;-moz-transform-style: preserve-3d;transform-style: preserve-3d;height: 50px;}
+.navbar-alignit .navbar-brand {top: 50%;display: block;position: relative;height: auto;transform: translate(0,-50%);margin-right: 15px; margin-left: 15px;}
+.navbar-nav>li>.dropdown-menu {z-index: 9999;}
+
+/**********************************
+Responsive navbar-brand image CSS
+- Remove navbar-brand padding for firefox bug workaround
+- add 100% height and width auto ... similar to how bootstrap img-responsive class works
+***********************************/
+
+.navbar-brand {padding: 0px;}
+.navbar-brand>img {height: 100%;  padding: 15px;  width: auto; margin: 0 auto;}

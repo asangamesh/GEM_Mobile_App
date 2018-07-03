@@ -1,0 +1,67 @@
+﻿@{ 
+    ViewBag.Title = "Welcome";
+}
+
+<section class="col-lg-12">
+
+    <div class="welcome-container">
+
+        <div class="col-lg-12 dashboardcontent">
+
+            <!--<div class="col-lg-3 left-mainlinks">
+
+                <ul class="main-links-left">
+                    <a href=""> <li class="active"> <h3> Leader Profile </h3> <img src="images/profile-menu-icon.png" alt="profile"> </li> </a>
+                    <a href=""> <li> <h3> Manage Teams </h3> <img src="images/team-menu-icon.png" alt="team"> </li> </a>
+                    <a href=""> <li> <h3> Manage Journey </h3> <img src="images/journey-menu-icon.png" alt="journey"> </li> </a>
+                </ul>
+
+            </div>-->
+
+            <div class="col-lg-12 center-secondarylinks">
+
+                <div class="col-lg-12 topbararea">
+                    <h4 class="welcomehead"> Welcome to </h4>
+                    <h3 class="profilename"> GEM Community </h3>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 welcomenote">
+                        <img src="~/images/welcome-bouquet.png" alt="bouquet">
+                        <h3 class="profilename"> <span>Hello</span> @ViewBag.User </h3>
+                        <p>
+                            <!--Here you can create and manage teams, Assign journeys via weekly practices and can find results!-->
+                            Here you can create journeys through weekly practices. And you can assign the practice to the team which could be created by you.
+                        </p>
+                        <input type="button" id="update-profile" onclick="location.href = '../Journey/Create';" value=" Start your Journey">
+                          <!--<button id="create-team-button"> Create Team </button>-->
+                    </div>
+
+                    <div class="col-lg-12 createnewteam">
+                        <form class="createteam" name="profile" action="" method="post">
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Team name" aria-label="team-name">
+                            </div>
+
+                            <div class="input-group">
+                                <textarea type="text" class="form-control" placeholder="Desctiption" aria-label="team-desc">  </textarea>
+                            </div>
+
+                            <div class="input-group">
+                                <input type="submit" class="form-control" value="Create Team" aria-label="team-btn">
+                            </div>
+
+                            <p>Note:<br> By creating a team, you become the team leader by default ! </p>
+
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>

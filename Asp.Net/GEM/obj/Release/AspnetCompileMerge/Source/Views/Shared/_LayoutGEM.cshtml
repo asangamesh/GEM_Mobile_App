@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEM - @ViewBag.Title</title>
+    <link rel="icon" href="../images/gem-logo.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    @Styles.Render("~/GEM/Content/css")
+    @Scripts.Render("~/GEM/Script")
+</head>
+<body class="mainbackground">
+
+    <header>
+        <div class="home-conatiner">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+
+                    <div class="navbar-header">
+
+                        <div class="navbar-brand"> <a href="#"><img src="../images/gem-logo.png" alt="GEM"></a> </div>
+
+                        <div class="menubar col-lg-12">
+                            <div class="container">
+                                <div class="col-lg-3 userprofilehead" id="head-profile">
+                                    <span class="profile-img">
+                                        <img src="../images/profile-placeholder.png">
+                                    </span>
+                                    <p class="welcomemsg"> Welcome ! </p>
+                                    <h2 class="headerprofilename"> @Session["LoginEmail"] </h2>
+
+                                    <div class="view-profile viewdd">
+                                        <span class="profileimagedd">
+                                            <img src="../images/profile-placeholder.png" alt="Avathar" class="thumbnail">
+                                            <h2> John Mc Kency </h2>
+                                            <h4> <a href="#"> <img src="../images/edit-icon.png"> Edit Profile  </a> </h4>
+                                            <h4> <a href="../Users/Login"> <img src="../images/log-out-icon.png"> Logout  </a> </h4>
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-2 mainlinkshead">
+                                    <img src="../images/journey-icon.png" alt="journeys" id="head-journey">
+                                    <div class="view-journeys viewdd">
+                                        <p> Journey - <br> <span> Launch and Delivery Team </span> </p>
+                                        <p> Fluency Level - <br> <span> Leader Delivery Team and Events </span> </p>
+                                        <p> Practice - <br> <span> Form Delaivery Team </span> </p>
+                                    </div>
+                                    <img src="../images/team-icon.png" alt="teams" id="head-teams">
+                                    <div class="view-teams viewdd">
+
+                                        <ul>
+                                            <li> <img src="../images/rocket.png" alt="rocket"> <h5> Cape Canaveral </h5> </li>
+                                            <li> <img src="../images/astronaut.png" alt="astronaut"> <h5> Interplanatery </h5> </li>
+                                            <li> <img src="../images/black-hole.png" alt="blackhole"> <h5> The Black Hole</h5> </li>
+                                        </ul>
+
+                                        <p id="head-team-create"> + <span> Create Team </span> </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2"> </div>
+
+                                <div class="col-lg-3 searchbarhead">
+                                    <input type="text" placeholder="Search..">	<span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                </div>
+                                <div class="col-lg-2 mainlinkshead">
+                                    <img src="../images/add-icon.png" alt="add" id="head-add">
+                                    <div class="view-add-more viewdd">
+                                        <a href=""> <p> + <span> Add Member </span> </p> </a>
+                                        <a href=""> <p> + <span> Add Fluency </span> </p> </a>
+                                        <a href=""> <p> + <span> Add more.. </span> </p> </a>
+                                    </div>
+                                    <img src="../images/notification-icon.png" alt="notification" id="head-notification">
+                                    <div class="view-notifications viewdd">
+                                        <a href=""> <p> <img src="../images/notify.png"> <span> You have an invitaion </span> </p> </a>
+                                        <a href=""> <p> <img src="../images/notify.png"> <span> Message from member name </span> </p> </a>
+                                    </div>
+                                    <img src="../images/info-icon.png" alt="info" id="head-info">
+                                    <div class="view-info viewdd">
+                                        <p> Note - <br> <span> Phasellus vulputate libero sed ipsum faucibus accumsan. Vivamus vel sapien vitae felis convallis hendrerit sit amet tempor magna. Nunc id ex congue ex sollicitudin viverra. </span> </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div id="navbar" class="navbar-collapse collapse">
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="">About</a></li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+                <!--/.container-fluid -->
+            </nav>
+        </div>
+
+        <div class="container headerdropdowns">
+            <!--<div class="view-profile viewdd">
+                <span class="profileimagedd">
+                    <img src="../images/profile-placeholder.png" alt="Avathar" class="thumbnail">
+                    <h2> John Mc Kency </h2>
+                    <h4> <a href="#"> <img src="../images/edit-icon.png"> Edit Profile  </a> </h4>
+                    <h4> <a href="#"> <img src="../images/log-out-icon.png"> Logout  </a> </h4>
+                </span>
+            </div>-->
+            <!--<div class="view-journeys viewdd">
+                <p> Journey - <br> <span> Launch and Delivery Team </span> </p>
+                <p> Fluency Level - <br> <span> Leader Delivery Team and Events </span> </p>
+                <p> Practice - <br> <span> Form Delaivery Team </span> </p>
+            </div>-->
+        </div>
+
+
+    </header>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <script>
+    jQuery(document).ready(function () {
+
+        jQuery('.navbar-toggle').click(function () {
+            jQuery('.navbar-right').toggle();
+        });
+    });
+    </script>
+</body>
+</html>

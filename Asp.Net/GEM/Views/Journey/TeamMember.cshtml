@@ -1,0 +1,19 @@
+﻿@model  List<Gem.BusinessEntities.team_journey_member>
+
+<ul class="team-member-list">
+    @if (Model.Count > 0)
+    {
+        foreach (var member in Model)
+        {
+            if (member.TeamJourneyMemberRoleId == 1)
+            {
+                <li> <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span> <p> <a href="">Leader</a> </p> <a href=""><img src="../images/edit.png" width="16" height="16"> Edit </a></span> </li>
+            }
+            else
+            {
+                <li> <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span> <p> <a href="">Make as Leader</a> </p> <a href=""><img src="../images/edit.png" width="16" height="16"> Edit </a></span> </li>
+            }
+        }
+    }
+    <li id="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32">  <i> Add Member </i> 	 </li>
+</ul>

@@ -1,0 +1,116 @@
+﻿@{
+    Layout = null;
+}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Join GEM Community</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="~/Content/css/menu-style.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/css/style.css" rel="stylesheet" type="text/css">
+    <script src="~/Scripts/Users/User.js" type="text/jscript"></script>
+
+</head>
+
+
+
+<body class="backgroundarea">
+
+    <header>
+        <div class="home-conatiner">
+            <nav class="navbar navbar-default" style="background-color:transparent">
+                <div class="container-fluid">
+
+                    <div class="navbar-header" >
+
+                        <div class="menubutton"  style="display:none">
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar7">
+                                <h2> MENU </h2>
+                                <span class="sr-only">Toggle navigation</span>
+                                <img src="~/images/menu-icon.png" alt="-">
+                                <!--<span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>-->
+                            </button>
+                        </div>
+                        <a class="navbar-brand" href="#">
+                            <img src="../images/gem-logo.png" alt="GEM">
+                        </a>
+                    </div>
+
+
+
+                    <div id="navbar7" class="navbar-collapse collapse"  style="display:none">
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="">About</a></li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+                <!--/.container-fluid -->
+            </nav>
+        </div>
+    </header>
+
+
+    <section class="col-lg-12 formarea">
+        <form class="register" name="create-account" action="" method="post">
+
+            <span class="form-title"> <h2> Join GEM </h2> </span>
+
+            @*<div class="input-group">
+                <input id="txtUserName" type="text" class="form-control" placeholder="User Name" aria-label="User Name" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><img src="~/images/user-icon.png"></span>
+                </div>
+            </div>*@
+
+            <div class="input-group">
+                <input type="text" id="txtEmail" class="form-control" placeholder="E-Mail Address" aria-label="E-Mail Address" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><img src="~/images/email-icon.png"></span>
+                </div>
+            </div>
+
+            @*<div class="input-group">
+                <input type="text" id="txtPassword" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><img src="~/images/psw-icon.png"></span>
+                </div>
+            </div>*@
+
+
+            <div class="input-group">
+                <input id="btnCreate" type="button" class="form-control btn-join" value="Join GEM Community">
+            </div>
+        </form>
+
+        <p class="alter-link"> Already have an account? <a href="~/Users/Login"> Log In Here! </a> </p>
+
+    </section>
+
+
+</body>
+
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery('.navbar-toggle').click(function () {
+            jQuery('.navbar-right').toggle();
+        });
+    });
+</script>
+
+<script>
+    var _user = new User();
+    _user.Load();
+</script>
+
+</html>

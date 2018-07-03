@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GEM", "GEM\GEM.csproj", "{62245A65-B864-40B6-963F-DCA73671C025}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Web", "1.Web", "{908E401B-C014-49A1-BBEC-763E0B161AC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Business Entities", "2.Business Entities", "{9E261CFB-3AE2-43F6-BBEE-632D2275EE38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GEM.BusinessEntities", "Gem.BusinessEntities\GEM.BusinessEntities.csproj", "{ECC4947A-70AC-4A22-B480-C805C2F57ED4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Business.Logics", "3.Business.Logics", "{D1062832-4C4C-4BBB-BC81-8452220265A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GEM.BusinessLogics", "GEM.BusinessLogics\GEM.BusinessLogics.csproj", "{39842B15-4A97-4813-891E-00A4825D29D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62245A65-B864-40B6-963F-DCA73671C025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62245A65-B864-40B6-963F-DCA73671C025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62245A65-B864-40B6-963F-DCA73671C025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62245A65-B864-40B6-963F-DCA73671C025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECC4947A-70AC-4A22-B480-C805C2F57ED4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECC4947A-70AC-4A22-B480-C805C2F57ED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECC4947A-70AC-4A22-B480-C805C2F57ED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECC4947A-70AC-4A22-B480-C805C2F57ED4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39842B15-4A97-4813-891E-00A4825D29D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39842B15-4A97-4813-891E-00A4825D29D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39842B15-4A97-4813-891E-00A4825D29D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39842B15-4A97-4813-891E-00A4825D29D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{62245A65-B864-40B6-963F-DCA73671C025} = {908E401B-C014-49A1-BBEC-763E0B161AC3}
+		{ECC4947A-70AC-4A22-B480-C805C2F57ED4} = {9E261CFB-3AE2-43F6-BBEE-632D2275EE38}
+		{39842B15-4A97-4813-891E-00A4825D29D0} = {D1062832-4C4C-4BBB-BC81-8452220265A3}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://aittechapplication.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = GEM.BusinessLogics\\GEM.BusinessLogics.csproj
+		SccProjectTopLevelParentUniqueName1 = GEM.sln
+		SccProjectName1 = GEM.BusinessLogics
+		SccLocalPath1 = GEM.BusinessLogics
+		SccProjectUniqueName2 = GEM\\GEM.csproj
+		SccProjectTopLevelParentUniqueName2 = GEM.sln
+		SccProjectName2 = GEM
+		SccLocalPath2 = GEM
+		SccProjectUniqueName3 = Gem.BusinessEntities\\GEM.BusinessEntities.csproj
+		SccProjectTopLevelParentUniqueName3 = GEM.sln
+		SccProjectName3 = Gem.BusinessEntities
+		SccLocalPath3 = Gem.BusinessEntities
+	EndGlobalSection
+EndGlobal

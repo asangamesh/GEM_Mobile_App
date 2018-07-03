@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+
+
+
+@media only screen and (min-width:1366px) and (max-width:1919px){
+/*.register{transform: scale(0.7);margin-top: -8%;}
+.alter-link {margin-top: -65px;font-size: 16px;}*/
+.formarea {margin-top: 11%;}
+.form-title h2{font-size:24px;}
+.register {width: 400px;height: 335px;}
+.register {width: 400px;height: 235px;}
+.form-title h2 {margin-top: 25px; margin-bottom: 30px;}
+.input-group input {height: 55px; padding: 5px 5%;font-size: 21px;}
+.input-group button {height: 70px; font-size: 18px;letter-spacing: 3px; margin-top: 8px;}
+.alter-link {margin: 0; font-size: 16px; margin-top: 0px;}
+
+.profileformarea input{height: 36px;padding: 5px 5%;font-size: 14px;}
+.createteam-form input {height: 40px; padding: 5px 2%; font-size: 14px;}
+.input-group-append-img {float: left; width: 120px; height: 120px;}
+.form-control.avatharspace {width: 38% !important; margin-left: 3%;}
+}
+
+@media only screen and (min-width:1920px){.container{width:1400px !important; padding:0;} .welcome-container{width:700px !important; padding:0; margin:0 auto;}}
+
+@media only screen and (min-width:1300px){.container{width:1280px; padding:0;}}

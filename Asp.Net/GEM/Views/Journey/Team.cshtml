@@ -1,0 +1,30 @@
+﻿@model Gem.BusinessEntities.journey
+
+<div class="panel-group" id="accordion">
+
+  @if (Model.team_journey.ToList().Count > 0)
+  {
+      foreach (var team in Model.team_journey.ToList())
+      {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_@team.TeamId"> <img src="../images/rocket.png"> @team.team.Name </a> <span> <a href=""><img src="../images/edit.png" width="16" height="16"> Edit </a> </span>
+                </h4>
+            </div>
+            <div id="collapseOne_@team.TeamId" class="panel-collapse collapse">
+                <div class="panel-body">
+                    @Html.Partial("TeamMember", @team.team_journey_member.ToList())
+                </div>
+            </div>
+        </div>
+      }
+  }
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title add-team" id="add-new-team">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><img src="../images/add-avathar-icon.png"> Add Team </a>
+            </h4>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\Gem.BusinessEntities.dll.config
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\Gem.BusinessEntities.dll
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\Gem.BusinessEntities.pdb
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\EntityFramework.dll
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\EntityFramework.SqlServer.dll
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\Google.Protobuf.dll
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\MySql.Data.dll
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\MySql.Data.Entity.EF6.dll
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\EntityFramework.xml
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\EntityFramework.SqlServer.xml
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\bin\Debug\Google.Protobuf.xml
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\obj\Debug\Gem.BusinessEntities.dll
+E:\RajeshKannan\vss2018\Projects\GEM\Gem.BusinessEntities\obj\Debug\Gem.BusinessEntities.pdb

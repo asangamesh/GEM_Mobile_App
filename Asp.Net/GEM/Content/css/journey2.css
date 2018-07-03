@@ -1,0 +1,242 @@
+@charset "utf-8";
+/* CSS Document */
+
+@font-face {
+font-family: "Jura";
+src: url(fonts/Jura-Regular.ttf);
+}
+
+body{font-family: "Jura";}
+.backgroundarea{background:url(../images/background-image.jpg) top center no-repeat; background-size:cover; position:fixed; width:100%; height:100%; padding:0; margin:0;}
+.loginscreen{background:url(../images/background-login.jpg) top center no-repeat; background-size:cover; position:fixed; width:100%; height:100%; padding:0; margin:0;}
+.mainbackground{float:left; background: linear-gradient(#af7120, #c54212); width:100%; height:auto; padding:0; margin:0; min-height:966px;}
+.formarea{margin-top: 15%;}
+.register{width:500px; height:475px; border-radius:25px; background-color:#344a5f; margin:0 auto;}
+.loginform{width:500px; height:395px; border-radius:25px; background-color:#344a5f; margin:0 auto;}
+.form-title{width:100%; float:left;}
+.form-title h2{margin-top: 35px;margin-bottom: 40px; text-transform:uppercase; color:#f7a539; text-align:center; font-weight:600; letter-spacing:3px;}
+.formarea .input-group {float: left; width: 100%; margin:2px 0;}
+.formarea .input-group input{background-color: #2a3e50;width: 100%;float: left;height: 75px;border: none;padding: 5px 5%;font-size: 21px;color: #c9cdd2;}
+.formarea .input-group-append {float: right; margin-top: -75px; z-index: 2; position: relative; width: auto; padding: 22px 0; right: 5%;}
+.formarea .input-group button {background-color: #f7a539; border: none; height: 100px; color: #2a3e50; font-size: 24px; text-transform: uppercase; letter-spacing: 4px;font-weight: bold;margin-top: 25px; border-bottom-right-radius: 25px !important; border-bottom-left-radius: 25px !important;}
+.alter-link {float: left; width: 100%; text-align: center; margin: 15px 0; color: #debba9; font-size: 21px; letter-spacing: 0.5px; font-weight: 500;}
+.alter-link a{color:#f7a539; font-weight:600;}
+.userprofilehead{padding:0; float:left; text-align:left; height: 80px;}
+.profile-img {float: left; width: 75px; height: 75px; margin-top: 2.5px; margin-right:10px;}
+.userprofilehead img{float:left; width:100%; height:100%; margin: 0;}
+.userprofilehead p{float:left; width:auto; min-width:50%; margin:10px 0 0; font-size:21px; font-weight:bold; color:#f3c6a1;}
+.userprofilehead h2{float:left; width:auto; min-width:50%; margin:0; font-size:24px; font-weight:bold; color:#715c4b;}
+.mainlinkshead {float: left; height: 80px; padding: 16px 0;}
+.mainlinkshead img{margin:0 5px;}
+.mainlinkshead img:hover{opacity:0.5; cursor:pointer;}
+.searchbarhead {float: left; height: 80px;  padding: 16px 0;}
+.searchbarhead input{float:right; width:80%; height:46px; border:solid 1px #e1e1e1; border-radius:50px; padding-left: 20px; font-style: italic; letter-spacing: 1px; font-size: 16px; color: #999;}
+.searchbarhead span{padding: 21px 25px 21px 0; height: 80px;}
+.searchbarhead span::before{color:#c1c1c1; font-size: 18px;}
+
+/*dropdowns*/
+#head-profile {cursor:pointer;}
+.viewdd {float:left; position: absolute;top: 80px; background-color: #f8f8f8; width: 300px; height: auto; z-index: 100;box-shadow: 0px 5px 7px #bdbdbd; border: solid 1px #e1e1e1;}
+.view-profile, .view-add-more, .view-notifications, .view-info  {display:none;}
+.profileimagedd {float: left; padding: 25px;}
+.profileimagedd .thumbnail {float:left; width:250px; height:250px;}
+.profileimagedd h2 {color:#d97349;}
+.view-journeys {/*left: 35%;*/ padding:15px; display:none;}
+.view-journeys p {padding:0;margin-bottom: 15px; font-size: 16px; color: #d97349; text-align:left;}
+.view-journeys p span {color:#757575;}
+.view-teams {display:none; padding: 15px 0 10px 0;}
+.profileimagedd h4 img {width: auto; height: auto; margin-right:15px;}
+.profileimagedd h2 {width: 100%; padding: 15px 0;}
+.view-teams ul {list-style: none; padding: 0; text-align: left; float: left; width: 100%;}
+.view-teams ul li {float: left; width: 100%;}
+.view-teams ul li img {float:left; padding:5px; width:56px; height:56px;}
+.view-teams ul li h5 {padding: 8px 0;}
+.view-add-more {text-align: left; padding: 15px;}
+.view-notifications {text-align: left; padding: 15px;}
+.view-notifications img {opacity:0.5;}
+.view-info.viewdd {text-align: justify; padding: 15px;}
+.view-info.viewdd p span {color:#959595;}
+.view-info.viewdd, .view-notifications.viewdd, .view-add-more.viewdd {right: 0; float:right;}
+#head-team-create {float: left; width: 100%; text-align: left; padding: 5%; background-color: #f1f1f1;}
+#head-team-create:hover {background-color:#e1e1e1; color:#757575;}
+
+/*main-page contents*/
+.dashboardcontent{float:left; width:100%; height:auto; /*min-height:700px;*/ /*background-color:#f8f8f8;*/ border-radius:15px; margin-top:50px; padding:0; padding-bottom:50px;}
+.left-mainlinks {/*float: left; padding: 0; border-right: solid 1px #e1e1e1; height: 700px;*/float: left;padding: 0;border-right: solid 1px #e1e1e1;height: auto;background-color: #f1f1f1;width: 24%;margin-right: 1%;border-radius: 25px;padding-bottom: 50px;}
+.center-secondarylinks {float: left; padding: 0; /*border-right: solid 1px #e1e1e1;height: 700px;*/  background-color: #f1f1f1;border-radius: 25px;padding-bottom: 25px; width: 66%; margin-right: 0.6%;}
+.right-links {float: left; background-color: #f1f1f1; /*width: 24%;*/ width: 33%; margin-left: 0.33%; border-radius: 25px;}
+.right-contentarea {float: left; padding: 0; /*height: 700px;*/}
+.main-links-left {float: left; margin-top: 50px; list-style: none; width: 100%; padding-left: 5%;}
+.main-links-left .active {opacity:1; font-weight:600;}
+.main-links-left a:hover {text-decoration:none;}
+.main-links-left li {float: left;width: 95%;margin-right: 5%;font-size: 24px;font-weight: 500;color: #e8a184;text-transform: uppercase;letter-spacing: 1px;padding: 15px 0;border-bottom: solid 1px #e1e1e1;  opacity: 0.5;}
+.main-links-left li img {float: right;}
+.main-links-left li:hover {opacity:1;}
+.left-mainlinks h3 {margin: 0; float: left; padding: 12px 0;}
+.main-links-left .active h3 {font-weight:600;}
+
+.main-links-right {float: left; margin: 50px 0; list-style: none; width: 100%; padding-left: 5%;}
+.main-links-right a {color: #515151; font-size: 18px; line-height: 40px;}
+.main-links-right li {float: left; width: 100%; border-bottom:1px solid #e1e1e1;}
+.main-links-right li img {float:right;}
+.main-links-right li img {float: right; padding: 12px;}
+.main-links-right a:hover {color: #e03d49;}
+.main-links-right a:hover img {opacity:0.5;}
+
+.topbararea {float: left; text-align: center; width: 100%; height: 100px; padding-bottom: 15px; border-bottom: solid 1px #e1e1e1;}
+.welcomehead {margin-top: 25px; letter-spacing: 1px; color: #757575; margin-bottom: 0;}
+.profilename {float: left; width: 100%; margin: 10px 0 15px 0; color: #dd9b65; letter-spacing: 1px;}
+.profilename span {color: #3cb277;}
+.welcomenote {float: left; width: 70%; height: auto; text-align: center; margin: 25px 15%;}
+.welcomenote img{padding:10px;}
+.welcomenote p {width:100%; padding:10px 2%; font-size:16px; color:#757575; letter-spacing: 1px;}
+.welcomenote #update-profile {background: #d97349; border: none; padding: 6px 24px; border-radius: 15px; font-size: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #e8dfd9;}
+.welcomenote #update-profile:hover {background: #bc5618;}
+.form-left-area {float: left; height: auto; padding: 0 5%;}
+.form-right-area {float: left; height: auto; padding: 0 5%;}
+.form-left-area .input-group, .form-right-area .input-group {width: 100%; float:left;}
+.profileformarea{margin-top:30px;}
+.profileformarea input {background: #fafafa; border: solid 1px #e1e1e1 !important; border-radius: 5px !important; height: 36px;}
+.profileformarea label {color:#a1a1a1; font-size:16px; letter-spacing:1px; font-weight:500;}
+.profileformarea .input-group-append {float: right; margin-top: -50px; z-index: 2; position: relative; width: auto; padding: 22px 0; right: 5%;}
+.profileformarea .input-group {margin-top: 5px;}
+.profileformarea input[type="file"] {background: #fafafa;border: none !important;border-radius: 5px !important;height: 30px;box-shadow: none;padding: 0; float:left; width:100%; margin-bottom: 15px;}
+.input-group-append-img {float: left; width: 160px; height: 160px; background-color: #fff; border-radius: 15px; border: solid 2px #e1e1e1; margin-bottom: 10px;}
+.input-group-append-img img {width: 100%;height: 100%; border-radius: 15px;}
+.profileformarea textarea.form-control {background: #fafafa; border: solid 1px #e1e1e1; border-radius: 5px !important; height: 120px;}
+.form-submit-btn {float: left; height: auto; padding: 15px 5%;}
+.form-submit-btn input[type="submit"] {background: #d97349; border: none; padding: 6px 24px; border-radius: 15px; font-size: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #e8dfd9; height: auto;}
+.form-submit-btn input[type="submit"]:hover {background: #bc5618;}
+
+.createnewteam {float: left; width: 86%; height: 300px; background-color: #f0ccbe; margin: 0 7%; border-radius: 15px; margin-top: -300px; padding: 15px; display:none;}
+.createteam {float: left; width: 100%; padding: 5%;}
+.createteam .input-group {float:left; width:100%;}
+.createteam input {background: #f1ece8; width: 100%; border: solid 1px #f0b39b; border-radius: 5px !important; box-shadow: none;}
+.createteam textarea {background: #f1ece8; width: 100%; border: solid 1px #f0b39b; border-radius: 5px !important; box-shadow: none; margin: 15px 0 !important;}
+.createteam  input[type="submit"]{background: #d97349;border: none;padding: 6px 24px;border-radius: 15px;font-size: 18px;font-weight: 500;text-transform: uppercase;letter-spacing: 1px;color: #e8dfd9;height: auto;}
+.createnewteam p {float: left; width: 100%; margin: 20px 0; text-align: center; color: #b66e50;}
+
+.main-links-left a li.active::after {content: ''; width: 15px; height: 15px; background: url(../images/active-arrrow.png) right no-repeat; position: absolute; float: left; left: 100.5%;top: 80px; }
+.topbararea img {float: left; border: solid 5px #e1e1e1; border-radius: 50px; margin: 15px; width: 64px; height: 64px;}
+.journeytitle {float: left; width: auto; font-size: 30px; font-weight: bold; letter-spacing: 1px; margin-top: 30px; color: #4e657c;}
+.journeys-list ul {list-style: none; padding-left: 0; float: left; margin: 25px;}
+.journeys-list ul a {color:#666; font-size:18px;}
+.journeys-list ul a li {float: left; width: 90%; margin: 0 5%; border-bottom: solid 1px #e1e1e1; padding: 15px 0; opacity: 0.25;}
+.journeys-list ul a li img {margin-right:20px;}
+.journeys-list ul a li.active {opacity:1;}
+/*.journeys-list ul a li:hover, .journeys-list ul a li.active {opacity:1;}*/
+.journeys-list .active {color:#4e657c; background:url(../images/right-link-icon.png) right no-repeat; background-position:100%; font-weight: 600;}
+
+.fluency-practices {float: left; width: 100%; padding: 0 10%;}
+.fluency-levels {float: left; width: 100%; color: #4e657c; padding-bottom: 15px; border-bottom: solid 1px #e1e1e1;}
+.fluency-levels span {color: #a1a1a1; font-size: 18px; margin-left: 15px;}
+.fluency-practices-list {list-style: none; padding-left: 0;}
+.fluency-practices-list li {float: left; width: 100%; color: #e8a184; font-size: 16px; line-height: 30px; margin-bottom:15px;  letter-spacing: 1px; border: solid 1px #f1f1f1; border-radius: 25px; padding: 4px;}
+.fluency-practices-list li span {color: #fff;background-color: #e8a184;width: 30px;height: 30px;border-radius: 50px;padding: 0;float: left;text-align: center;line-height: 30px; margin-right:15px;}
+.fluency-practices-list li a {float: right; color: #fff; background-color: #75c179; padding: 8px 15px; line-height: 15px; border-radius: 25px; text-decoration: none; display:none;}
+.fluency-practices-list li a:hover {background-color: #57a65b;}
+
+.fluency-practices-list .default {color: #616566; letter-spacing: 1px; border: solid 1px #e1e1e1; border-radius: 25px; padding: 4px;}
+.fluency-practices-list .default span {background-color: #75c179;}
+.fluency-practices-list .default a {display:block;}
+
+.createteam-form {/*float: left; width: 80%; margin: 0 10%; padding: 25px 0;*/float: left;width: 100%;margin: 0;padding: 15px 15px 0 15px;}
+.createteam-form label {color: #a1a1a1; font-size: 16px; letter-spacing: 1px; font-weight: 500;  float: left; width: 35%;}
+.create-team {float: left; width: 100%;}
+.create-team .input-group {float: left; width: 100%; margin-top:25px;}
+.createteam-form input {background: #fafafa; border: solid 1px #e1e1e1 !important; border-radius: 5px !important; height: 36px; float: left; width: 65% !important;}
+.form-control.avatharspace {float: left; width: 35% !important; margin-left: 2%; padding: 0px;}
+.avatharimg img {width: 60%; height: 60%; margin: 20%;}
+.create-team-btn-bg {float: left; width: 100% !important; border-radius: 0 0 25px 25px !important; padding: 25px 0; background-color: #f7a539; border: solid 3px #f7a539;}
+.create-team-btn {color: #f1f1f1;background: #ba5919 !important;border: none !important; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; line-height:16px;}
+.create-team-btn:hover{background: #ae4702 !important;}
+.create-team-area {padding-bottom:0;}
+.create-team-btn-bg input[type="submit"] {width: auto !important;padding: 14px 30px;height: auto;margin: 0 36%;float: none !important;border-radius: 15px !important;border: none !important;}
+.team-group {float: left; width: 90% !important; margin: 0 5%;}
+
+.list-teams {float: left; width: 100%; padding: 25px 50px;}
+.list-teams h4 {float: left; width: 100%; margin-bottom: 25px;}
+.list-teams ul {padding: 0;float: left;width: 100%;list-style: none;}
+.list-teams ul img {float: left;background-color: #2c4156;border-radius: 50px;padding: 5px;border: solid 5px #4e657c;width: 64px;}
+.list-teams .team-name1 {float: left; line-height: 21px; margin-left: 20px;}
+.viewedit {float: right; margin: 20px 0;}
+.viewedit img {width: 24px !important; border: none !important; background: none !important; padding: 0 !important; margin: 0 10px; float: left;}
+.list-teams ul li {float: left; width: 100%; border-bottom: solid 1px #e1e1e1; padding: 10px 0;}
+.list-teams ul li:hover {background-color:#f8f8f8; }
+.viewedit img:hover {opacity:0.5; cursor:pointer;}
+.team-thumbnail {background-color: #2c4156; border-radius: 50px; padding: 5px; border: solid 5px #4e657c !important;}
+.add-more-link img {background-color: #c1c1c1 !important; border: solid 4px #e1e1e1 !important; border-radius: 50px !important;}
+.add-more-link h4 {float: left; width: auto; margin: 23px;}
+.add-more-link {border:none !important;}
+
+.team-members {float: left; width: 100%; padding: 25px 5%;}
+.team-members ul {list-style:none; float:left; width:100%; padding:0;}
+.team-members ul li {float:left; width:100%;  padding: 10px 0; border-bottom: solid 1px #e1e1e1;}
+.team-members ul li:hover {background-color:#f8f8f8;}
+.team-members ul li.new-member {opacity:0.5;}
+.team-members ul .li-leader img {border:solid 1px #e0cdbf;}
+.team-members ul li img {float:left; width:64px; height:64px; border-radius:5px;}
+.team-members h3 {float: left; width: 55%; letter-spacing: 1px; color: #4e657c; margin: 19px;}
+.team-members .positions {float: right; margin: 21px; letter-spacing:1px; color:#4e657c}
+.team-members .positions:hover {color:#8f9ba7; cursor:pointer;}
+.new-member .positions:hover {color:#4e657c; cursor:auto;}
+
+.invitemembers{padding-bottom:0;}
+.invite-member {text-align: center; width: 100%; float: left;}
+.invite-member img {padding: 25px;}
+.invite-member input {padding: 8px 0; width: 75%; background-color: #e1d5cc; border: solid 1px #d2bcab; border-radius: 25px; font-size: 21px; letter-spacing: 2px; color: #666; text-align: center;}
+.invite-member p {color: #616566; font-size: 18px; letter-spacing: 2px; width: 75%; margin: 25px 12.5%;}
+
+
+.fluency-practice-one {list-style: none; padding-left: 0;}
+.fluency-practice-one li {float: left; width: 100%; color: #e8a184; font-size: 16px; line-height: 30px; margin-bottom:15px;  letter-spacing: 1px; padding: 4px;}
+.fluency-practice-one li span {color: #fff;background-color: #e8a184;width: 30px;height: 30px;border-radius: 50px;padding: 0;float: left;text-align: center;line-height: 30px; margin-right:15px;}
+.fluency-practice-one li a {float: right; color: #fff; background-color: #75c179; padding: 8px 15px; line-height: 15px; border-radius: 25px; text-decoration: none; display:none;}
+.fluency-practice-one li a:hover {background-color: #57a65b;}
+
+.fluency-practice-one .default {color: #616566; letter-spacing: 1px; padding: 4px;}
+.fluency-practice-one .default span {background-color: #75c179;}
+.fluency-practice-one .default a {display:block;}
+.team-group .input-group-append {float: right;margin-top: -37px;z-index: 2;position: relative;width: auto;padding: 0;right: 2%;}
+.clsdatetime form {float: left; width: 100%; padding: 25px 0; border: solid 1px #e1e1e1;border-radius: 15px; margin-bottom: 50px;}
+.input-group.team-group label {margin-left: 3%;font-size: 16px;font-weight: 500;letter-spacing: 1px;color: #757575;}
+.team-group input {height: 42px; text-transform:uppercase;}
+.start-journey-form {padding-bottom:0 !important;}
+.assignformsubmit {text-align: center;}
+.assignformsubmit input[type="submit"] {margin:0 auto !important;}
+
+/*journey page*/
+.journeys-list li img {background-color: #2c4156; border-radius: 50%; padding: 5px; border: solid 4px #4c657b; width: 64px; height: 64px;}
+.panel-title img {width: 64px; height: 64px; background-color: #2c4156; border-radius: 50px; padding: 5px; border: solid 5px #4c657b;}
+.panel-title {font-size: 18px; font-weight: 600; color: #4c657b; letter-spacing: 1px;}
+.team-member-list {list-style: none; float: left; padding-left: 15px;}
+.team-member-list li img {background-color: #c1c1c1; border-radius: 50%; border: solid 2px #e1e1e1;}
+.panel-default > .panel-heading + .panel-collapse > .panel-body {border: none;}
+.panel-default {border: none;}
+.panel-group .panel + .panel {margin-top: 0px;}
+.panel-default > .panel-heading {background-color: #f1f1f1;}
+.panel {background-color: #fafafa;}
+.team-member-list li span img {background: none; border: none;}
+.team-member-list li {float: left; width: 100%; cursor: pointer;}
+.team-member-list li p {float: left; padding-right:15px;}
+.team-member-list li span {float:right; margin: 7px;}
+.panel-title span img {background: none; border: none; height: 26px; width: 26px;}
+.panel-title span {font-size: 14px;font-weight: 400;}
+.panel-title span {float: right; padding: 20px 7px;}
+.panel-title.add-team img {background-color: #c1c1c1; border: solid 5px transparent;}
+.panel-title.add-team {color: #959595; font-style: italic;}
+.modal-content{text-align:center;}
+#mail-invitation {background-color: #f1ece8; width: 360px; margin-top: 25px; padding: 10px; border: solid 1px #dbdbda; border-radius: 15px; text-align: center; letter-spacing: 1px;}
+.text-warning {font-size: 18px; letter-spacing: 1px; width: 60%; margin: 15px 20%;}
+.modal-footer {text-align: center;}
+.modal-content {border-radius: 25px;}
+.modal-footer {text-align: center; background-color: #ffc033; border-radius: 0 0 25px 25px; padding: 25px;}
+.modal-footer .btn-primary {background-color: #ba5919; border: solid 1px #aa4f12; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; padding:6px 15px; border-radius:8px; line-height: 24px;}
+.modal-footer .btn-primary:hover {background-color:#aa4f12}
+
+#teamModal .modal-body {float: left; background-color: #fff;}
+#teamModal .team-group label {float: left; width: 100%; text-align: left; margin: 0 0 5px !important;}
+#teamModal .team-group input {text-transform:none; letter-spacing:1px;}
+#teamModal .form-control.avatharspace {float: left; width: 65% !important; margin-left: 2%; padding: 0px; text-transform: none;}
+#teamModal .modal-footer {float: left; width: 100%;}
+#teamModal .modal-content {float: left;}

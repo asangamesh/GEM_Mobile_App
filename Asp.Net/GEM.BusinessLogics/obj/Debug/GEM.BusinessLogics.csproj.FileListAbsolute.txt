@@ -1,0 +1,9 @@
+E:\RajeshKannan\vss2018\Projects\GEM\GEM.BusinessLogics\bin\Debug\GEM.BusinessLogics.dll
+E:\RajeshKannan\vss2018\Projects\GEM\GEM.BusinessLogics\bin\Debug\GEM.BusinessLogics.pdb
+E:\RajeshKannan\vss2018\Projects\GEM\GEM.BusinessLogics\bin\Debug\EntityFramework.dll
+E:\RajeshKannan\vss2018\Projects\GEM\GEM.BusinessLogics\bin\Debug\Gem.BusinessEntities.dll
+E:\RajeshKannan\vss2018\Projects\GEM\GEM.BusinessLogics\bin\Debug\EntityFramework.xml
+E:\RajeshKannan\vss2018\Projects\GEM\GEM.BusinessLogics\bin\Debug\Gem.BusinessEntities.pdb
+E:\RajeshKannan\vss2018\Projects\GEM\GEM.BusinessLogics\obj\Debug\GEM.BusinessLogics.dll
+E:\RajeshKannan\vss2018\Projects\GEM\GEM.BusinessLogics\obj\Debug\GEM.BusinessLogics.pdb
+E:\RajeshKannan\vss2018\Projects\GEM\GEM.BusinessLogics\obj\Debug\GEM.BusinessLogics.csprojResolveAssemblyReference.cache

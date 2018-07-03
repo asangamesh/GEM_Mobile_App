@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="gemModelStoreContainer" CdmEntityContainer="gemEntities1">
+    <EntitySetMapping Name="fluency_level">
+      <EntityTypeMapping TypeName="gemModel.fluency_level">
+        <MappingFragment StoreEntitySet="fluency_level">
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="FluencyLevelId" ColumnName="FluencyLevelId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="journeys">
+      <EntityTypeMapping TypeName="gemModel.journey">
+        <MappingFragment StoreEntitySet="journey">
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="SelectJourneyId" ColumnName="SelectJourneyId" />
+          <ScalarProperty Name="TeamFocusId" ColumnName="TeamFocusId" />
+          <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="journey_practice">
+      <EntityTypeMapping TypeName="gemModel.journey_practice">
+        <MappingFragment StoreEntitySet="journey_practice">
+          <ScalarProperty Name="PracticeId" ColumnName="PracticeId" />
+          <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
+          <ScalarProperty Name="JourneyPracticeId" ColumnName="JourneyPracticeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="measures">
+      <EntityTypeMapping TypeName="gemModel.measure">
+        <MappingFragment StoreEntitySet="measure">
+          <ScalarProperty Name="When" ColumnName="When" />
+          <ScalarProperty Name="Why" ColumnName="Why" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Measure1" ColumnName="Measure" />
+          <ScalarProperty Name="PracticeId" ColumnName="PracticeId" />
+          <ScalarProperty Name="MeasureId" ColumnName="MeasureId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="members">
+      <EntityTypeMapping TypeName="gemModel.member">
+        <MappingFragment StoreEntitySet="member">
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="missions">
+      <EntityTypeMapping TypeName="gemModel.mission">
+        <MappingFragment StoreEntitySet="mission">
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TeamJourneyId" ColumnName="TeamJourneyId" />
+          <ScalarProperty Name="MissionId" ColumnName="MissionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mission_member_measure_assesment">
+      <EntityTypeMapping TypeName="gemModel.mission_member_measure_assesment">
+        <MappingFragment StoreEntitySet="mission_member_measure_assesment">
+          <ScalarProperty Name="Assesment" ColumnName="Assesment" />
+          <ScalarProperty Name="MeasureId" ColumnName="MeasureId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="MissionId" ColumnName="MissionId" />
+          <ScalarProperty Name="MissionAssesmentId" ColumnName="MissionAssesmentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mission_practice">
+      <EntityTypeMapping TypeName="gemModel.mission_practice">
+        <MappingFragment StoreEntitySet="mission_practice">
+          <ScalarProperty Name="PracticeId" ColumnName="PracticeId" />
+          <ScalarProperty Name="MissionId" ColumnName="MissionId" />
+          <ScalarProperty Name="MissionPracticeId" ColumnName="MissionPracticeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="practices">
+      <EntityTypeMapping TypeName="gemModel.practice">
+        <MappingFragment StoreEntitySet="practice">
+          <ScalarProperty Name="PrerequisiteNum" ColumnName="PrerequisiteNum" />
+          <ScalarProperty Name="SequenceNum" ColumnName="SequenceNum" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FluencyLevelId" ColumnName="FluencyLevelId" />
+          <ScalarProperty Name="PracticeId" ColumnName="PracticeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="teams">
+      <EntityTypeMapping TypeName="gemModel.team">
+        <MappingFragment StoreEntitySet="team">
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="team_focus">
+      <EntityTypeMapping TypeName="gemModel.team_focus">
+        <MappingFragment StoreEntitySet="team_focus">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TeamFocusId" ColumnName="TeamFocusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="team_journey">
+      <EntityTypeMapping TypeName="gemModel.team_journey">
+        <MappingFragment StoreEntitySet="team_journey">
+          <ScalarProperty Name="JourneyId" ColumnName="JourneyId" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="TeamJourneyId" ColumnName="TeamJourneyId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="team_journey_member">
+      <EntityTypeMapping TypeName="gemModel.team_journey_member">
+        <MappingFragment StoreEntitySet="team_journey_member">
+          <ScalarProperty Name="TeamJourneyMemberRoleId" ColumnName="TeamJourneyMemberRoleId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="TeamJourneyId" ColumnName="TeamJourneyId" />
+          <ScalarProperty Name="TeamJourneyMemberId" ColumnName="TeamJourneyMemberId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="team_journey_member_role">
+      <EntityTypeMapping TypeName="gemModel.team_journey_member_role">
+        <MappingFragment StoreEntitySet="team_journey_member_role">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TeamJourneyMemberRoleId" ColumnName="TeamJourneyMemberRoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="team_member">
+      <EntityTypeMapping TypeName="gemModel.team_member">
+        <MappingFragment StoreEntitySet="team_member">
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="TeamMemberRoleId" ColumnName="TeamMemberRoleId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="TeamMemberId" ColumnName="TeamMemberId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="team_member_role">
+      <EntityTypeMapping TypeName="gemModel.team_member_role">
+        <MappingFragment StoreEntitySet="team_member_role">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TeamMemberRoleId" ColumnName="TeamMemberRoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,49 @@
+.teamtitle{font-size:30px !important; margin-top:35px; float:left; width:auto; color:#4e657c; letter-spacing:1px;}
+.member-practice-desc{width:100%; float:left; }
+.delivery-practices{padding:25px 50px; width:100%; float:left;}
+.mem-mission-title{border-bottom:2px solid #e7e7e7;padding:0px 10px; color:#4e657c;}
+.mission-practice-title{padding-left:10px; font-weight:600;font-size:21px;color:#4e657c;}
+.mission-practice-label{font-size:16px; font-weight:normal;}
+.team-member-content .topbararea img{border:solid 5px #4e657c !important;}
+.mem-mission-desc{padding:0px 10px;width:100%; float:left;}
+.mission-desc-title{padding:10px 0px; font-size:18px;  font-weight:600;color:#4e657c;}
+.mem-mission-desc p{padding:20px 0px; font-size:16px; text-align:justify; color:#616566;}
+.mission-time-content{padding:0px 10px; font-size:16px; width:100%; float:left;color:#616566; }
+.mission-date-desc, .mission-time-desc{padding:0px 10px;} 
+.mission-session-label{letter-spacing:1px; padding-right:15px;color:#4e657c;}
+.more-info-link{float:right; padding:0px 10px; color:#e7e7e7;}
+.more-info-link a{color:#515151; text-decoration-line: underline;}
+.more-info-link a:hover{color: #e03d49 !important;}
+.mission-member-buttons{height:90px; background:#F7A539; top:25px; border-bottom-right-radius: 25px !important;
+border-bottom-left-radius: 25px !important; width:100%; float:left;
+padding:25px;}
+.accept-button-content, .reject-button-content{text-align:center; }
+.accept-mission, .reject-mission{background:#C65629; font-size:18px; border:0px; text-transform:uppercase;padding:10px 30px; border-radius:15px;}
+.accept-mission:hover, .reject-mission:hover{background:#bc5618;}
+.reject-practices{padding:25px 50px; width:100%; float:left;}
+.reject-comments-sec{padding:10px;}
+.reject-comments-sec #comment{ background:#F2EBE8;}
+.reject-comments-sec #comment:focus{box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6) !important;}
+.rej-comment-label{font-size:16px;  color:#4e657c;}
+.reason-submit-content{text-align:center;}
+.reason-submission{background:#C65629; font-size:18px; border:0px; text-transform:uppercase;padding:10px 30px; border-radius:15px;}
+.reason-submission:hover{background:#bc5618;}
+.practices-measures{padding:0px; width:100%; float:left; color:#616566;}
+.practices-measures .mission-practice-title{padding-left:0px;}
+.practices-measures .mem-mission-title{border-bottom:none; padding-top:25px; padding-left:50px; padding-right:50px;}
+.rating-content{width:100%; float:left;}
+.measure-content{width:100%; float:left; margin-bottom:25px;}
+.practices-measures p{font-size:16px; color:#616566;}
+.rating-list{padding:0px; list-style-type:none; width:100%; float:left;}
+.rating-list li{padding:20px 50px;font-size:16px; color:#616566;}
+.rating-list .odd{background:#e9e9e9; width:100%; float:left; text-decoration:none; }
+.rating-list .even{ width:100%; float:left; text-decoration:none;}
+.rating-item{width:80%;float:left; padding-right:5px; }
+.rating-icons{float:left; width:20%;}
+.rating-icons1, .rating-icons2, .rating-icons3{padding:0px 5px;}
+.rating-icons2 .fa.fa-thumbs-down{transform: rotate(270deg);}
+.rating-icons1 a{color:#F7A539;}
+.rating-icons2 a,.rating-icons3 a {color:#B9B9B9;}
+.review-submit-content{text-align:center;}
+.review-submit-content .review-submission{background:#C65629; font-size:18px; border:0px; text-transform:uppercase;padding:10px 30px; border-radius:15px;}
+.review-submit-content .review-submission:hover{background:#bc5618;}

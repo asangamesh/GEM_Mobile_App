@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Create Team";
+}
+
+<script src="~/Scripts/Team/Team.js" type="text/jscript"></script>
+<section id="CreateTeam" class="col-lg-12">
+    <div class="container">
+
+        <div class="col-lg-12 dashboardcontent">
+
+            <div class="col-lg-3 left-mainlinks">
+
+                <ul class="main-links-left">
+                    <a href=""> <li class="active"> <h3>Manage Teams </h3> <img src="../images/team-menu-icon.png" alt="teams"> </li> </a>
+                </ul>
+
+            </div>
+
+            <div class="col-lg-6 center-secondarylinks create-team-area">
+
+                <div class="col-lg-12 topbararea">
+                    <img src="../images/team-icon.png" alr="J1"> <h4 class="journeytitle"> Create Team </h4>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-12 createteam-form">
+
+                        <form class="create-team" method="post" name="team-form" action="">
+                            <fieldset>
+                                <div class="input-group team-group">
+                                    <label class="team-name"> Team Name </label>
+                                    <input id="txtTeamName" type="text" class="form-control" placeholder="Enter a team name">
+                                </div>
+                            </fieldset>
+                            <div class="input-group team-group">
+                                <label name="profile-pic"> Add an avathar </label>
+                                <div class="input-group-append-img">
+                                    <span class="input-group-text avatharimg" id="basic-addon2"><img src="../images/add-avathar-icon.png"></span>
+                                </div>
+                                <input type="file" id="btnFileUpload" name="pic" accept="image/*" class="form-control avatharspace" placeholder="Click to upload an image" aria-label="avathar">
+                            </div>
+
+                            <div class="input-group create-team-btn-bg" style="text-align:center ">
+                                <input type="button" style="text-align:center; padding:5px 10px ;margin-left:17%" id="btnCreateTeam" class="form-control create-team-btn" placeholder="" value="Create Team" aria-label="create-team">
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 right-links">
+
+                <ul class="main-links-right">
+                    <a href=""> <li> Create Team <img src="~/images/right-link-icon.png" alt="#"> </li> </a>
+                    <a href=""> <li> Edit Team <img src="~/images/right-link-icon.png" alt="#"> </li> </a>
+                    <a href=""> <li> Select Journey <img src="~/images/right-link-icon.png" alt="#"> </li> </a>
+                    <a href=""> <li> View Practices <img src="~/images/right-link-icon.png" alt="#"> </li> </a>
+                    <a href=""> <li> View Results <img src="~/images/right-link-icon.png" alt="#"> </li> </a>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery('.navbar-toggle').click(function () {
+            jQuery('.navbar-right').toggle();
+        });
+    });
+</script>
+
+<script>
+    var _Team = new TeamDet();
+    _Team.Load();
+</script>
