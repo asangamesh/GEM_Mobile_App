@@ -1,4 +1,5 @@
-Please add a comment here....  Be playful.
+Please add a comment here to verify that you can do a round-trip
+to/from the git repo.  Thanks, and....  Be playful.
 
 ================================================================
 
@@ -10,3 +11,4 @@ My name is Michael Wolf.  My github username is MichaelRWolf.  I am excited to w
    This one doesn't.
 
 ================================================================
+
