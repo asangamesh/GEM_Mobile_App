@@ -1,15 +1,15 @@
-﻿@model Gem.BusinessEntities.journey
+﻿@model List<Gem.BusinessEntities.team_journey>
 
 <div class="panel-group" id="accordion">
-
-  @if (Model.team_journey.ToList().Count > 0)
+   <input id="Team_Journey_Id" type="hidden" />
+  @if (Model != null && Model.Count > 0)
   {
-      foreach (var team in Model.team_journey.ToList())
+      foreach (var team in Model)
       {
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_@team.TeamId"> <img src="../images/rocket.png"> @team.team.Name </a> <span> <a href=""><img src="../images/edit.png" width="16" height="16"> Edit </a> </span>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_@team.TeamId" onclick="$('#Team_Journey_Id').val(@team.TeamJourneyId);"> <img src="../images/rocket.png"> @team.team.Name </a> @*<span> <a href=""><img src="../images/edit.png" width="16" height="16"> Edit </a> </span>*@
                 </h4>
             </div>
             <div id="collapseOne_@team.TeamId" class="panel-collapse collapse">

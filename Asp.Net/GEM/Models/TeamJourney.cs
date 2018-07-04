@@ -9,7 +9,7 @@ namespace GEM.Models
     public class TeamJourney
     {
         public List<JourneyInformation> JourneyList { get; set; }
-        public journey Journey { get; set; }
-        public string TeamCount { get; set; }
+        public List<team_journey> Teams { get; set; }
+        public string InstanceTeamName { get; set; }
     }
 }

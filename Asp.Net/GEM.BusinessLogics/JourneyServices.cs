@@ -29,6 +29,15 @@ namespace GEM.BusinessLogics
             return objJourney;
         }
 
+        public journey GetJourney(int JourneyId, int memberId)
+        {
+            gemdb = new gemEntities1();
+
+            var objJourney = (from j in gemdb.journeys join tj in gemdb.team_journey on j.JourneyId equals tj.JourneyId join tm in gemdb.team_journey_member on tj.TeamJourneyId equals tm.TeamJourneyId where j.JourneyId == JourneyId && tm.MemberId == memberId select j).FirstOrDefault();
+
+            return objJourney;
+        }
+
         public List<journey> GetJourneybyTeamId(int TeamId)
         {
             gemdb = new gemEntities1();
@@ -46,7 +55,25 @@ namespace GEM.BusinessLogics
 
             return objJourneys;
         }
-        
+
+        public List<team_journey> GetTeams(int journeyId, int memberId)
+        {
+            gemdb = new gemEntities1();
+
+            var objJourneys = (from tj in gemdb.team_journey join tm in gemdb.team_journey_member on tj.TeamJourneyId equals tm.TeamJourneyId where tj.JourneyId == journeyId && tm.MemberId == memberId select tj).ToList();
+
+            return objJourneys;
+        }
+
+        public team_journey GetTeamJourney(int TeamId, int JourneyId)
+        {
+            gemdb = new gemEntities1();
+
+            var objJourneys = (from tj in gemdb.team_journey where tj.TeamId == TeamId && tj.JourneyId == JourneyId select tj).FirstOrDefault();
+
+            return objJourneys;
+        }
+
         public int AddorUpdateJourney(journey journey)
         {
             gemdb = new gemEntities1();

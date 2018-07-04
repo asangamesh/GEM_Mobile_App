@@ -3,17 +3,32 @@
 <ul class="team-member-list">
     @if (Model.Count > 0)
     {
+        int leaderId = 0;
         foreach (var member in Model)
         {
             if (member.TeamJourneyMemberRoleId == 1)
             {
-                <li> <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span> <p> <a href="">Leader</a> </p> <a href=""><img src="../images/edit.png" width="16" height="16"> Edit </a></span> </li>
+                leaderId = member.MemberId.Value;
+                <li> <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span> <p> <a href="">Leader</a> </p> <a href=""><img src="../images/remove.png" width="16" height="16"> </a></span> </li>
             }
             else
             {
-                <li> <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span> <p> <a href="">Make as Leader</a> </p> <a href=""><img src="../images/edit.png" width="16" height="16"> Edit </a></span> </li>
+                <li> <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span> <p> <a href="">Make Leader</a> </p> 
+                    @if (Session["LoginMemberID"].ToString() == leaderId.ToString())
+                    {
+                    <a href="../Journey/RemoveMember?tjmemberid=@member.TeamJourneyMemberId"><img src="../images/remove.png" width="16" height="16"> </a>
+                    }
+                    </span> </li>
             }
         }
+
+        if (Session["LoginMemberID"].ToString() == leaderId.ToString())
+        {
+            <li class="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32"> <i> Add Member </i></li>
+
+            <span class="start-button-cls">
+                <input type="submit" class="start-btn" value="Start Journey">
+            </span>
+        }
     }
-    <li id="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32">  <i> Add Member </i> 	 </li>
 </ul>

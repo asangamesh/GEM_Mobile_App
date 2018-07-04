@@ -9,6 +9,7 @@ using GEM.BusinessLogics;
 using GEM.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Web;
 
 namespace GEM.Controllers.API
 {
@@ -50,11 +51,11 @@ namespace GEM.Controllers.API
             }
         }
 
-        public IHttpActionResult GetDefaultTeamNameCount()
+        public IHttpActionResult GetTeamInstanceCount(int journeyId, int memberId)
         {
             try
             {
-                var Team = objTeam.GetDefaultTeamNameCount();
+                var Team = objTeam.GetTeambyName(journeyId, memberId);
 
                 return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
                 {
@@ -69,36 +70,78 @@ namespace GEM.Controllers.API
         }
 
         [HttpPost, Route("api/team")]
-        public IHttpActionResult Post([FromBody]dynamic name)
+        public IHttpActionResult Post([FromBody]dynamic data)
         {
             try
             {
-                var json = (JToken)JObject.Parse(JsonConvert.SerializeObject(name));
+                var json = (JToken)JObject.Parse(JsonConvert.SerializeObject(data));
+
+                string name = Convert.ToString(json["Name"]);
+                string journeyId = Convert.ToString(json["JourneyId"]);
+                string createdBy = Convert.ToString(json["MemberId"]);
+
+                if (string.IsNullOrEmpty(name)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing team name field", Status = false }).Content));
+                else if (string.IsNullOrEmpty(journeyId)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing journey id field", Status = false }).Content));
+                else if (string.IsNullOrEmpty(createdBy)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing member id field", Status = false }).Content));
 
                 team team = new team();
-                team.Name = json["Name"].ToString();
-                team.Description = "";
-                team.CreatedBy = Convert.ToInt16(json["MemberId"]);
+                team.Name = name;
+                team.CreatedBy = Convert.ToInt16(createdBy);
                 team.CreatedDate = DateTime.Now;
 
-                if (string.IsNullOrEmpty(team.Name)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing TeamName field", Status = false }).Content));
-
                 var result = objTeam.AddorUpdateTeam(team);
-
                 if (result == 1)
                 {
-                    var Team = objTeam.GetTeam(json["Name"].ToString());
+                    var Team = objTeam.GetTeam(team);
 
                     team_journey teamJourney = new team_journey();
                     teamJourney.TeamId = Team[0].TeamId;
-                    teamJourney.JourneyId = Convert.ToInt32(json["JourneyId"]);
-                    result += objJourney.AddorUpdatetTeamJourney(teamJourney);
+                    teamJourney.JourneyId = Convert.ToInt32(journeyId);
+                    result = objJourney.AddorUpdatetTeamJourney(teamJourney);
 
-                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { UserID = team.TeamId, Message = "your request is saved", Status = true }).Content));
+                    var team_journey = objJourney.GetTeamJourney(teamJourney.TeamId.Value, teamJourney.JourneyId.Value);
+
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { TeamJourneyId = team_journey.TeamJourneyId, Message = "your request is saved", Status = true }).Content));
                 }
 
                 else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request is not saved, try again later!", Status = false }).Content));
 
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
+        [HttpPost, Route("api/teamAvathar")]
+        public IHttpActionResult PostAvathar(HttpPostedFileBase file)
+        {
+            try
+            {
+                //var json = (JToken)JObject.Parse(JsonConvert.SerializeObject(data));
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request is not saved, try again later!", Status = false }).Content));
+
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
+        [HttpDelete, Route("api/teamMember/{tjmemberId}")]
+        public IHttpActionResult DeleteTeamMemberId(int tjmemberId)
+        {
+            try
+            {
+                var objTeam = new TeamServices();
+                team_journey_member objtjmember = objTeam.GetTeamJourneyMember(tjmemberId);
+                if (objtjmember == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
+
+                var journey = objTeam.DeleteTeamMember(objtjmember);
+              
+                if(journey == 1) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { MemberID = objtjmember.member.EmailAddress, Message = "Member has been removed from team", Status = true }).Content));
+                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { MemberID = objtjmember.member.EmailAddress, Message = "The request process does not completed please try again!", Status = true }).Content));
             }
             catch (Exception ex)
             {

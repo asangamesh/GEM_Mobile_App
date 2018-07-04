@@ -30,15 +30,15 @@
                                     }
                                     else if (journey.JourneyId == 2)
                                     {
-                                         <a href=""><li> <img src="../images/rebel-icon.png"> Product Team - # Vision to Challange the Norm </li> </a>
+                                         <a href="#" disabled="disabled"><li> <img src="../images/rebel-icon.png"> Product Team - # Vision to Challange the Norm </li> </a>
                                     }
                                     else if (journey.JourneyId == 3)
                                     {
-                                        <a href=""><li> <img src="../images/gaurdians-icon.png"> Enterprise Team - # Protectors and Gaurdians of Value </li> </a>
+                                        <a href="#"><li> <img src="../images/gaurdians-icon.png"> Enterprise Team - # Protectors and Gaurdians of Value </li> </a>
                                     }
                                     else
                                     {
-                                        <a href=""><li> <img src="../images/galactica-icon.png"> Strategy Team - # Guides Strategy and Value </li> </a>
+                                        <a href="#"><li> <img src="../images/galactica-icon.png"> Strategy Team - # Guides Strategy and Value </li> </a>
                                     }
                                 }
                             }
@@ -61,7 +61,20 @@
                     <div class="col-lg-12 teams-control">
 
                         <div class="bs-example">
-                            @Html.Partial("Team", Model.Journey)
+                            @if (Model != null && Model.Teams != null && Model.Teams.Count > 0)
+                            {
+                                @Html.Partial("Team", Model.Teams)
+                            }
+                            else
+                            {
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title add-team" id="add-new-team">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><img src="../images/add-avathar-icon.png"> Add Team </a>
+                                        </h4>
+                                    </div>
+                                </div>
+                            }
                         </div>
 
                     </div>
@@ -79,12 +92,12 @@
                     </div>
                     <div class="modal-body">
                         <img src="../images/inviatation-icon.png" /> <br>
-                        <input type="email" id="txtEmail" name="invite-mail" id="mail-invitation" placeholder="Enter an E-Mail Address"> <br>
+                        <input type="email" name="invite-mail" id="mail-invitation" placeholder="Enter an E-Mail Address"> <br>
                         <p class="text-warning"><small>Enter an e-mail address to invite a new or an existing member</small></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Send Invitation</button>
+                        <button type="submit" id="btnInvite" class="btn btn-primary">Send Invitation</button>
                     </div>
                 </div>
             </div>
@@ -100,7 +113,7 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-		jQuery('#add-new-member').click(function(){
+		jQuery('.add-new-member').click(function(){
 		jQuery('#myModal').modal('show');
 		});
 		jQuery('#add-new-team').click(function(){
@@ -109,4 +122,10 @@
 	});
 </script>
 
+<script src="../Scripts/Journey/Journey.js" type="text/jscript"></script>
+<script>
+    var sessionId = '@Session["LoginMemberID"]';
+    var _journey = new Journey(sessionId);
+    _journey.Load();
+</script>
 

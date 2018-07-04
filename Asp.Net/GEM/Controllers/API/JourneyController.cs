@@ -48,7 +48,7 @@ namespace GEM.Controllers.API
             }
         }
 
-        // GET: api/Journey/{teamId}
+        // GET: api/Journey/{journeyId}
         public IHttpActionResult GetJourneyId(int journeyId)
         {
             try
@@ -93,6 +93,21 @@ namespace GEM.Controllers.API
             }
         }
 
+        // GET: api/Journey/{memberId}
+        public IHttpActionResult GetTeamJourney(int journeyId, int memberId)
+        {
+            try
+            {
+                var journeys = objJourney.GetTeams(journeyId, memberId);
+                if (journeys == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
+                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", journeys));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
         // PUT: api/Journey/5
         public IHttpActionResult Put(int id, [FromBody]string value)
         {
@@ -104,37 +119,42 @@ namespace GEM.Controllers.API
         {
             try
             {
+                var result = 0;
                 var json = (JToken)JObject.Parse(JsonConvert.SerializeObject(data));
-                var count = 0;
-                
-                var JourneyDet = objJourney.GetJourney(Convert.ToInt32(json["JourneyId"]));
 
-                member memer = new member();
-                memer.EmailAddress = Convert.ToString(json["Name"]);
-                memer.CreatedBy = Convert.ToInt16(JourneyDet.CreatedBy);
-                memer.CreatedDate = DateTime.Now;
-                count = objUser.AddorUpdateUser(memer);
+                string emailAddress = Convert.ToString(json["EmailAddress"]);
+                string teamJourneyId = Convert.ToString(json["TeamJourneyId"]);
+                string createdBy = Convert.ToString(json["MemberId"]);
+                string role = Convert.ToString(json["Role"]);
 
-                var UserDetails= objUser.GetLoginUser(memer);
+                if (role == "1")
+                {
+                    var memberDetails = objUser.GetUserDetails(new member { MemberId = Convert.ToInt16(createdBy)});
+                    if (memberDetails != null) emailAddress = memberDetails.EmailAddress;
+                }
 
-                team_journey team_journey = new team_journey();
-                team_journey.TeamJourneyId = 25;
-                team_journey.TeamId = Convert.ToInt32(json["TeamId"]);
-                team_journey.JourneyId = Convert.ToInt32(json["JourneyId"]);
-                count += objJourney.AddorUpdatetTeamJourney(team_journey);
+                if (string.IsNullOrEmpty(emailAddress)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing email address field", Status = false }).Content));
+                else if (string.IsNullOrEmpty(emailAddress)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing team journey id field", Status = false }).Content));
+                else if (string.IsNullOrEmpty(createdBy)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing member id field", Status = false }).Content));
+                else if (string.IsNullOrEmpty(role)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing Role field", Status = false }).Content));
+
+                member member = new member();
+                member.EmailAddress = emailAddress;
+                member.CreatedBy = Convert.ToInt16(createdBy);
+                member.CreatedDate = DateTime.Now;
+
+                var UserDetails = objUser.GetLoginUser(member);
+                if (UserDetails == null)
+                {
+                    result = objUser.AddorUpdateUser(member);
+                    UserDetails = objUser.GetLoginUser(member);
+                }
 
                 team_journey_member team_journey_member = new team_journey_member();
-                team_journey_member.TeamJourneyId = 25;
+                team_journey_member.TeamJourneyId = Convert.ToInt32(teamJourneyId);
                 team_journey_member.MemberId = UserDetails.MemberId;
-                team_journey_member.TeamJourneyMemberRoleId = 2;  // 2 - Team_Member
-                count += objJourney.AddorUpdatetteamjourneymember(team_journey_member);
-
-                var journey = JsonConvert.DeserializeObject<object>(JsonConvert.SerializeObject(data));
-                journey.CreatedDate = DateTime.Now;
-
-                if (string.IsNullOrEmpty(journey.MemberId)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing MemberId field", Status = false }).Content));
-
-                var result = objJourney.AddorUpdateJourney(journey);
+                team_journey_member.TeamJourneyMemberRoleId = Convert.ToInt16(role);  // 2 - Team_Member
+                result = objJourney.AddorUpdatetteamjourneymember(team_journey_member);
 
                 if (result == 1)
                 {

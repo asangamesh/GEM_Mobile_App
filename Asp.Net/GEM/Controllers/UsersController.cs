@@ -18,12 +18,12 @@ namespace GEM.Controllers
 
         public ActionResult Index()
         {
-            return View("Login");
+            return View();
         }
 
         public ActionResult Login()
         {
-            return View("Login");
+            return View("Index");
         }
 
         public ActionResult Create()
@@ -35,13 +35,6 @@ namespace GEM.Controllers
         {
             if (ValidateSession("LoginMemberID"))
             {
-                int memberId = Convert.ToInt16(Session["LoginMemberID"]);
-                var objUser = new API.UserController();
-                var userResponse = objUser.GetUser(memberId);
-                string ResponseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)userResponse).Content.Data);
-                var userdetail = JObject.Parse(ResponseData);
-                Session["LoginEmail"] = userdetail["User"]["EmailAddress"].ToString();
-                ViewBag.User = userdetail["User"]["EmailAddress"].ToString();
                 return View("HelloWorld");
             }
             else return Login();
@@ -59,11 +52,33 @@ namespace GEM.Controllers
             Session[sessionId] = value;
         }
 
-        public bool ValidateSession(string sessionId)
+        public bool CheckSessionID(string sessionId)
         {
             if (Session == null || Session.Count == 0) return false;
             else if (Session[sessionId] != null) return true;
             else return false;
+        }
+
+        private bool ValidateSession(string sessionId)
+        {
+            if (CheckSessionID(sessionId))
+            {
+                int memberId = Convert.ToInt16(sessionId);
+                var objUser = new API.UserController();
+                var userResponse = objUser.GetUser(memberId);
+                string ResponseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)userResponse).Content.Data);
+                var userdetail = JObject.Parse(ResponseData);
+                Session["LoginEmail"] = userdetail["User"]["EmailAddress"].ToString();
+                ViewBag.User = userdetail["User"]["EmailAddress"].ToString();
+                return true;
+            }
+            return false;
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return View("Index");
         }
     }
 }

@@ -1,43 +1,62 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    Layout = null;
+}
+
+<!doctype html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEM - @ViewBag.Title</title>
-    <link rel="icon" href="../images/gem-logo.png" type="image/gif" sizes="16x16">
+    <meta charset="utf-8">
+    <title>GEM Login Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="../Content/css/style.css" rel="stylesheet" type="text/css">
+    <link href="../Content/css/menu-style.css" rel="stylesheet" type="text/css">
+    <script src="../Scripts/js/menu-script.js" type="text/jscript"></script>
     <script src="../Scripts/Users/User.js" type="text/jscript"></script>
-    @Styles.Render("~/GEM/Content/css")
-    @Scripts.Render("~/GEM/Script")
+    <script src="../Scripts/jquery.validate.min.js"></script>
 </head>
-<body class="mainbackground">
+
+<body class="backgroundarea">
 
     <header>
         <div class="home-conatiner">
-            <nav class="navbar navbar-default">
+            <nav class="navbar navbar-default" style="background-color:transparent">
                 <div class="container-fluid">
 
                     <div class="navbar-header">
 
-                        <div class="navbar-brand"> <a href="#"><img src="../images/gem-logo.png" alt="GEM"></a> </div>
+                        <a class="navbar-brand" href="#">
+                            <img src="~/images/gem-logo.png" alt="GEM">
+                        </a>
 
-                        <div class="menubar col-lg-12">
+                        <!--<div class="menubutton">
+                          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar7">
+                          <h2> MENU </h2>
+                            <span class="sr-only">Toggle navigation</span>
+                            <img src="images/menu-icon.png" alt="-">
+                            <!--<span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>--
+                          </button>
+                        </div> -->
+
+                        <div class="menubar col-lg-12" style="display:none">
                             <div class="container">
                                 <div class="col-lg-3 userprofilehead" id="head-profile">
                                     <span class="profile-img">
                                         <img src="../images/profile-placeholder.png">
                                     </span>
                                     <p class="welcomemsg"> Welcome ! </p>
-                                    <h2 class="headerprofilename"> @Session["LoginEmail"] </h2>
+                                    <h2 class="headerprofilename"> User </h2>
 
                                     <div class="view-profile viewdd">
                                         <span class="profileimagedd">
                                             <img src="../images/profile-placeholder.png" alt="Avathar" class="thumbnail">
-                                            <h2> @Session["LoginEmail"] </h2>
+                                            <h2> John Mc Kency </h2>
                                             <h4> <a href="#"> <img src="../images/edit-icon.png"> Edit Profile  </a> </h4>
-                                            <h4> <a href="../Users/Logout" > <img src="../images/log-out-icon.png"> Logout  </a> </h4>
+                                            <h4> <a href="#"> <img src="../images/log-out-icon.png"> Logout  </a> </h4>
                                         </span>
                                     </div>
 
@@ -107,10 +126,10 @@
         <div class="container headerdropdowns">
             <!--<div class="view-profile viewdd">
                 <span class="profileimagedd">
-                    <img src="../images/profile-placeholder.png" alt="Avathar" class="thumbnail">
+                    <img src="images/profile-placeholder.png" alt="Avathar" class="thumbnail">
                     <h2> John Mc Kency </h2>
-                    <h4> <a href="#"> <img src="../images/edit-icon.png"> Edit Profile  </a> </h4>
-                    <h4> <a href="#"> <img src="../images/log-out-icon.png"> Logout  </a> </h4>
+                    <h4> <a href="#"> <img src="images/edit-icon.png"> Edit Profile  </a> </h4>
+                    <h4> <a href="#"> <img src="images/log-out-icon.png"> Logout  </a> </h4>
                 </span>
             </div>-->
             <!--<div class="view-journeys viewdd">
@@ -123,21 +142,49 @@
 
     </header>
 
-    <div class="container body-content">
-        @RenderBody()
-    </div>
+    <section class="col-lg-12 formarea">
+        <form class="register" name="create-account" action="" method="post" id="Logindetails">
 
-    <script>
+            <span class="form-title"> <h2> Login </h2> </span>
+
+            <div class="input-group">
+                <input id="txtEmail" type="text" class="form-control" placeholder="E-Mail Address" aria-label="E-Mail Address" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><img src="../images/email-icon.png"></span>
+                </div>
+            </div>
+            @*<div class="input-group">
+                    <input type="password" id="txtPassword" class="form-control required" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"><img src="~/images/psw-icon.png"></span>
+                    </div>
+                </div>*@
+
+            <div class="input-group">
+                <input id="btnLogin" type="button" class="form-control btn-join" value="Login">
+            </div>
+        </form>
+
+        @*<p class="alter-link"> Already have an account? <a href="~/Users/Create"> Create an Account! </a> </p>*@
+
+    </section>
+
+
+</body>
+
+<script>
     jQuery(document).ready(function () {
 
         jQuery('.navbar-toggle').click(function () {
             jQuery('.navbar-right').toggle();
         });
+
     });
-    </script>
-</body>
+</script>
+
 <script>
     var _user = new User();
     _user.Load();
 </script>
+
 </html>

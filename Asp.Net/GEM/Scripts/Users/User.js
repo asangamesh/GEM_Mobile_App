@@ -11,7 +11,6 @@ User.prototype.Load = function () {
 }
 
 User.prototype.CreateClicked = function () {
-
     var email = $("#txtEmail").val();
     if (email == '') { alert("please enter email address"); $("#txtEmail").focus(); }
     else {
@@ -20,6 +19,7 @@ User.prototype.CreateClicked = function () {
             url: "/api/user",
             type: 'post',
             cache: false,
+            async: false,
             data: JSON.stringify( model),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -57,7 +57,9 @@ User.prototype.LoginClicked = function () {
                     window.location.href = '../Journey/Create';
                 }
                 else {
-                    alert(result.data.message);
+                    var _user = new User();
+                    _user.CreateClicked();
+                    window.location.href = '../Journey/Create';
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
