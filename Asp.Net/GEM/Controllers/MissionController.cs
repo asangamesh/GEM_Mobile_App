@@ -16,10 +16,9 @@ namespace GEM.Controllers
     public class MissionController : Controller
     {
         // GET: Mission
-        public ActionResult Index()
+        public ActionResult Index(int teamJourneyId = 11)
         {
             var model = new Mission_info();
-            var teamJourneyId = 11;
             var loadPractice = new List<Practice>();
 
             var objmission = new API.MissionController();
@@ -28,6 +27,10 @@ namespace GEM.Controllers
 
             var userdetail = JObject.Parse(responseData);
             model.JourneyId = Convert.ToInt32(userdetail["Team_Journey"]["JourneyId"]);
+
+            var teamServices = new TeamServices();
+
+            model.Teams = teamServices.GetTeamById(Convert.ToInt32(userdetail["Team_Journey"]["teamId"]));
 
             response = objmission.GetFluencyName(Convert.ToInt32(userdetail["Team_Journey"]["teamId"]), model.JourneyId);
             responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)response).Content.Data);

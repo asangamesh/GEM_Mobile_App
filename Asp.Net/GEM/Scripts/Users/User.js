@@ -42,25 +42,17 @@ User.prototype.CreateClicked = function () {
 User.prototype.LoginClicked = function () {
 
     var email = $("#txtEmail").val();
-
     if (email == '') { alert('please enter email address'); $("#txtEmail").focus(); }
+    else if (validateForm(email)) alert("Not valid email address");
     else {
         $.ajax({
-            url: "/api/user",
+            url: "../users/Logon",
             type: 'get',
             cache: false,
             async: false,
             data: { 'email': email },
             success: function (result) {
-                if (result.data.status == true) {
-                    SetValue(result.data.user.userId);
-                    window.location.href = '../Journey/Create';
-                }
-                else {
-                    var _user = new User();
-                    _user.CreateClicked();
-                    window.location.href = '../Journey/Create';
-                }
+                window.location.href = '../Journey/Create';
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("You have entered incorrect username and password");
@@ -69,12 +61,9 @@ User.prototype.LoginClicked = function () {
     }
 }
 
-function SetValue(myval) {
-    $.ajax({
-        url: "../Users/SetSession",
-        Type: 'POST',
-        data: { sessionval: myval },
-        success: function (result) {
-        },
-    });
+function validateForm(x) {
+    var atpos = x.indexOf("@");
+    var dotpos = x.lastIndexOf(".");
+    if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) return true;
+    else return false;
 }

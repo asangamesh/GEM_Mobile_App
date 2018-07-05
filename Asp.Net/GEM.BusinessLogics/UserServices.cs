@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gem.BusinessEntities;
+using System.Data.Entity.Migrations;
 
 namespace GEM.BusinessLogics
 {
@@ -40,7 +41,7 @@ namespace GEM.BusinessLogics
         public int AddorUpdateUser(member user)
         {
             gemdb = new gemEntities1();
-            gemdb.members.Add(user);
+            gemdb.members.AddOrUpdate(user);
             return gemdb.SaveChanges();
         }
     }

@@ -12,14 +12,13 @@ namespace Gem.BusinessEntities
     using System;
     using System.Collections.Generic;
     
-    public partial class team_journey_member
+    public partial class team_journey_practice
     {
-        public int TeamJourneyMemberId { get; set; }
+        public int TeamJourneyPracticeId { get; set; }
         public Nullable<int> TeamJourneyId { get; set; }
-        public Nullable<int> MemberId { get; set; }
-        public Nullable<int> TeamJourneyMemberRoleId { get; set; }
+        public Nullable<int> PracticeId { get; set; }
     
-        public virtual member member { get; set; }
+        public virtual practice practice { get; set; }
         public virtual team_journey team_journey { get; set; }
     }
 }

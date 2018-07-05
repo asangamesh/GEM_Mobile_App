@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="row">
-
+                    <input type="hidden" id="txtJourneyId" value="1" class="form-control">
                     <div class="col-lg-12 journeys-list">
                         <ul>
                             @if (Model.JourneyList.Count > 0)
@@ -116,8 +116,11 @@
 		jQuery('.add-new-member').click(function(){
 		jQuery('#myModal').modal('show');
 		});
-		jQuery('#add-new-team').click(function(){
-		jQuery('#teamModal').modal('show');
+		jQuery('#add-new-team').click(function () {
+		    $('#txtTeamId').val(""); 
+		    $('#txtTeamName').val($('#txtTeamInstanceName').val());
+		    $('#btnCreateTeam').val("Add Team");
+		    jQuery('#teamModal').modal('show');
 		});
 	});
 </script>

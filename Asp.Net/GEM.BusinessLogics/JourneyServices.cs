@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity.Migrations;
 
 namespace GEM.BusinessLogics
 {
@@ -74,24 +75,33 @@ namespace GEM.BusinessLogics
             return objJourneys;
         }
 
+        public List<team_journey_member> GetTeamJourneyMember(int teamJourneyId)
+        {
+            gemdb = new gemEntities1();
+
+            var objJourneys = (from tjm in gemdb.team_journey_member join tj in gemdb.team_journey on tjm.TeamJourneyId equals tj.TeamJourneyId where tj.TeamJourneyId == teamJourneyId select tjm).ToList();
+
+            return objJourneys;
+        }
+
         public int AddorUpdateJourney(journey journey)
         {
             gemdb = new gemEntities1();
-            gemdb.journeys.Add(journey);
+            gemdb.journeys.AddOrUpdate(journey);
             return gemdb.SaveChanges();
         }
 
         public int AddorUpdatetTeamJourney(team_journey team_journey)
         {
             gemdb = new gemEntities1();
-            gemdb.team_journey.Add(team_journey);
+            gemdb.team_journey.AddOrUpdate(team_journey);
             return gemdb.SaveChanges();
         }
 
         public int AddorUpdatetteamjourneymember(team_journey_member team_journey_member)
         {
             gemdb = new gemEntities1();
-            gemdb.team_journey_member.Add(team_journey_member);
+            gemdb.team_journey_member.AddOrUpdate(team_journey_member);
             return gemdb.SaveChanges();
         }
         

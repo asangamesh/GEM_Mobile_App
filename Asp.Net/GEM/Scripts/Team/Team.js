@@ -8,13 +8,15 @@ TeamDet.prototype.Load = function () {
 }
 
 TeamDet.prototype.CreateTeamClicked = function () {
-    var name = $("#txtTeamName").val();
+    var name = $("#txtTeamName").val().trim();
+    var teamId = $("#txtTeamId").val();
+    var journeyId = $("#txtJourneyId").val();
     var memberId = this.sessionID;
-
+ 
     if (name == '') { alert('please enter TeamName'); $("#txtTeamName").focus(); }
     else if (memberId == undefined || memberId == '') { alert('Session has been expired!'); window.location.href = '../Journey/Index'; }
     else {
-        var model = { Name: name, JourneyId: 1, MemberId: memberId };
+        var model = { TeamId: teamId, Name: name, JourneyId: journeyId, MemberId: memberId };
         $.ajax({
             url: "/api/team",
             type: 'post',
@@ -23,8 +25,9 @@ TeamDet.prototype.CreateTeamClicked = function () {
             dataType: "json",
             success: function (result) {
                 if (result.status == "OK") {
-                    alert("New team is created Successfully..!");
-                    InviteTeamLeader(memberId, result.data.teamJourneyId);
+                    alert("New team is saved Successfully..!");
+                    if (teamId == undefined || teamId == '') InviteTeamLeader(memberId, result.data.teamJourneyId);
+                    else window.location.href = '../Journey/Index';
                 }
                 else {
                     alert("team creation is failed..!");

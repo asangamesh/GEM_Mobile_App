@@ -67,6 +67,14 @@ namespace GEM.Controllers
             return Create();
         }
 
+        public ActionResult CreateMission(int teamJourneyId)
+        {
+            var objJourney = new API.JourneyController();
+            var json = objJourney.GetTeamJourney(teamJourneyId);
+
+            return View("../Mission/Index?teamJourneyId="+ teamJourneyId);
+        }
+
         private bool ValidateSession(string sessionId)
         {
             if (CheckSessionID(sessionId))

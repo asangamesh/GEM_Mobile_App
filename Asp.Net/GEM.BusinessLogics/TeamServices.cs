@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity.Migrations;
 
 namespace GEM.BusinessLogics
 {
@@ -38,6 +39,15 @@ namespace GEM.BusinessLogics
             return objteam;
         }
 
+        public team GetTeamById(int teamId)
+        {
+            gemdb = new gemEntities1();
+
+            var objteam = (from t in gemdb.teams where t.TeamId == teamId select t).FirstOrDefault();
+
+            return objteam;
+        }
+
         public List<team_member> GetTeamMembers(int TeamId)
         {
             gemdb = new gemEntities1();
@@ -68,7 +78,7 @@ namespace GEM.BusinessLogics
         public int AddorUpdateTeam(team team)
         {
             gemdb = new gemEntities1();
-            gemdb.teams.Add(team);
+            gemdb.teams.AddOrUpdate(team);
             return gemdb.SaveChanges();
         }
 

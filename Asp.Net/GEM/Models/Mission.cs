@@ -9,6 +9,7 @@ namespace GEM.Models
     public class Mission_info
     {
         public List<Practice> PracticeList { get; set; }
+        public team Teams { get; set; }
         public int JourneyId { get; set; }
         public string fluencyName { get; set; }
     }

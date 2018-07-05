@@ -52,7 +52,18 @@ namespace GEM.Controllers.API
         {
             try
             {
-                var loginUser = objLogin.GetLoginUser(new member { EmailAddress = email });
+                var member = new member();
+                member.EmailAddress = email;
+
+                var loginUser = objLogin.GetLoginUser(member);
+                if (loginUser == null)
+                {
+                    member.CreatedDate = DateTime.Now;
+                    var result = objLogin.AddorUpdateUser(member);
+
+                    loginUser = objLogin.GetLoginUser(member);
+                }
+
                 if (loginUser == null) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "There isn't an account for this email address", Status = false }).Content));
                 else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
                 {

@@ -1,4 +1,5 @@
-﻿@model  List<Gem.BusinessEntities.team_journey_member>
+﻿
+@model  List<Gem.BusinessEntities.team_journey_member>
 
 <ul class="team-member-list">
     @if (Model.Count > 0)
@@ -21,7 +22,7 @@
                         }
                         else if (Session["LoginMemberID"].ToString() == member.MemberId.Value.ToString())
                         {
-                            <p> Member </p> @*<a href="../Journey/RemoveMember?tjmemberid=@member.TeamJourneyMemberId"><img src="../images/remove.png" width="16" height="16"> </a>*@
+                            <p> Member </p>
                         }
                         else
                         {
@@ -30,15 +31,6 @@
                     </span>
                 </li>
             }
-        }
-
-        if (Session["LoginMemberID"].ToString() == leaderId.ToString())
-        {
-            <li class="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32"> <i> Add Member </i></li>
-
-            <span class="start-button-cls"> 
-                <input type="submit" class="start-btn btnStartJourney" Id="btnStartJourney" value="Start Journey">
-            </span>
         }
     }
 </ul>

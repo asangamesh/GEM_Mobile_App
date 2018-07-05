@@ -9,12 +9,16 @@
     </div>
     <div class="modal-body">
         <form class="create-team" method="post" name="team-form" action="team-page.html">
+            <div class="input-group team-group" style="display:none;">
+                <input type="hidden" id="txtTeamId" class="form-control" >
+                <input type="hidden" id="txtTeamInstanceName" value="@Model.InstanceTeamName" class="form-control">
+            </div>
             <div class="input-group team-group">
                 <label class="team-name"> Team Name </label>
                 <input type="text" id="txtTeamName" class="form-control" value="@Model.InstanceTeamName" placeholder="Enter a team name">
             </div>
             <div class="input-group team-group">
-                <label name="profile-pic"> Add an avathar </label>
+                <label name="profile-pic"> Add an avatar </label>
                 <div class="input-group-append-img">
                     <span class="input-group-text avatharimg" id="basic-addon2"><img id="file" src="../images/add-avathar-icon.png"></span>
                 </div>

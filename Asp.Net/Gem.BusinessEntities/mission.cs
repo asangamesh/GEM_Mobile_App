@@ -25,7 +25,6 @@ namespace Gem.BusinessEntities
         public string Name { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
-        public Nullable<decimal> Score { get; set; }
     
         public virtual ICollection<mission_member_measure_assesment> mission_member_measure_assesment { get; set; }
         public virtual ICollection<mission_practice> mission_practice { get; set; }

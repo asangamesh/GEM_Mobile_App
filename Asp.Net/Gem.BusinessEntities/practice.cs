@@ -19,6 +19,7 @@ namespace Gem.BusinessEntities
             this.journey_practice = new HashSet<journey_practice>();
             this.measures = new HashSet<measure>();
             this.mission_practice = new HashSet<mission_practice>();
+            this.team_journey_practice = new HashSet<team_journey_practice>();
         }
     
         public int PracticeId { get; set; }
@@ -31,5 +32,6 @@ namespace Gem.BusinessEntities
         public virtual ICollection<journey_practice> journey_practice { get; set; }
         public virtual ICollection<measure> measures { get; set; }
         public virtual ICollection<mission_practice> mission_practice { get; set; }
+        public virtual ICollection<team_journey_practice> team_journey_practice { get; set; }
     }
 }

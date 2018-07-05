@@ -108,6 +108,21 @@ namespace GEM.Controllers.API
             }
         }
 
+        // GET: api/Journey/{memberId}
+        public IHttpActionResult GetTeamJourney(int teamJourneyId)
+        {
+            try
+            {
+                var journeys = objJourney.GetTeamJourneyMember(teamJourneyId);
+                if (journeys == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
+                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Count = journeys.Count, TeamJourneyMember = journeys })));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
         // PUT: api/Journey/5
         public IHttpActionResult Put(int id, [FromBody]string value)
         {

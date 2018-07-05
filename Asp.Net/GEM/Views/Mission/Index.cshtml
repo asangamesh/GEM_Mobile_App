@@ -152,29 +152,24 @@
                             <div class="panel-group" id="accordion">
 
                                 <div class="panel panel-default">
+                                    @*<div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse-in" data-parent="#accordion" href="#collapseTwo"> <img src="../images/add-avathar-icon.png"> Team01 (Name me soon)</a><span> </span>
+                                        </h4>
+                                    </div>*@
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> <img src="../images/add-avathar-icon.png"> Team01 (Name me soon)</a><span> </span>
-                                        </h4>
+                                            <a data-toggle="collapse" id="txtTeam_@Model.Teams.TeamId" data-parent="#accordion" href="#collapseOne_@Model.Teams.TeamId">
+                                                <img src="../images/rocket.png"> @Model.Teams.Name
+                                            </a> 
+                                                                                </h4>
                                     </div>
-                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                    <div id="collapseOne_@Model.Teams.TeamId" class="panel-collapse collapse in">
                                         <div class="panel-body">
-                                            <ul class="team-member-list">
-                                                <li id="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32"><i>Add Member</i></li>
-                                            </ul>
+                                            @Html.Partial("TeamMember", @Model.Teams.team_journey.ToList()[0].team_journey_member.ToList())
                                         </div>
                                     </div>
-
                                 </div>
-
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title add-team" id="add-new-team">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><img src="../images/add-avathar-icon.png"> Add Team </a>
-                                        </h4>
-                                    </div>
-                                </div>
-
                             </div>
 
                         </div>
@@ -186,77 +181,12 @@
             </div>
 
         </div> <!-- /1 dashboardbg -->
-
-        <div id="myModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Invite Member</h4>
-                    </div>
-                    <div class="modal-body">
-                        <img src="../images/inviatation-icon.png" /> <br>
-                        <input type="email" name="invite-mail" id="mail-invitation" placeholder="Enter an E-Mail Address"> <br>
-                        <p class="text-warning"><small>Enter an e-mail address to invite a new or an existing member</small></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Send Invitation</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="teamModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Add Team</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="create-team" method="post" name="team-form" action="team-page.html">
-
-                            <div class="input-group team-group">
-                                <label class="team-name"> Team Name </label>
-                                <input type="text" class="form-control" placeholder="Enter a team name">
-                            </div>
-
-                            <div class="input-group team-group">
-                                <label name="profile-pic"> Add an avathar </label>
-                                <div class="input-group-append-img">
-                                    <span class="input-group-text avatharimg" id="basic-addon2"><img src="../images/add-avathar-icon.png"></span>
-                                </div>
-                                <input type="file" name="pic" accept="../image/*" class="form-control avatharspace" placeholder="Click to upload an image" aria-label="avathar">
-                            </div>
-
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary create-team-btn" placeholder="" value="Add Team" aria-label="create-team">
-                    </div>
-                </div>
-            </div>
-        </div>
 </section>
 
 <script type="text/javascript">
    
     var _Mission = new Mission();
     _Mission.Load();
-
-    jQuery(document).ready(function () {
-        jQuery('#add-new-member').click(function () {
-            jQuery('#myModal').modal('show');
-        });
-        jQuery('#add-new-team').click(function () {
-            jQuery('#teamModal').modal('show');
-        });
-    });
-
-
-
 </script>
 
 <script>

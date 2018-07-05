@@ -76,6 +76,7 @@ namespace GEM.Controllers.API
             {
                 var json = (JToken)JObject.Parse(JsonConvert.SerializeObject(data));
 
+                string Id = Convert.ToString(json["TeamId"]);
                 string name = Convert.ToString(json["Name"]);
                 string journeyId = Convert.ToString(json["JourneyId"]);
                 string createdBy = Convert.ToString(json["MemberId"]);
@@ -85,19 +86,29 @@ namespace GEM.Controllers.API
                 else if (string.IsNullOrEmpty(createdBy)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing member id field", Status = false }).Content));
 
                 team team = new team();
+                if (!string.IsNullOrEmpty(Id))
+                {
+                    team.TeamId = Convert.ToInt16(Id);
+                    team = objTeam.GetTeamById(team.TeamId);
+                    team.UpdatedBy = Convert.ToInt16(createdBy);
+                    team.UpdatedDate = DateTime.Now;
+                }
+                else
+                {
+                    team.CreatedBy = Convert.ToInt16(createdBy);
+                    team.CreatedDate = DateTime.Now;
+                }
                 team.Name = name;
-                team.CreatedBy = Convert.ToInt16(createdBy);
-                team.CreatedDate = DateTime.Now;
 
                 var result = objTeam.AddorUpdateTeam(team);
                 if (result == 1)
                 {
                     var Team = objTeam.GetTeam(team);
-
+                    
                     team_journey teamJourney = new team_journey();
                     teamJourney.TeamId = Team[0].TeamId;
                     teamJourney.JourneyId = Convert.ToInt32(journeyId);
-                    result = objJourney.AddorUpdatetTeamJourney(teamJourney);
+                    if (string.IsNullOrEmpty(Id)) result = objJourney.AddorUpdatetTeamJourney(teamJourney);
 
                     var team_journey = objJourney.GetTeamJourney(teamJourney.TeamId.Value, teamJourney.JourneyId.Value);
 

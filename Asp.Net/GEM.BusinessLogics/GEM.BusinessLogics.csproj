@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JourneyServices.cs" />
+    <Compile Include="MissionServices .cs" />
     <Compile Include="TeamServices.cs" />
     <Compile Include="UserServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

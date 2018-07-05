@@ -206,11 +206,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\JourneyController.cs" />
+    <Compile Include="Controllers\API\MissionController.cs" />
     <Compile Include="Controllers\API\TeamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JourneyController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\API\UserController.cs" />
+    <Compile Include="Controllers\MissionController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -221,6 +223,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JourneyInformation.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Mission.cs" />
+    <Compile Include="Models\Practice.cs" />
     <Compile Include="Models\ResponseData.cs" />
     <Compile Include="Models\ModelTeam.cs" />
     <Compile Include="Models\TeamJourney.cs" />
@@ -255,6 +259,7 @@
     <Content Include="images\edit.png" />
     <Content Include="images\email-header.png" />
     <Content Include="images\email-icon.png" />
+    <Content Include="images\event-schedule.png" />
     <Content Include="images\galactica-icon.png" />
     <Content Include="images\gaurdians-icon.png" />
     <Content Include="images\gem-logo.png" />
@@ -285,8 +290,10 @@
     <Content Include="images\profile-placeholder.png" />
     <Content Include="images\psw-icon.png" />
     <Content Include="images\rebel-icon.png" />
+    <Content Include="images\recycling.png" />
     <Content Include="images\refresh%283%29.png" />
     <Content Include="images\remove.png" />
+    <Content Include="images\research.png" />
     <Content Include="images\right-link-icon.png" />
     <Content Include="images\right-link-icon1.png" />
     <Content Include="images\rocket.png" />
@@ -319,6 +326,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\custom-script.js" />
     <Content Include="Scripts\js\menu-script.js" />
+    <Content Include="Scripts\Mission\Mission.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -370,6 +378,8 @@
     <Content Include="Views\Team\Team_list.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Journey\AddTeam.cshtml" />
+    <Content Include="Views\Mission\Index.cshtml" />
+    <Content Include="Views\Mission\TeamMember.cshtml" />
     <None Include="Views\Users\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>

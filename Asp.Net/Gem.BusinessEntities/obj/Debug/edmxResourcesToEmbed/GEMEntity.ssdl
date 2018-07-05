@@ -52,12 +52,11 @@
     <Key>
       <PropertyRef Name="MissionId" />
     </Key>
-    <Property Name="MissionId" Type="int" Nullable="false" />
+    <Property Name="MissionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TeamJourneyId" Type="int" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="StartDate" Type="datetime" Precision="0" Nullable="false" />
     <Property Name="EndDate" Type="datetime" Precision="0" Nullable="false" />
-    <Property Name="Score" Type="decimal" Precision="4" Scale="2" />
   </EntityType>
   <EntityType Name="mission_member_measure_assesment">
     <Key>
@@ -73,7 +72,7 @@
     <Key>
       <PropertyRef Name="MissionPracticeId" />
     </Key>
-    <Property Name="MissionPracticeId" Type="int" Nullable="false" />
+    <Property Name="MissionPracticeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="MissionId" Type="int" Nullable="false" />
     <Property Name="PracticeId" Type="int" Nullable="false" />
   </EntityType>
@@ -110,7 +109,7 @@
     <Key>
       <PropertyRef Name="TeamJourneyId" />
     </Key>
-    <Property Name="TeamJourneyId" Type="int" Nullable="false" />
+    <Property Name="TeamJourneyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TeamId" Type="int" />
     <Property Name="JourneyId" Type="int" />
   </EntityType>
@@ -118,7 +117,7 @@
     <Key>
       <PropertyRef Name="TeamJourneyMemberId" />
     </Key>
-    <Property Name="TeamJourneyMemberId" Type="int" Nullable="false" />
+    <Property Name="TeamJourneyMemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TeamJourneyId" Type="int" />
     <Property Name="MemberId" Type="int" />
     <Property Name="TeamJourneyMemberRoleId" Type="int" />
@@ -129,6 +128,14 @@
     </Key>
     <Property Name="TeamJourneyMemberRoleId" Type="int" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="team_journey_practice">
+    <Key>
+      <PropertyRef Name="TeamJourneyPracticeId" />
+    </Key>
+    <Property Name="TeamJourneyPracticeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TeamJourneyId" Type="int" />
+    <Property Name="PracticeId" Type="int" />
   </EntityType>
   <EntityType Name="team_member">
     <Key>
@@ -168,18 +175,6 @@
         <PropertyRef Name="MemberId" />
       </Principal>
       <Dependent Role="team">
-        <PropertyRef Name="CreatedBy" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="CreatedByTeamUser">
-    <End Role="member" Type="Self.member" Multiplicity="1" />
-    <End Role="team_member" Type="Self.team_member" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="member">
-        <PropertyRef Name="MemberId" />
-      </Principal>
-      <Dependent Role="team_member">
         <PropertyRef Name="CreatedBy" />
       </Dependent>
     </ReferentialConstraint>
@@ -316,6 +311,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="PracticeIdTJP">
+    <End Role="practice" Type="Self.practice" Multiplicity="0..1" />
+    <End Role="team_journey_practice" Type="Self.team_journey_practice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="practice">
+        <PropertyRef Name="PracticeId" />
+      </Principal>
+      <Dependent Role="team_journey_practice">
+        <PropertyRef Name="PracticeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="TeamFocusIdJourney">
     <End Role="team_focus" Type="Self.team_focus" Multiplicity="0..1" />
     <End Role="journey" Type="Self.journey" Multiplicity="*" />
@@ -325,18 +332,6 @@
       </Principal>
       <Dependent Role="journey">
         <PropertyRef Name="TeamFocusId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TeamIdTeamUser">
-    <End Role="team" Type="Self.team" Multiplicity="1" />
-    <End Role="team_member" Type="Self.team_member" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="team">
-        <PropertyRef Name="TeamId" />
-      </Principal>
-      <Dependent Role="team_member">
-        <PropertyRef Name="TeamId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -352,7 +347,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="TeamJourneyId">
+  <Association Name="TeamJourneyIdMission">
     <End Role="team_journey" Type="Self.team_journey" Multiplicity="1" />
     <End Role="mission" Type="Self.mission" Multiplicity="*" />
     <ReferentialConstraint>
@@ -376,15 +371,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="TeamJourneyMemberRoleIdTJM">
-    <End Role="team_journey_member_role" Type="Self.team_journey_member_role" Multiplicity="0..1" />
-    <End Role="team_journey_member" Type="Self.team_journey_member" Multiplicity="*" />
+  <Association Name="TeamJourneyIdTJP">
+    <End Role="team_journey" Type="Self.team_journey" Multiplicity="0..1" />
+    <End Role="team_journey_practice" Type="Self.team_journey_practice" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="team_journey_member_role">
-        <PropertyRef Name="TeamJourneyMemberRoleId" />
+      <Principal Role="team_journey">
+        <PropertyRef Name="TeamJourneyId" />
       </Principal>
-      <Dependent Role="team_journey_member">
-        <PropertyRef Name="TeamJourneyMemberRoleId" />
+      <Dependent Role="team_journey_practice">
+        <PropertyRef Name="TeamJourneyId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -397,18 +392,6 @@
       </Principal>
       <Dependent Role="team">
         <PropertyRef Name="UpdatedBy" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserIdTeamUser">
-    <End Role="member" Type="Self.member" Multiplicity="1" />
-    <End Role="team_member" Type="Self.team_member" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="member">
-        <PropertyRef Name="MemberId" />
-      </Principal>
-      <Dependent Role="team_member">
-        <PropertyRef Name="MemberId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -439,6 +422,7 @@
     <EntitySet Name="team_journey" EntityType="Self.team_journey" Schema="gem" store:Type="Tables" />
     <EntitySet Name="team_journey_member" EntityType="Self.team_journey_member" Schema="gem" store:Type="Tables" />
     <EntitySet Name="team_journey_member_role" EntityType="Self.team_journey_member_role" Schema="gem" store:Type="Tables" />
+    <EntitySet Name="team_journey_practice" EntityType="Self.team_journey_practice" Schema="gem" store:Type="Tables" />
     <EntitySet Name="team_member" EntityType="Self.team_member" Schema="gem" store:Type="Tables" />
     <EntitySet Name="team_member_role" EntityType="Self.team_member_role" Schema="gem" store:Type="Tables" />
     <AssociationSet Name="CreatedByJourney" Association="Self.CreatedByJourney">
@@ -448,10 +432,6 @@
     <AssociationSet Name="CreatedByTeam" Association="Self.CreatedByTeam">
       <End Role="member" EntitySet="member" />
       <End Role="team" EntitySet="team" />
-    </AssociationSet>
-    <AssociationSet Name="CreatedByTeamUser" Association="Self.CreatedByTeamUser">
-      <End Role="member" EntitySet="member" />
-      <End Role="team_member" EntitySet="team_member" />
     </AssociationSet>
     <AssociationSet Name="FluencyLevelId" Association="Self.FluencyLevelId">
       <End Role="fluency_level" EntitySet="fluency_level" />
@@ -497,19 +477,19 @@
       <End Role="practice" EntitySet="practice" />
       <End Role="mission_practice" EntitySet="mission_practice" />
     </AssociationSet>
+    <AssociationSet Name="PracticeIdTJP" Association="Self.PracticeIdTJP">
+      <End Role="practice" EntitySet="practice" />
+      <End Role="team_journey_practice" EntitySet="team_journey_practice" />
+    </AssociationSet>
     <AssociationSet Name="TeamFocusIdJourney" Association="Self.TeamFocusIdJourney">
       <End Role="team_focus" EntitySet="team_focus" />
       <End Role="journey" EntitySet="journey" />
-    </AssociationSet>
-    <AssociationSet Name="TeamIdTeamUser" Association="Self.TeamIdTeamUser">
-      <End Role="team" EntitySet="team" />
-      <End Role="team_member" EntitySet="team_member" />
     </AssociationSet>
     <AssociationSet Name="TeamIdTJ" Association="Self.TeamIdTJ">
       <End Role="team" EntitySet="team" />
       <End Role="team_journey" EntitySet="team_journey" />
     </AssociationSet>
-    <AssociationSet Name="TeamJourneyId" Association="Self.TeamJourneyId">
+    <AssociationSet Name="TeamJourneyIdMission" Association="Self.TeamJourneyIdMission">
       <End Role="team_journey" EntitySet="team_journey" />
       <End Role="mission" EntitySet="mission" />
     </AssociationSet>
@@ -517,17 +497,13 @@
       <End Role="team_journey" EntitySet="team_journey" />
       <End Role="team_journey_member" EntitySet="team_journey_member" />
     </AssociationSet>
-    <AssociationSet Name="TeamJourneyMemberRoleIdTJM" Association="Self.TeamJourneyMemberRoleIdTJM">
-      <End Role="team_journey_member_role" EntitySet="team_journey_member_role" />
-      <End Role="team_journey_member" EntitySet="team_journey_member" />
+    <AssociationSet Name="TeamJourneyIdTJP" Association="Self.TeamJourneyIdTJP">
+      <End Role="team_journey" EntitySet="team_journey" />
+      <End Role="team_journey_practice" EntitySet="team_journey_practice" />
     </AssociationSet>
     <AssociationSet Name="UpdatedByTeam" Association="Self.UpdatedByTeam">
       <End Role="member" EntitySet="member" />
       <End Role="team" EntitySet="team" />
-    </AssociationSet>
-    <AssociationSet Name="UserIdTeamUser" Association="Self.UserIdTeamUser">
-      <End Role="member" EntitySet="member" />
-      <End Role="team_member" EntitySet="team_member" />
     </AssociationSet>
     <AssociationSet Name="UserRoleIdTeamUser" Association="Self.UserRoleIdTeamUser">
       <End Role="team_member_role" EntitySet="team_member_role" />

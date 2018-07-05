@@ -57,7 +57,6 @@
     <EntitySetMapping Name="missions">
       <EntityTypeMapping TypeName="gemModel.mission">
         <MappingFragment StoreEntitySet="mission">
-          <ScalarProperty Name="Score" ColumnName="Score" />
           <ScalarProperty Name="EndDate" ColumnName="EndDate" />
           <ScalarProperty Name="StartDate" ColumnName="StartDate" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -142,6 +141,15 @@
         <MappingFragment StoreEntitySet="team_journey_member_role">
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="TeamJourneyMemberRoleId" ColumnName="TeamJourneyMemberRoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="team_journey_practice">
+      <EntityTypeMapping TypeName="gemModel.team_journey_practice">
+        <MappingFragment StoreEntitySet="team_journey_practice">
+          <ScalarProperty Name="PracticeId" ColumnName="PracticeId" />
+          <ScalarProperty Name="TeamJourneyId" ColumnName="TeamJourneyId" />
+          <ScalarProperty Name="TeamJourneyPracticeId" ColumnName="TeamJourneyPracticeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

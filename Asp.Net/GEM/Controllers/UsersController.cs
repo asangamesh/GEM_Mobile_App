@@ -14,8 +14,6 @@ namespace GEM.Controllers
 {
     public class UsersController : Controller
     {
-        UserServices objLogin = new UserServices();
-
         public ActionResult Index()
         {
             return View();
@@ -40,19 +38,48 @@ namespace GEM.Controllers
             else return Login();
         }
 
+        public ActionResult Logon(string email)
+        {
+            var objLogin = new API.UserController();
+            try
+            {
+                var userDetails = objLogin.Get(email);
+                string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)userDetails).Content.Data);
+                var user = JObject.Parse(responseData);
+
+                string userId = user["User"]["UserId"].ToString();
+                string emailAddress = user["User"]["EmailAddress"].ToString();
+
+                CreateSession("LoginMemberID", userId);
+                CreateSession("LoginEmail", emailAddress);
+
+                return Content("test", "test1");
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return View("Index");
+        }
+
         [WebMethod]
         public void SetSession(string sessionval)
         {
             CreateSession("LoginMemberID", sessionval);
         }
 
-        public void CreateSession(string sessionId, string value)
+        private void CreateSession(string sessionId, string value)
         {
             if (Session != null && Session.Count > 0 && Session[sessionId] != null) Session.Clear();
             Session[sessionId] = value;
         }
 
-        public bool CheckSessionID(string sessionId)
+        private bool CheckSessionID(string sessionId)
         {
             if (Session == null || Session.Count == 0) return false;
             else if (Session[sessionId] != null) return true;
@@ -73,12 +100,6 @@ namespace GEM.Controllers
                 return true;
             }
             return false;
-        }
-
-        public ActionResult Logout()
-        {
-            Session.Clear();
-            return View("Index");
         }
     }
 }
