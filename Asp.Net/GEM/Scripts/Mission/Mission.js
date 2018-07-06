@@ -1,10 +1,10 @@
 ﻿
-function Mission() {
-
+function Mission(teamJourneyIdVal) {
+    this.teamJourneyId = teamJourneyIdVal;
 }
 
 Mission.prototype.Load = function () {
-
+    
     $("#btncreateMission").off("click");
     $("#btncreateMission").on("click", $.proxy(this.missionClicked, this));
 
@@ -41,14 +41,21 @@ Mission.prototype.CreateTeamClicked = function () {
 }
 
 Mission.prototype.missionClicked = function () {
-    
+    debugger;
     var startdate = $("#dateStartdate").val();
     var enddate = $("#dateEnddate").val();
     var endtime = $("#timeEndtime").val();
 
-    var enddatetime = new Date(enddate + ' ' + endtime);
-    var teamjourneyid = 11;
-    var practiceid = 1;
+    var elements = document.getElementById('divPractice').children;
+    var Practiceids = new Array();
+
+    for (i = 0; i < elements.length; i++) {
+        Practiceids[i] = elements[i].id;
+    }
+
+    var enddatetime = enddate + ' ' + endtime;
+    var teamjourneyid = this.teamJourneyId;
+    var practiceid = Practiceids;
 
     var model = { startdate: startdate, enddate: enddatetime, teamjourneyid: teamjourneyid, practiceid: practiceid };
 

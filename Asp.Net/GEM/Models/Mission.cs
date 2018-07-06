@@ -12,5 +12,6 @@ namespace GEM.Models
         public team Teams { get; set; }
         public int JourneyId { get; set; }
         public string fluencyName { get; set; }
+        public int teamjourneyid { get; set; }
     }
 }

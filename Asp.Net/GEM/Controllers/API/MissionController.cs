@@ -1,7 +1,6 @@
 ﻿using Gem.BusinessEntities;
 using GEM.BusinessLogics;
 using GEM.Helpers;
-using GEM.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -19,19 +18,42 @@ namespace GEM.Controllers.API
         MissionServices objMission = new MissionServices();
 
         [HttpGet, Route("api/Mission")]
-        public IHttpActionResult GetFluencyName(int TeamId, int JourneyId)
+        public IHttpActionResult GetFluency()
         {
             try
             {
-                var Fluency = objMission.GetFluency(TeamId, JourneyId);
+                var Fluency = objMission.GetFluency();
                 if (Fluency == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content", Json(new { Message = "error", Status = false }).Content));
-                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
+                else
                 {
-                    Fluency = new
+                    var practice = objMission.Getpractice(Fluency.FluencyLevelId);
+
+                    var list = new List<object>();
+
+                    for (int i = 0; i < practice.Count(); i++)
                     {
-                        ShortName = Fluency.ShortName
-                    },
-                }).Content));
+                        list.Add(new
+                        {
+                            PracticeId = practice[i].PracticeId,
+                            FluencyLevelId = Convert.ToInt32(practice[i].FluencyLevelId),
+                            Name = practice[i].Name,
+                            SequenceNum = Convert.ToInt32(practice[i].SequenceNum),
+                            PrerequisiteNum = Convert.ToInt32(practice[i].PrerequisiteNum)
+                        });
+                    }
+
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
+                    {
+                        FluencyPractice = new
+                        {
+                            ShortName = Fluency.ShortName,
+                            Number = Fluency.Number,
+                            FluencyLevelId = Fluency.FluencyLevelId,
+                            Name = Fluency.Name,
+                            practice = list
+                        },
+                    }).Content));
+                }
             }
             catch (Exception ex)
             {
@@ -63,39 +85,6 @@ namespace GEM.Controllers.API
             }
         }
 
-        [HttpGet, Route("api/Mission")]
-        public IHttpActionResult GetPractice()
-        {
-            try
-            {
-                var practice = objMission.Getpractice();
-
-                var list = new List<object>();
-
-                for (int i = 0; i < practice.Count(); i++)
-                {
-                    list.Add(new
-                    {
-                        PracticeId = practice[i].PracticeId,
-                        FluencyLevelId = Convert.ToInt32(practice[i].FluencyLevelId),
-                        Name = practice[i].Name,
-                        SequenceNum = Convert.ToInt32(practice[i].SequenceNum),
-                        PrerequisiteNum = Convert.ToInt32(practice[i].PrerequisiteNum)
-                    });
-                }
-
-                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
-                {
-                    practice = list,
-                    Status = true
-                }).Content));
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
-            }
-        }
-
         [HttpPost, Route("api/Mission")]
         public IHttpActionResult Post([FromBody]dynamic data)
         {
@@ -106,16 +95,20 @@ namespace GEM.Controllers.API
                 string startdate = Convert.ToString(json["startdate"]);
                 string enddate = Convert.ToString(json["enddate"]);
                 int teamjourneyid = Convert.ToInt32(json["teamjourneyid"]);
-                int practiceid = Convert.ToInt32(json["practiceid"]);
+                JArray practiceid = JArray.Parse(json["practiceid"].ToString());
 
                 if (string.IsNullOrEmpty(startdate)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing StartDate field", Status = false }).Content));
                 else if (string.IsNullOrEmpty(enddate)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing enddate field", Status = false }).Content));
 
                 if (Convert.ToDateTime(startdate) <= Convert.ToDateTime(enddate))
                 {
+                    var missionname = objMission.GetMissionName(teamjourneyid);
+                    var jsonMission = JObject.Parse(JsonConvert.SerializeObject(missionname));
+                    var MissionNamedet = jsonMission["Name"] + " " + jsonMission["TeamName"];
+
                     mission mission = new mission();
                     mission.TeamJourneyId = teamjourneyid;
-                    mission.Name = "";
+                    mission.Name = MissionNamedet;
                     mission.StartDate = Convert.ToDateTime(startdate);
                     mission.EndDate = Convert.ToDateTime(enddate);
 
@@ -123,33 +116,22 @@ namespace GEM.Controllers.API
                     if (result == 1)
                     {
 
-                        team_journey_practice team_journey_practice = new team_journey_practice();
-                        team_journey_practice.TeamJourneyId = teamjourneyid;
-                        team_journey_practice.PracticeId = practiceid;
-                        result = objMission.AddorUpdateteamjourneypractice(team_journey_practice);
+                        var missionDetail = objMission.GetMission(teamjourneyid);
 
-                        if (result == 1)
+                        for (int i = 0; i < practiceid.Count(); i++)
                         {
-                            var missionDetail = objMission.GetMission(teamjourneyid);
-
                             mission_practice mission_practice = new mission_practice();
                             mission_practice.MissionId = missionDetail.MissionId;
-                            mission_practice.PracticeId = practiceid;
+                            mission_practice.PracticeId = Convert.ToInt32(practiceid[i]);
                             result = objMission.AddorUpdatemissionpractice(mission_practice);
-
-                            return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { missionId = missionDetail.MissionId, Message = "Mission has been created successfully..!", Status = true }).Content));
-                        }
-                        else
-                        {
-                            return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request is not saved, try again later!", Status = false }).Content));
                         }
 
+                        return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { missionId = missionDetail.MissionId, Message = "Mission has been created successfully..!", Status = true }).Content));
                     }
                     else
                     {
                         return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request is not saved, try again later!", Status = false }).Content));
                     }
-
                 }
                 else
                 {

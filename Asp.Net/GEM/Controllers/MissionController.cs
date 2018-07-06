@@ -16,7 +16,7 @@ namespace GEM.Controllers
     public class MissionController : Controller
     {
         // GET: Mission
-        public ActionResult Index(int teamJourneyId = 11)
+        public ActionResult Index(int teamJourneyId)
         {
             var model = new Mission_info();
             var loadPractice = new List<Practice>();
@@ -32,16 +32,13 @@ namespace GEM.Controllers
 
             model.Teams = teamServices.GetTeamById(Convert.ToInt32(userdetail["Team_Journey"]["teamId"]));
 
-            response = objmission.GetFluencyName(Convert.ToInt32(userdetail["Team_Journey"]["teamId"]), model.JourneyId);
+            response = objmission.GetFluency();
             responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)response).Content.Data);
-            userdetail = JObject.Parse(responseData);
-            model.fluencyName = userdetail["Fluency"]["ShortName"].ToString();
+            var fluencydetail = JObject.Parse(responseData);
 
-            response = objmission.GetPractice();
-            responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)response).Content.Data);
-            var practice = JObject.Parse(responseData);
+            model.fluencyName = fluencydetail["FluencyPractice"]["ShortName"].ToString();
 
-            foreach (var item in practice["practice"])
+            foreach (var item in fluencydetail["FluencyPractice"]["practice"])
             {
                 loadPractice.Add(new Practice
                 {
@@ -55,7 +52,7 @@ namespace GEM.Controllers
             }
 
             model.PracticeList = loadPractice;
-
+            model.teamjourneyid = teamJourneyId;
             return View("Index", model);
         }
     }
