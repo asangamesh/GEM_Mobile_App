@@ -1,7 +1,6 @@
 ﻿using Gem.BusinessEntities;
 using GEM.BusinessLogics;
 using GEM.Helpers;
-using GEM.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -19,7 +18,7 @@ namespace GEM.Controllers.API
         JourneyServices objJourney = new JourneyServices();
         UserServices objUser = new UserServices();
 
-        // GET: api/Journey
+        [HttpGet, Route("api/Journey")]
         public IHttpActionResult GetJourney()
         {
             try
@@ -48,14 +47,51 @@ namespace GEM.Controllers.API
             }
         }
 
-        // GET: api/Journey/{journeyId}
+        [HttpGet, Route("api/Journey/{journeyId}")]
         public IHttpActionResult GetJourneyId(int journeyId)
         {
             try
             {
                 var journey = objJourney.GetJourney(journeyId);
                 if (journey == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
-                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", journey));
+
+                var teamJourney = new List<Models.Team_Journey>();
+                var teamJourneymember = new List<Models.team_journey_member>();
+
+                foreach (var team in journey.team_journey.ToList())
+                {
+                    teamJourneymember = new List<Models.team_journey_member>();
+                    foreach (var team_journey_member in team.team_journey_member.OrderBy(x => x.TeamJourneyMemberRoleId).ToList())
+                    {
+                        teamJourneymember.Add(new Models.team_journey_member
+                        {
+                            TeamJourneyId = team_journey_member.TeamJourneyId,
+                            TeamJourneyMemberId = team_journey_member.TeamJourneyMemberId,
+                            TeamJourneyMemberRoleId = team_journey_member.TeamJourneyMemberRoleId,
+                            MemberId = team_journey_member.MemberId,
+                            member = new Models.member
+                            {
+                                MemberId = team_journey_member.member.MemberId,
+                                EmailAddress = team_journey_member.member.EmailAddress
+                            }
+                        });
+                    }
+
+                    teamJourney.Add(new Models.Team_Journey
+                    {
+                        TeamJourneyId = team.TeamJourneyId,
+                        JourneyId = team.JourneyId,
+                        TeamId = team.TeamId,
+                        team = new Models.team
+                        {
+                            TeamId = team.team.TeamId,
+                            Name = team.team.Name
+                        },
+                        team_journey_member = teamJourneymember
+                    });
+                }
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamJourney, teamJourney.Count));
             }
             catch (Exception ex)
             {
@@ -63,59 +99,33 @@ namespace GEM.Controllers.API
             }
         }
 
-        // GET: api/Journey/{teamId}
-        public IHttpActionResult GetJourneyByTeamId(int teamId)
-        {
-            try
-            {
-                var journeys = objJourney.GetJourneybyTeamId(teamId);
-                if (journeys == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
-                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", journeys));
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
-            }
-        }
-
-        // GET: api/Journey/{memberId}
-        public IHttpActionResult GetJourneyByMemberId(int MemberId)
-        {
-            try
-            {
-                var journeys = objJourney.GetJourneybyUserId(MemberId);
-                if (journeys == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
-                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", journeys));
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
-            }
-        }
-
-        // GET: api/Journey/{memberId}
-        public IHttpActionResult GetTeamJourney(int journeyId, int memberId)
-        {
-            try
-            {
-                var journeys = objJourney.GetTeams(journeyId, memberId);
-                if (journeys == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
-                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", journeys));
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
-            }
-        }
-
-        // GET: api/Journey/{memberId}
+        [HttpGet, Route("api/TeamMember")]
         public IHttpActionResult GetTeamJourney(int teamJourneyId)
         {
             try
             {
-                var journeys = objJourney.GetTeamJourneyMember(teamJourneyId);
-                if (journeys == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
-                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Count = journeys.Count, TeamJourneyMember = journeys })));
+                var journeyMember = objJourney.GetTeamJourneyMember(teamJourneyId);
+                if (journeyMember == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
+
+               var teamJourneymember = new List<Models.team_journey_member>();
+
+                foreach (var team_journey_member in journeyMember.OrderBy(x => x.TeamJourneyMemberRoleId).ToList())
+                {
+                    teamJourneymember.Add(new Models.team_journey_member
+                    {
+                        TeamJourneyId = team_journey_member.TeamJourneyId,
+                        TeamJourneyMemberId = team_journey_member.TeamJourneyMemberId,
+                        TeamJourneyMemberRoleId = team_journey_member.TeamJourneyMemberRoleId,
+                        MemberId = team_journey_member.MemberId,
+                        member = new Models.member
+                        {
+                            MemberId = team_journey_member.member.MemberId,
+                            EmailAddress = team_journey_member.member.EmailAddress
+                        }
+                    });
+                }
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamJourneymember, teamJourneymember.Count));
             }
             catch (Exception ex)
             {
@@ -123,13 +133,7 @@ namespace GEM.Controllers.API
             }
         }
 
-        // PUT: api/Journey/5
-        public IHttpActionResult Put(int id, [FromBody]string value)
-        {
-            return Content(HttpStatusCode.NotFound, CommonHelper.ResponseData("", 404, "NotFound"));
-        }
-
-        // POST: api/Journey
+        [HttpPost, Route("api/Journey")]
         public IHttpActionResult Post([FromBody]dynamic data)
         {
             try
@@ -182,6 +186,93 @@ namespace GEM.Controllers.API
                 return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
             }
 
+        }
+
+        [HttpGet, Route("api/MissionJourney")]
+        public IHttpActionResult GetMission(int memberId)
+        {
+            try
+            {
+                var teams = objJourney.GetTeams(memberId);
+
+                var teamJourney = new List<Models.Team_Journey>();
+                foreach (var team in teams)
+                {
+                    var teamJourneymember = new List<Models.team_journey_member>();
+                    foreach (var team_journey_member in team.team_journey_member.OrderBy(x => x.TeamJourneyMemberRoleId).ToList())
+                    {
+                        teamJourneymember.Add(new Models.team_journey_member
+                        {
+                            TeamJourneyId = team_journey_member.TeamJourneyId,
+                            TeamJourneyMemberId = team_journey_member.TeamJourneyMemberId,
+                            TeamJourneyMemberRoleId = team_journey_member.TeamJourneyMemberRoleId,
+                            MemberId = team_journey_member.MemberId,
+                            member = new Models.member
+                            {
+                                MemberId = team_journey_member.member.MemberId,
+                                EmailAddress = team_journey_member.member.EmailAddress
+                            }
+                        });
+                    }
+
+                    var teamMission = new List<Models.mission>();
+                    foreach (var team_mission in team.missions.ToList())
+                    {
+                        var missionPractice = new List<Models.mission_practice>();
+                        foreach (var mission_practice in team_mission.mission_practice.ToList())
+                        {
+                            missionPractice.Add(new Models.mission_practice
+                            {
+                                MissionPracticeId = mission_practice.MissionPracticeId,
+                                MissionId = mission_practice.MissionId,
+                                PracticeId = mission_practice.PracticeId,
+                                practice = new Models.Practice
+                                {
+                                    PracticeId = mission_practice.practice.PracticeId,
+                                    Name = mission_practice.practice.Name,
+                                    FluencyLevelId = mission_practice.practice.FluencyLevelId.Value,
+                                    fluency_level = new Models.fluency_level {
+                                        FluencyLevelId = mission_practice.practice.fluency_level.FluencyLevelId,
+                                        Number = mission_practice.practice.fluency_level.Number,
+                                        Name = mission_practice.practice.fluency_level.Name,
+                                        ShortName = mission_practice.practice.fluency_level.ShortName
+                                    }
+                                }
+                            });
+                        }
+
+                        teamMission.Add(new Models.mission
+                        {
+                            TeamJourneyId = team_mission.TeamJourneyId,
+                            MissionId = team_mission.MissionId,
+                            Name = team_mission.Name,
+                            StartDate = team_mission.StartDate,
+                            EndDate = team_mission.EndDate,
+                            mission_practice = missionPractice
+                        });
+                    }
+
+                    teamJourney.Add(new Models.Team_Journey
+                    {
+                        TeamJourneyId = team.TeamJourneyId,
+                        JourneyId = team.JourneyId,
+                        TeamId = team.TeamId,
+                        team = new Models.team
+                        {
+                            TeamId = team.team.TeamId,
+                            Name = team.team.Name
+                        },
+                        team_journey_member = teamJourneymember,
+                        missions = teamMission
+                    });
+                }
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamJourney, teams.Count));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
         }
     }
 }

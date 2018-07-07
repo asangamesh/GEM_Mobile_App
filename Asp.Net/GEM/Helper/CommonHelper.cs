@@ -12,6 +12,7 @@ namespace GEM.Helpers
         public static ResponseData<dynamic> ResponseData(string error, int statuscode, string status, dynamic datamsg = null, int? count = null, string field = null)
         {
             var responseResult = new ResponseData<dynamic>();
+            if (count != null) responseResult.Count = count.Value;
             if (datamsg != null) responseResult.Data = datamsg;
             if (!string.IsNullOrEmpty(error)) responseResult.Errors = new ResponseErrors[] { new ResponseErrors { Code = field, Message = error } };
             else responseResult.Errors = new ResponseErrors[] { };

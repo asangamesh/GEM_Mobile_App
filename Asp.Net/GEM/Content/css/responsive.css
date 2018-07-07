@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 
@@ -35,6 +35,10 @@
 .journeytitle {font-size: 24px; margin-top: 31px;}
 .startend-mission .input-group input {/*height: 42px; font-size: 18px*/height: 40px;font-size: 15px;letter-spacing: 1px;}
 .team-group .input-group-append {margin-top: -36px;right: 3%;}
+.center-secondarylinks {min-height: 450px;}
+.mainbackground {min-height: 636px;}
+.right-links {min-height: 450px;}
+.teams-control {/*max-height: 340px;*/ overflow-y: auto;}
 }
 
 @media only screen and (min-width:1920px){.container{width:1400px !important; padding:0;} .welcome-container{width:700px !important; padding:0; margin:0 auto;}}

@@ -7,6 +7,7 @@ namespace GEM.Models
 {
     public class ResponseData<T>
     {
+        public int Count { get; set; }
         public T Data { get; set; }
         public ResponseErrors[] Errors { get; set; }
         public string Status { get; set; }

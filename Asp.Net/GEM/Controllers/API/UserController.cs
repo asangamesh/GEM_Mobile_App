@@ -16,7 +16,7 @@ namespace GEM.Controllers.API
     {
         UserServices objLogin = new UserServices();
 
-        //GET: api/User
+        [HttpGet, Route("api/user")]
         public IHttpActionResult Get()
         {
             try
@@ -47,7 +47,7 @@ namespace GEM.Controllers.API
             }
         }
 
-        // GET: api/User?email
+        [HttpGet, Route("api/user")]
         public IHttpActionResult Get(string email)
         {
             try
@@ -82,7 +82,7 @@ namespace GEM.Controllers.API
             }
         }
 
-        // GET: api/User?email
+        [HttpGet, Route("api/user/{memberId}")]
         public IHttpActionResult GetUser(int memberId)
         {
             try
@@ -106,7 +106,7 @@ namespace GEM.Controllers.API
             }
         }
 
-        // POST: api/User
+        [HttpPost, Route("api/user")]
         public IHttpActionResult Post([FromBody]dynamic data)
         {
             try

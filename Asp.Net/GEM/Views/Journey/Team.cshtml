@@ -1,27 +1,37 @@
-﻿@model List<Gem.BusinessEntities.team_journey>
+﻿@model List<GEM.Models.Team_Journey>
 
 <div class="panel-group" id="accordion">
-   <input id="Team_Journey_Id" type="hidden" />
-  @if (Model != null && Model.Count > 0)
-  {
-      foreach (var team in Model)
-      {
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" id="txtTeam_@team.TeamId" data-parent="#accordion" href="#collapseOne_@team.TeamId" onclick="$('#Team_Journey_Id').val(@team.TeamJourneyId);" ondblclick="editTeamName(this,@team.TeamId);"> <img src="../images/rocket.png"> @team.team.Name  
-                        <input type="text" class="edit_teamName" value="@team.team.Name" id="txtTeam_@team.TeamId" style="display:none;" />
-                    </a> @*<span> <a href="#" onclick="editTeamName(@team.TeamId);"><img src="../images/edit.png" width="16" height="16"> Edit </a> </span>*@
-                </h4>
-            </div>
-            <div id="collapseOne_@team.TeamId" class="panel-collapse collapse">
-                <div class="panel-body">
-                    @Html.Partial("TeamMember", @team.team_journey_member.ToList())
+    <input id="Team_Journey_Id" type="hidden" />
+    @if (Model != null && Model.Count > 0)
+    {
+        foreach (var team in Model)
+        {
+            var role = 1;
+            foreach (var member in team.team_journey_member)
+            {
+                if (member.TeamJourneyMemberRoleId == 2 && Session["LoginMemberID"].ToString() == member.MemberId.ToString())
+                {
+                    role = 2;
+                }
+            }
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" id="txtTeam_@team.TeamId" data-parent="#accordion" href="#collapseOne_@team.TeamId" onclick="$('#Team_Journey_Id').val(@team.TeamJourneyId);" ondblclick="editTeamName(this,@team.TeamId,@role);">
+                            <img src="../images/rocket.png"> @team.team.Name
+                            <input type="text" class="edit_teamName" value="@team.team.Name" id="txtTeam_@team.TeamId" style="display:none;" />
+                        </a> @*<span> <a href="#" onclick="editTeamName(@team.TeamId);"><img src="../images/edit.png" width="16" height="16"> Edit </a> </span>*@
+                    </h4>
+                </div>
+                <div id="collapseOne_@team.TeamId" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        @Html.Partial("TeamMember", @team.team_journey_member.ToList())
+                    </div>
                 </div>
             </div>
-        </div>
-      }
-  }
+        }
+    }
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title add-team" id="add-new-team">
@@ -32,10 +42,12 @@
 </div>
 
 <script>
-    function editTeamName(x, id) {
-        $('#txtTeamId').val(id);
-        $('#txtTeamName').val($(x).text().trim());
-        $('#btnCreateTeam').val("Update Team");
-        jQuery('#teamModal').modal('show');
+    function editTeamName(x, id, role) {
+        if (role == 1) {
+            $('#txtTeamId').val(id);
+            $('#txtTeamName').val($(x).text().trim());
+            $('#btnCreateTeam').val("Update Team");
+            jQuery('#teamModal').modal('show');
+        }
     }
 </script>

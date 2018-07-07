@@ -64,13 +64,14 @@ function InviteTeamLeader(memberId, teamJourneyID) {
 }
 
 function myFunction() {
-    var photo = document.getElementById("file");
-    var frm = new FormData();
-    frm.append('file', photo);
+    var formData = new FormData();
+    var file = document.getElementById("file");
+    formData.append("file", file);
+
     $.ajax({
-        method: 'POST',
-        address: '/api/teamAvathar',
-        data: frm,
+        url: '/api/teamAvatar',
+        method: 'post',
+        data: formData,
         dataType: 'json',
         contentType: false,
         processData: false,

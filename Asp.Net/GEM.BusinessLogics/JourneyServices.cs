@@ -66,6 +66,15 @@ namespace GEM.BusinessLogics
             return objJourneys;
         }
 
+        public List<team_journey> GetTeams(int memberId)
+        {
+            gemdb = new gemEntities1();
+
+            var objJourneys = (from tj in gemdb.team_journey join tm in gemdb.team_journey_member on tj.TeamJourneyId equals tm.TeamJourneyId where tm.MemberId == memberId select tj).ToList();
+
+            return objJourneys;
+        }
+
         public team_journey GetTeamJourney(int TeamId, int JourneyId)
         {
             gemdb = new gemEntities1();

@@ -24,20 +24,6 @@ namespace GEM.Controllers
             return View("Index");
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        public ActionResult Welcome()
-        {
-            if (ValidateSession("LoginMemberID"))
-            {
-                return View("HelloWorld");
-            }
-            else return Login();
-        }
-
         public ActionResult Logon(string email)
         {
             var objLogin = new API.UserController();
@@ -53,7 +39,7 @@ namespace GEM.Controllers
                 CreateSession("LoginMemberID", userId);
                 CreateSession("LoginEmail", emailAddress);
 
-                return Content("test", "test1");
+                return Content("success", "OK");
             }
             catch(Exception ex)
             {
@@ -77,29 +63,6 @@ namespace GEM.Controllers
         {
             if (Session != null && Session.Count > 0 && Session[sessionId] != null) Session.Clear();
             Session[sessionId] = value;
-        }
-
-        private bool CheckSessionID(string sessionId)
-        {
-            if (Session == null || Session.Count == 0) return false;
-            else if (Session[sessionId] != null) return true;
-            else return false;
-        }
-
-        private bool ValidateSession(string sessionId)
-        {
-            if (CheckSessionID(sessionId))
-            {
-                int memberId = Convert.ToInt16(sessionId);
-                var objUser = new API.UserController();
-                var userResponse = objUser.GetUser(memberId);
-                string ResponseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)userResponse).Content.Data);
-                var userdetail = JObject.Parse(ResponseData);
-                Session["LoginEmail"] = userdetail["User"]["EmailAddress"].ToString();
-                ViewBag.User = userdetail["User"]["EmailAddress"].ToString();
-                return true;
-            }
-            return false;
         }
     }
 }

@@ -21,15 +21,14 @@ namespace GEM.Controllers
         }
 
         // GET: Journey
-        public ActionResult Create()
+        public ActionResult Create(int journeyId = 1)
         {
-            if (ValidateSession("LoginMemberID"))
+            if (ValidateSessionID("LoginMemberID"))
             {
                 int memberId = Convert.ToInt16(Session["LoginMemberID"]);
-                int journeyId = 1;
-                var objJourney = new JourneyServices();
-                var model = new TeamJourney();
 
+                var objTeam = new API.TeamController();
+                var model = new TeamJourney();
                 var journey = new List<JourneyInformation>();
 
                 foreach (var item in Enum.GetValues(typeof(Journey_Information)))
@@ -43,14 +42,13 @@ namespace GEM.Controllers
                 }
 
                 model.JourneyList = journey;
-                model.Teams = objJourney.GetTeams(journeyId, memberId);
+                var teams = objTeam.GetTeams(journeyId, memberId);
 
-                var objTeam = new API.TeamController();
-                var teamInstance = objTeam.GetTeamInstanceCount(journeyId, memberId);
+                string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)teams).Content);
+                var teamDetails = JObject.Parse(responseData);
 
-                string ResponseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)teamInstance).Content.Data);
-                var teamDetails = JObject.Parse(ResponseData);
-                model.InstanceTeamName = Convert.ToString("Team" + teamDetails["Count"] + ' ' + "[Name me soon]");
+                model.Teams = JsonConvert.DeserializeObject<List<Team_Journey>>(JsonConvert.SerializeObject(teamDetails["Data"]));
+                model.InstanceTeamName = Convert.ToString("Team" + teamDetails["Count"].ToString() + ' ' + "[Name me soon]");
 
                 return View("SelectJourney", model);
             }
@@ -67,31 +65,63 @@ namespace GEM.Controllers
             return Create();
         }
 
-        public ActionResult CreateMission(int teamJourneyId)
+        public ActionResult MakeLeader(int tjmemberid)
+        {
+            var objTeam = new API.TeamController();
+            objTeam.UpdateMemberRole(tjmemberid);
+            return Create();
+        }
+
+        public JsonResult CreateMission(int teamJourneyId)
         {
             var objJourney = new API.JourneyController();
             var json = objJourney.GetTeamJourney(teamJourneyId);
 
-            return View("../Mission/Index?teamJourneyId="+ teamJourneyId);
+            string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)json).Content);
+            var teamDetails = JObject.Parse(responseData);
+
+            var count = Convert.ToInt16(teamDetails["Count"]);
+            return Json(new { success = count > 1 }, JsonRequestBehavior.AllowGet);
         }
 
-        private bool ValidateSession(string sessionId)
+        public ActionResult View()
         {
-            if (CheckSessionID(sessionId))
+            if (ValidateSessionID("LoginMemberID"))
             {
-                int memberId = Convert.ToInt16(Session[sessionId]);
-                var objUser = new API.UserController();
-                var userResponse = objUser.GetUser(memberId);
-                string ResponseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)userResponse).Content.Data);
-                var userdetail = JObject.Parse(ResponseData);
-                Session["LoginEmail"] = userdetail["User"]["EmailAddress"].ToString();
-                ViewBag.User = userdetail["User"]["EmailAddress"].ToString();
-                return true;
+                int memberId = Convert.ToInt16(Session["LoginMemberID"]);
+
+                var objTeam = new API.JourneyController();
+                var model = new TeamJourney();
+                var journey = new List<JourneyInformation>();
+
+                foreach (var item in Enum.GetValues(typeof(Journey_Information)))
+                {
+                    int id = (int)item;
+                    journey.Add(new JourneyInformation
+                    {
+                        JourneyId = id,
+                        Name = ((Journey_Information)id).ToString()
+                    });
+                }
+
+                model.JourneyList = journey;
+                var teams = objTeam.GetMission(memberId);
+
+                string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)teams).Content);
+                var teamDetails = JObject.Parse(responseData);
+
+                model.Teams = JsonConvert.DeserializeObject<List<Team_Journey>>(JsonConvert.SerializeObject(teamDetails["Data"]));
+                model.InstanceTeamName = Convert.ToString("Team" + teamDetails["Count"].ToString() + ' ' + "[Name me soon]");
+
+                return View("TeamMission", model);
             }
-            return false;
+            else
+            {
+                return View("../Users/Index");
+            }
         }
 
-        private bool CheckSessionID(string sessionId)
+        private bool ValidateSessionID(string sessionId)
         {
             if (Session == null || Session.Count == 0) return false;
             else if ( Session[sessionId] != null) return true;

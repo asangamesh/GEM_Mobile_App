@@ -51,17 +51,77 @@ namespace GEM.Controllers.API
             }
         }
 
-        public IHttpActionResult GetTeamInstanceCount(int journeyId, int memberId)
+        [HttpGet, Route("api/team/{teamId}")]
+        public IHttpActionResult Get(int teamId)
         {
             try
             {
-                var Team = objTeam.GetTeambyName(journeyId, memberId);
+                var team = objTeam.GetTeamById(teamId);
 
                 return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
                 {
-                    Count = Team.Count + 1,
+                    Team = new
+                    {
+                        TeamId = team.TeamId,
+                        Name = team.Name,
+                        Description = team.Description,
+                        CreatedBy = team.CreatedBy,
+                        CreatedDate = team.CreatedDate
+                    },
                     Status = true
                 }).Content));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
+        [HttpGet, Route("api/team")]
+        public IHttpActionResult GetTeams(int journeyId, int memberId)
+        {
+            try
+            {
+                var teams = objJourney.GetTeams(journeyId, memberId);
+                var teamName = objTeam.GetTeambyName(journeyId, memberId);
+
+                var teamJourney = new List<Models.Team_Journey>();
+                var teamJourneymember = new List<Models.team_journey_member>();
+
+                foreach (var team in teams)
+                {
+                    teamJourneymember = new List<Models.team_journey_member>();
+                    foreach (var team_journey_member in team.team_journey_member.OrderBy(x=>x.TeamJourneyMemberRoleId).ToList())
+                    {
+                        teamJourneymember.Add(new Models.team_journey_member
+                        {
+                            TeamJourneyId = team_journey_member.TeamJourneyId,
+                            TeamJourneyMemberId = team_journey_member.TeamJourneyMemberId,
+                            TeamJourneyMemberRoleId = team_journey_member.TeamJourneyMemberRoleId,
+                            MemberId = team_journey_member.MemberId,
+                            member = new Models.member
+                            {
+                                MemberId = team_journey_member.member.MemberId,
+                                EmailAddress = team_journey_member.member.EmailAddress
+                            }
+                        });
+                    }
+
+                    teamJourney.Add(new Models.Team_Journey
+                    {
+                        TeamJourneyId = team.TeamJourneyId,
+                        JourneyId = team.JourneyId,
+                        TeamId = team.TeamId,
+                        team = new Models.team
+                        {
+                            TeamId = team.team.TeamId,
+                            Name = team.team.Name
+                        },
+                        team_journey_member = teamJourneymember
+                    });
+                }
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamJourney, teamName.Count));
             }
             catch (Exception ex)
             {
@@ -124,8 +184,8 @@ namespace GEM.Controllers.API
             }
         }
 
-        [HttpPost, Route("api/teamAvathar")]
-        public IHttpActionResult PostAvathar(HttpPostedFileBase file)
+        [HttpPost, Route("api/teamAvatar")]
+        public IHttpActionResult PostAvatar(HttpPostedFileBase file)
         {
             try
             {
@@ -152,6 +212,33 @@ namespace GEM.Controllers.API
                 var journey = objTeam.DeleteTeamMember(objtjmember);
               
                 if(journey == 1) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { MemberID = objtjmember.member.EmailAddress, Message = "Member has been removed from team", Status = true }).Content));
+                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { MemberID = objtjmember.member.EmailAddress, Message = "The request process does not completed please try again!", Status = true }).Content));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
+        [HttpPut, Route("api/teamMember/{tjmemberId}")]
+        public IHttpActionResult UpdateMemberRole(int tjmemberId)
+        {
+            try
+            {
+                team_journey_member objtjmember = objTeam.GetTeamJourneyMember(tjmemberId);
+                if (objtjmember == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
+
+                var leaders = objJourney.GetTeamJourneyMember(objtjmember.TeamJourneyId.Value).Where(x=>x.TeamJourneyMemberRoleId == 1).ToList();
+                foreach (var leader in leaders)
+                {
+                    leader.TeamJourneyMemberRoleId = 2;
+                    objJourney.AddorUpdatetteamjourneymember(leader);
+                }
+
+                objtjmember.TeamJourneyMemberRoleId = 1;
+                var journey = objJourney.AddorUpdatetteamjourneymember(objtjmember);
+
+                if (journey == 1) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { MemberID = objtjmember.member.EmailAddress, Message = "Member has been removed from team", Status = true }).Content));
                 else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { MemberID = objtjmember.member.EmailAddress, Message = "The request process does not completed please try again!", Status = true }).Content));
             }
             catch (Exception ex)

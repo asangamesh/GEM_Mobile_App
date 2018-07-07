@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Gem.BusinessEntities;
 
 namespace GEM.Models
 {
-    public class Mission_info
+    public class mission
     {
-        public List<Practice> PracticeList { get; set; }
-        public team Teams { get; set; }
-        public int JourneyId { get; set; }
-        public string fluencyName { get; set; }
-        public int teamjourneyid { get; set; }
+        public int MissionId { get; set; }
+        public int TeamJourneyId { get; set; }
+        public string Name { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public System.DateTime EndDate { get; set; }
+        public virtual List<mission_practice> mission_practice { get; set; }
     }
 }

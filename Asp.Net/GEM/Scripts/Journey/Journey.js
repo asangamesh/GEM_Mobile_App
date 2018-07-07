@@ -15,6 +15,7 @@ Journey.prototype.InviteClicked = function () {
     var teamJourneyId = $('#Team_Journey_Id').val();
     var email = $("#mail-invitation").val();
     if (email == '') { alert("please enter email address"); $("#mail-invitation").focus(); }
+    else if (validateForm(email)) alert("Not valid email address");
     else if (memberId == undefined || memberId == '') { alert('Session has been expired!'); window.location.href = '../Journey/Index'; }
     else {
         var model = { TeamJourneyId: teamJourneyId, MemberId: memberId, EmailAddress: email, Role: 2 }
@@ -42,7 +43,7 @@ Journey.prototype.InviteClicked = function () {
 
 Journey.prototype.SelectJourneyClicked = function () {
     var memberId = this.sessionID;
-    var teamJourneyId =  $('#Team_Journey_Id').val();
+    var teamJourneyId = $('#Team_Journey_Id').val();
 
     if (teamJourneyId == undefined || teamJourneyId == '') { alert("please select team first.."); }
     else if (memberId == undefined || memberId == '') { alert('Session has been expired!'); window.location.href = '../Journey/Index'; }
@@ -55,18 +56,23 @@ Journey.prototype.SelectJourneyClicked = function () {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                debugger;
-                if (result == "True") {
-                    window.location.href = '../Mission/Index?teamJourneyId=' + 11;
+                if (result.success == true) {
+                    window.location.href = '../Mission/Index?teamJourneyId=' + teamJourneyId;
                 }
                 else {
-                    alert(result);
+                    alert("Add member to start mission.");
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                //alert(errorThrown);
-                window.location.href = '../Mission/Index?teamJourneyId=' + 11;
+                alert(errorThrown);
             }
         });
     }
+}
+
+function validateForm(x) {
+    var atpos = x.indexOf("@");
+    var dotpos = x.lastIndexOf(".");
+    if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) return true;
+    else return false;
 }
