@@ -4,7 +4,7 @@ function Mission(teamJourneyIdVal) {
 }
 
 Mission.prototype.Load = function () {
-    
+
     $("#btncreateMission").off("click");
     $("#btncreateMission").on("click", $.proxy(this.missionClicked, this));
 
@@ -41,16 +41,19 @@ Mission.prototype.CreateTeamClicked = function () {
 }
 
 Mission.prototype.missionClicked = function () {
-    debugger;
+    
     var startdate = $("#dateStartdate").val();
     var enddate = $("#dateEnddate").val();
     var endtime = $("#timeEndtime").val();
 
     var elements = document.getElementById('divPractice').children;
     var Practiceids = new Array();
-
+   
     for (i = 0; i < elements.length; i++) {
-        Practiceids[i] = elements[i].id;
+        if (elements[i].classList.length == 3)
+        {
+            Practiceids[i] = elements[i].id;
+        }
     }
 
     var enddatetime = enddate + ' ' + endtime;
@@ -59,8 +62,9 @@ Mission.prototype.missionClicked = function () {
 
     var model = { startdate: startdate, enddate: enddatetime, teamjourneyid: teamjourneyid, practiceid: practiceid };
 
-    if (startdate == '') { alert('please enter StartDate'); $("#dateStartdate").focus(); }
-    else if (enddate == '') { alert('please enter EndDate'); $("#dateEnddate").focus(); }
+    if (startdate == '') { alert('please enter startdate'); $("#dateStartdate").focus(); }
+    else if (enddate == '') { alert('please enter enddate'); $("#dateEnddate").focus(); }
+    else if (practiceid.length == 0) { alert('Practice selection is missing'); $("#dateEnddate").focus(); }
     else {
         $.ajax({
             url: "/api/Mission",

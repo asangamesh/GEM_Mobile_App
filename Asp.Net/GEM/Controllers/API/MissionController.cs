@@ -16,44 +16,39 @@ namespace GEM.Controllers.API
     public class MissionController : ApiController
     {
         MissionServices objMission = new MissionServices();
+        JourneyServices objJourney = new JourneyServices();
 
-        [HttpGet, Route("api/Mission")]
-        public IHttpActionResult GetFluency()
+        [HttpGet, Route("api/missionfluency")]
+        public IHttpActionResult GetFluency(int teamjourneyid)
         {
             try
             {
-                var Fluency = objMission.GetFluency();
-                if (Fluency == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content", Json(new { Message = "error", Status = false }).Content));
-                else
+                var practice = objMission.Getpractice(teamjourneyid);
+                var list = new List<object>();
+
+                for (int i = 0; i < practice.Count(); i++)
                 {
-                    var practice = objMission.Getpractice(Fluency.FluencyLevelId);
-
-                    var list = new List<object>();
-
-                    for (int i = 0; i < practice.Count(); i++)
+                    list.Add(new
                     {
-                        list.Add(new
-                        {
-                            PracticeId = practice[i].PracticeId,
-                            FluencyLevelId = Convert.ToInt32(practice[i].FluencyLevelId),
-                            Name = practice[i].Name,
-                            SequenceNum = Convert.ToInt32(practice[i].SequenceNum),
-                            PrerequisiteNum = Convert.ToInt32(practice[i].PrerequisiteNum)
-                        });
-                    }
-
-                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
-                    {
-                        FluencyPractice = new
-                        {
-                            ShortName = Fluency.ShortName,
-                            Number = Fluency.Number,
-                            FluencyLevelId = Fluency.FluencyLevelId,
-                            Name = Fluency.Name,
-                            practice = list
-                        },
-                    }).Content));
+                        PracticeId = practice[i].PracticeId,
+                        FluencyLevelId = Convert.ToInt32(practice[i].FluencyLevelId),
+                        Name = practice[i].Name,
+                        SequenceNum = Convert.ToInt32(practice[i].SequenceNum),
+                        PrerequisiteNum = Convert.ToInt32(practice[i].PrerequisiteNum)
+                    });
                 }
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
+                {
+                    FluencyPractice = new
+                    {
+                        ShortName = practice[0].fluency_level.ShortName,
+                        Number = practice[0].fluency_level.Number,
+                        FluencyLevelId = practice[0].fluency_level.FluencyLevelId,
+                        Name = practice[0].fluency_level.Name,
+                        practice = list
+                    },
+                }).Content));
             }
             catch (Exception ex)
             {
@@ -67,16 +62,41 @@ namespace GEM.Controllers.API
             try
             {
                 var team_Journey = objMission.GetTeam_journey(teamjourneyid);
-
                 if (team_Journey == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content", Json(new { Message = "error", Status = false }).Content));
-                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
+
+                var journeyMember = objJourney.GetTeamJourneyMember(teamjourneyid);
+                if (journeyMember == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
+
+                var teamJourneymember = new List<Models.team_journey_member>();
+
+                foreach (var team_journey_member in journeyMember.OrderBy(x => x.TeamJourneyMemberRoleId).ToList())
                 {
-                    Team_Journey = new
+                    teamJourneymember.Add(new Models.team_journey_member
                     {
-                        teamId = team_Journey.TeamId,
-                        JourneyId = team_Journey.JourneyId
+                        TeamJourneyId = team_journey_member.TeamJourneyId,
+                        TeamJourneyMemberId = team_journey_member.TeamJourneyMemberId,
+                        TeamJourneyMemberRoleId = team_journey_member.TeamJourneyMemberRoleId,
+                        MemberId = team_journey_member.MemberId,
+                        member = new Models.member
+                        {
+                            MemberId = team_journey_member.member.MemberId,
+                            EmailAddress = team_journey_member.member.EmailAddress
+                        }
+                    });
+                }
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", new Models.Team_Journey
+                {
+                    TeamJourneyId = team_Journey.TeamJourneyId,
+                    TeamId = team_Journey.TeamId,
+                    JourneyId = team_Journey.JourneyId,
+                    team = new Models.team
+                    {
+                        TeamId = team_Journey.team.TeamId,
+                        Name = team_Journey.team.Name,
                     },
-                }).Content));
+                    team_journey_member = teamJourneymember
+                }));
 
             }
             catch (Exception ex)
@@ -115,15 +135,16 @@ namespace GEM.Controllers.API
                     var result = objMission.AddorUpdateMission(mission);
                     if (result == 1)
                     {
-
-                        var missionDetail = objMission.GetMission(teamjourneyid);
-
+                        var missionDetail = objMission.GetMission(mission);
                         for (int i = 0; i < practiceid.Count(); i++)
                         {
-                            mission_practice mission_practice = new mission_practice();
-                            mission_practice.MissionId = missionDetail.MissionId;
-                            mission_practice.PracticeId = Convert.ToInt32(practiceid[i]);
-                            result = objMission.AddorUpdatemissionpractice(mission_practice);
+                            if (!string.IsNullOrEmpty(practiceid[i].ToString()))
+                            {
+                                mission_practice mission_practice = new mission_practice();
+                                mission_practice.MissionId = missionDetail.MissionId;
+                                mission_practice.PracticeId = Convert.ToInt32(practiceid[i]);
+                                result = objMission.AddorUpdatemissionpractice(mission_practice);
+                            }
                         }
 
                         return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { missionId = missionDetail.MissionId, Message = "Mission has been created successfully..!", Status = true }).Content));
@@ -137,7 +158,6 @@ namespace GEM.Controllers.API
                 {
                     return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Enddate greater then to Startdate.. ", Status = false }).Content));
                 }
-
             }
             catch (Exception ex)
             {

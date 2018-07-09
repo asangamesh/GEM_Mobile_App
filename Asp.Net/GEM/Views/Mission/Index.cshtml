@@ -1,4 +1,4 @@
-﻿@model  GEM.Models.Mission_info
+﻿@model  GEM.Models.Mission_Info
 @{
     ViewBag.Title = "Mission";
 }
@@ -13,17 +13,17 @@
 
                 <div class="col-lg-12 topbararea missionteam">
 
-                    @if (@Model.JourneyId == 1)
+                    @if (@Model.teams.JourneyId == 1)
                     {
                         <img src="../images/jedi-icon.png" alr="J">
                         <h4 class="journeytitle"> Delivery Team - # Deliver Value to Customer </h4>
                     }
-                    else if (@Model.JourneyId == 2)
+                    else if (@Model.teams.JourneyId == 2)
                     {
                         <img src="../images/rebel-icon.png" alr="J">
                         <h4 class="journeytitle"> Product Team - # Vision to Challange the Norm </h4>
                     }
-                    else if (@Model.JourneyId == 3)
+                    else if (@Model.teams.JourneyId == 3)
                     {
                         <img src="../images/gaurdians-icon.png" alr="J">
                         <h4 class="journeytitle"> Enterprise Team - # Protectors and Gaurdians of Value </h4>
@@ -36,62 +36,23 @@
                 </div>
 
                 <div class="col-lg-12 missionhead">
-                    <h3> @Model.fluencyName <span>[ Fluency Level 1 ]</span> </h3>
-                    <input id="hfldTeamJourneyID" value="@Model.teamjourneyid" type="hidden">
+                    <h3> @Model.fluencyname <span>[ Fluency Level 1 ]</span> </h3>
+                    <input id="hfldTeamJourneyID" value="@Model.teams.TeamJourneyId" type="hidden">
                 </div>
 
                 <div class="col-lg-12 mission-practices" id="divPractice">
 
-                    @if (Model.PracticeList.Count > 0)
+                    @if (Model.practiceList.Count > 0)
                     {
-                        for (int i = 0; i <= Model.PracticeList.Count - 1; i++)
-                        {
-                            if (i == 0)
-                            {
-                                <div class="col-lg-2 practiceblock practiceblock.active" id="@Model.PracticeList[i].PracticeId" >
-                                    <span class="img-block">
-                                        <img src="../images/rocket.png" alt="calendar">
-                                        <h4> @Model.PracticeList[i].Name </h4>
-                                    </span>
-                                </div>
-                            }
-                            else if (i == 1)
-                            {
-                                <div class="col-lg-2 practiceblock practiceblock.active" id="@Model.PracticeList[i].PracticeId">
-                                    <span class="img-block">
-                                        <img src="../images/astronaut.png" alt="calendar">
-                                    </span>
-                                    <h4 class="practicetitle practiceblock.active"> @Model.PracticeList[i].Name </h4>
-                                </div>
-                            }
-                            else if (i == 2)
-                            {
-                                <div class="col-lg-2 practiceblock practiceblock active" id="@Model.PracticeList[i].PracticeId">
-                                    <span class="img-block">
-                                        <img src="../images/black-hole.png" alt="calendar">
-                                    </span>
-                                    <h4 class="practicetitle"> @Model.PracticeList[i].Name </h4>
 
-                                </div>
-                            }
-                            else if (i == 3)
-                            {
-                                <div class="col-lg-2 practiceblock active" id="@Model.PracticeList[i].PracticeId">
-                                    <span class="img-block">
-                                        <img src="../images/event-schedule.png" alt="calendar">
-                                    </span>
-                                    <h4> @Model.PracticeList[i].Name </h4>
-                                </div>
-                            }
-                            else if (i == 4)
-                            {
-                                <div class="col-lg-2 practiceblock active" id="@Model.PracticeList[i].PracticeId">
-                                    <span class="img-block">
-                                        <img src="../images/recycling.png" alt="calendar">
-                                    </span>
-                                    <h4> @Model.PracticeList[i].Name </h4>
-                                </div>
-                            }
+                        for (int i = 0; i <= Model.practiceList.Count - 1; i++)
+                        {
+                            <div class="col-lg-2 practiceblock " id="@Model.practiceList[i].PracticeId" onblur="SelectdPractice(@Model.practiceList[i].PracticeId)" onclick="SelectdPractice(@Model.practiceList[i].PracticeId)">
+                                <span class="img-block">
+                                    <img src="@string.Concat("../images/practice",Model.practiceList[i].PracticeId,".png") " alt="calendar">
+                                    <h4> @Model.practiceList[i].Name </h4>
+                                </span>
+                            </div>
                         }
                     }
 
@@ -123,7 +84,7 @@
                                     </div>
                                 </span>
                                 <span class="col-lg-6 selecttime">
-                                    <input type="time" id="timeEndtime" class="form-control" placeholder="" aria-label="time">
+                                    <input type="time" id="timeEndtime" class="form-control" placeholder="" aria-label="time" value="00:00:00">
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon2"><img src="../images/time.png"></span>
                                     </div>
@@ -155,15 +116,14 @@
 
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" id="txtTeam_@Model.Teams.TeamId" data-parent="#accordion" href="#collapseOne_@Model.Teams.TeamId">
-                                                <img src="../images/rocket.png"> @Model.Teams.Name
-                                            </a>
+                                        <h4 class="panel-title"
+                                            @*data-toggle="collapse"*@ id="txtTeam_@Model.teams.TeamId" @*data-parent="#accordion" href="#collapseOne_@Model.teams.TeamId"*@>
+                                            <img src="../images/rocket.png"> @Model.teams.team.Name
                                         </h4>
                                     </div>
-                                    <div id="collapseOne_@Model.Teams.TeamId" class="panel-collapse collapse in">
+                                    <div id="collapseOne_@Model.teams.TeamId" class="panel-collapse collapse in">
                                         <div class="panel-body">
-                                            @Html.Partial("TeamMember", @Model.Teams.team_journey.ToList()[0].team_journey_member.ToList())
+                                            @Html.Partial("TeamMember", @Model.teams.team_journey_member.ToList())
                                         </div>
                                     </div>
                                 </div>
@@ -178,13 +138,14 @@
             </div>
 
         </div> <!-- /1 dashboardbg -->
+    </div>
 </section>
 
 <script type="text/javascript">
-    debugger;
-   
+
     var _Mission = new Mission(hfldTeamJourneyID.value);
     _Mission.Load();
+
 </script>
 
 <script>
@@ -197,10 +158,28 @@
 </script>
 
 <script>
+
     jQuery(document).ready(function () {
 
         jQuery('.navbar-toggle').click(function () {
             jQuery('.navbar-right').toggle();
         });
     });
+
+    function myFunction() {
+        var x = document.getElementById("timeEndtime").defaultValue;
+        document.getElementById("demo").innerHTML = x;
+    }
+
+    function SelectdPractice(id) {
+        var str= $("#"+id).attr("class");
+        if(str.indexOf("active") != -1)
+        {
+            $("#"+id).removeClass("active");
+        }
+        else{
+            $("#"+id).addClass("active");
+        }
+    }
+
 </script>

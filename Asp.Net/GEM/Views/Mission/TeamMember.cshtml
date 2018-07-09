@@ -1,5 +1,5 @@
 ﻿
-@model  List<Gem.BusinessEntities.team_journey_member>
+@model  List<GEM.Models.team_journey_member>
 
 <ul class="team-member-list">
     @if (Model.Count > 0)
@@ -18,7 +18,8 @@
                     <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span>
                         @if (Session["LoginMemberID"].ToString() == leaderId.ToString())
                         {
-                            <p> <a href="#">Make Leader</a> </p> <a href="../Journey/RemoveMember?tjmemberid=@member.TeamJourneyMemberId"><img src="../images/remove.png" width="16" height="16"> </a>
+                            @*<p> <a href="#">Make Leader</a> </p> <a href="../Journey/RemoveMember?tjmemberid=@member.TeamJourneyMemberId"><img src="../images/remove.png" width="16" height="16"> </a>*@
+                            <p> Member </p> @*<a href="../Journey/RemoveMember?tjmemberid=@member.TeamJourneyMemberId"><img src="../images/remove.png" width="16" height="16"> </a>*@
                         }
                         else if (Session["LoginMemberID"].ToString() == member.MemberId.Value.ToString())
                         {
