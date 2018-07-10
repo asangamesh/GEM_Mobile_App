@@ -33,3 +33,23 @@
     }
 }
 </ul>
+
+<script>
+    function MemberProcess(url, tjmemberId) {
+        $.ajax({
+            url: url,
+            type: 'get',
+            cache: false,
+            data: { tjmemberid: tjmemberId },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '../Journey/View';
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                window.location.href = '../Journey/Index';
+            }
+        });
+    }
+</script>
+

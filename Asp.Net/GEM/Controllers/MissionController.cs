@@ -16,9 +16,9 @@ namespace GEM.Controllers
     public class MissionController : Controller
     {
         // GET: Mission
-        public ActionResult Index(int teamJourneyId)
+        public ActionResult Index(int teamJourneyId = 0)
         {
-            if (ValidateSessionID("LoginMemberID"))
+            if (ValidateSessionID("LoginMemberID") && teamJourneyId > 0)
             {
                 var model = new Mission_Info();
                 var loadPractice = new List<Practice>();

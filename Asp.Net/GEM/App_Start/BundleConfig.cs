@@ -29,9 +29,9 @@ namespace GEM
 
             bundles.Add(new StyleBundle("~/GEM/Content/css").Include(
                      "~/Content/css/style.css",
+                     "~/Content/css/responsive.css",
                      "~/Content/css/style2.css",
-                     "~/Content/css/menu-style.css",
-                      "~/Content/css/responsive.css"));
+                      "~/Content/css/menu-style.css"));
 
             bundles.Add(new ScriptBundle("~/GEM/Script").Include(
                        "~/Scripts/js/menu-script.js",

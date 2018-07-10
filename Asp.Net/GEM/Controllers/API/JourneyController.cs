@@ -193,11 +193,15 @@ namespace GEM.Controllers.API
         {
             try
             {
-                var teams = objJourney.GetTeams(memberId);
+                var teams = objJourney.GetTeamMission(memberId).ToList();
 
+                var tjgroup = objJourney.GetTeamMission(memberId).GroupBy(x => x.TeamJourneyId).ToList();
                 var teamJourney = new List<Models.Team_Journey>();
-                foreach (var team in teams)
+
+                foreach (var tj in tjgroup)
                 {
+                    var team = tj.ToList().FirstOrDefault();
+
                     var teamJourneymember = new List<Models.team_journey_member>();
                     foreach (var team_journey_member in team.team_journey_member.OrderBy(x => x.TeamJourneyMemberRoleId).ToList())
                     {
@@ -216,7 +220,7 @@ namespace GEM.Controllers.API
                     }
 
                     var teamMission = new List<Models.mission>();
-                    foreach (var team_mission in team.missions.ToList())
+                    foreach (var team_mission in team.missions.OrderByDescending(x => x.MissionId).ToList())
                     {
                         var missionPractice = new List<Models.mission_practice>();
                         foreach (var mission_practice in team_mission.mission_practice.ToList())
@@ -250,6 +254,7 @@ namespace GEM.Controllers.API
                             EndDate = team_mission.EndDate,
                             mission_practice = missionPractice
                         });
+                        break;
                     }
 
                     teamJourney.Add(new Models.Team_Journey
@@ -267,7 +272,7 @@ namespace GEM.Controllers.API
                     });
                 }
 
-                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamJourney, teams.Count));
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamJourney, teamJourney.Count));
             }
             catch (Exception ex)
             {

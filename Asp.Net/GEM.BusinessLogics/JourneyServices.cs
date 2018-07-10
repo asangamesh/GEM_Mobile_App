@@ -66,11 +66,13 @@ namespace GEM.BusinessLogics
             return objJourneys;
         }
 
-        public List<team_journey> GetTeams(int memberId)
+        public List<team_journey> GetTeamMission(int memberId)
         {
             gemdb = new gemEntities1();
 
-            var objJourneys = (from tj in gemdb.team_journey join tm in gemdb.team_journey_member on tj.TeamJourneyId equals tm.TeamJourneyId where tm.MemberId == memberId select tj).ToList();
+            var objJourneys = (from tj in gemdb.team_journey join tjm in gemdb.team_journey_member on tj.TeamJourneyId equals tjm.TeamJourneyId
+                               join m in gemdb.missions on tj.TeamJourneyId equals m.TeamJourneyId 
+                               where tjm.MemberId == memberId select tj).ToList();
 
             return objJourneys;
         }
@@ -113,6 +115,14 @@ namespace GEM.BusinessLogics
             gemdb.team_journey_member.AddOrUpdate(team_journey_member);
             return gemdb.SaveChanges();
         }
-        
+
+        public mission GetTeamPractice(int teamJourneyId)
+        {
+            gemdb = new gemEntities1();
+
+            var objMission = (from p in gemdb.practices join mp in gemdb.mission_practice on p.PracticeId equals mp.PracticeId join m in gemdb.missions on mp.MissionId equals m.MissionId join tj in gemdb.team_journey on m.TeamJourneyId equals tj.TeamJourneyId where tj.TeamJourneyId == teamJourneyId select m).FirstOrDefault();
+
+            return objMission;
+        }
     }
 }

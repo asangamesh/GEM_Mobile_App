@@ -39,6 +39,7 @@
 .mainbackground {min-height: 636px;}
 .right-links {min-height: 450px;}
 .teams-control {/*max-height: 340px;*/ overflow-y: auto;}
+.rating-list li {padding: 4px 50px; !important}
 }
 
 @media only screen and (min-width:1920px){.container{width:1400px !important; padding:0;} .welcome-container{width:700px !important; padding:0; margin:0 auto;}}

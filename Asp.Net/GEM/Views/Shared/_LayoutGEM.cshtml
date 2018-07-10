@@ -11,6 +11,7 @@
     <script src="../Scripts/Users/User.js" type="text/jscript"></script>
     @Styles.Render("~/GEM/Content/css")
     @Scripts.Render("~/GEM/Script")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="mainbackground">
 
@@ -37,29 +38,28 @@
                                             <img src="../images/profile-placeholder.png" alt="Avathar" class="thumbnail">
                                             <h2> @Session["LoginEmail"] </h2>
                                             <h4> <a href="#"> <img src="../images/edit-icon.png"> Change Email Address </a> </h4>
-                                            <h4> <a href="../Users/Logout" > <img src="../images/log-out-icon.png"> Logout  </a> </h4>
+                                            <h4> <a href="../Users/Logout"> <img src="../images/log-out-icon.png"> Logout  </a> </h4>
                                         </span>
                                     </div>
 
                                 </div>
                                 <div class="col-lg-2 mainlinkshead">
-                                    @*<img src="../images/journey-icon.png" alt="journeys" id="head-journey">
+                                    <img src="../images/journey-icon.png" alt="journeys" id="head-journey">
                                     <div class="view-journeys viewdd">
-                                        <p> Journey - <br> <span> Launch and Delivery Team </span> </p>
-                                        <p> Fluency Level - <br> <span> Leader Delivery Team and Events </span> </p>
-                                        <p> Practice - <br> <span> Form Delaivery Team </span> </p>
+                                        <p> <a href="../Journey/Create" > Select Journey </a> <br></p>
+                                        <p> <a href="../Journey/View" > View Teams </a><br></p>
                                     </div>
-                                    <img src="../images/team-icon.png" alt="teams" id="head-teams">
-                                    <div class="view-teams viewdd">
+                                    @*  <img src="../images/team-icon.png" alt="teams" id="head-teams">
+                                        <div class="view-teams viewdd">
 
-                                        <ul>
-                                            <li> <img src="../images/rocket.png" alt="rocket"> <h5> Cape Canaveral </h5> </li>
-                                            <li> <img src="../images/astronaut.png" alt="astronaut"> <h5> Interplanatery </h5> </li>
-                                            <li> <img src="../images/black-hole.png" alt="blackhole"> <h5> The Black Hole</h5> </li>
-                                        </ul>
+                                            <ul>
+                                                <li> <img src="../images/rocket.png" alt="rocket"> <h5> Cape Canaveral </h5> </li>
+                                                <li> <img src="../images/astronaut.png" alt="astronaut"> <h5> Interplanatery </h5> </li>
+                                                <li> <img src="../images/black-hole.png" alt="blackhole"> <h5> The Black Hole</h5> </li>
+                                            </ul>
 
-                                        <p id="head-team-create"> + <span> Create Team </span> </p>
-                                    </div>*@
+                                            <p id="head-team-create"> + <span> Create Team </span> </p>
+                                        </div>*@
                                 </div>
 
                                 <div class="col-lg-2"> </div>
@@ -69,11 +69,11 @@
                                 </div>
                                 <div class="col-lg-2 mainlinkshead">
                                     @*<img src="../images/add-icon.png" alt="add" id="head-add">
-                                    <div class="view-add-more viewdd">
-                                        <a href=""> <p> + <span> Add Member </span> </p> </a>
-                                        <a href=""> <p> + <span> Add Fluency </span> </p> </a>
-                                        <a href=""> <p> + <span> Add more.. </span> </p> </a>
-                                    </div>*@
+                                        <div class="view-add-more viewdd">
+                                            <a href=""> <p> + <span> Add Member </span> </p> </a>
+                                            <a href=""> <p> + <span> Add Fluency </span> </p> </a>
+                                            <a href=""> <p> + <span> Add more.. </span> </p> </a>
+                                        </div>*@
                                     <img src="../images/notification-icon.png" alt="notification" id="head-notification">
                                     <div class="view-notifications viewdd">
                                         <a href=""> <p> <img src="../images/notify.png"> <span> You have an invitaion </span> </p> </a>
@@ -128,12 +128,12 @@
     </div>
 
     <script>
-    jQuery(document).ready(function () {
+        jQuery(document).ready(function () {
 
-        jQuery('.navbar-toggle').click(function () {
-            jQuery('.navbar-right').toggle();
+            jQuery('.navbar-toggle').click(function () {
+                jQuery('.navbar-right').toggle();
+            });
         });
-    });
     </script>
 </body>
 <script>

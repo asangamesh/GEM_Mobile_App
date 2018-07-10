@@ -1,69 +1,42 @@
 ﻿@model  List<GEM.Models.mission>
 
-<div class="col-lg-6 practice-details">
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var mission in Model)
+    {
+        <div class="col-lg-6 practice-details">
 
-    <div class="col-lg-12 mission-practices">
+            <div class="col-lg-12 mission-practices">
 
-        <div class="col-lg-12 missionhead">
-            <h3> Launch Team <span>[ Fluency Level 1 ]</span> </h3>
-        </div>
+                <div class="col-lg-12 missionhead">
+                    <h3> Launch Team <span>[ Fluency Level 1 ]</span> </h3>
+                </div>
 
-        <div class="col-lg-2 practiceblock" onclick="$(this)[0].className = 'col-lg-2 practiceblock active';">
-            <span class="img-block">
-                <img src="../images/rocket.png" alt="calendar">
-                <h4> Form Delivery </h4>
-            </span>
-
-            <div class="completed" id="MemberModel">
-                <img src="../images/rocket.png" alt="view">
-                <h4> Completed </h4>
+                @foreach (var practice in mission.mission_practice)
+                {
+                    <div class="col-lg-2 practiceblock">
+                        <span class="img-block">
+                            <img src='@string.Concat("../images/practice", practice.practice.PracticeId, ".png")' alt="calendar">
+                            <h4> @practice.practice.Name </h4>
+                        </span>
+                    </div>
+                }
             </div>
         </div>
 
-        <div class="col-lg-2 practiceblock" onclick="$(this)[0].className = 'col-lg-2 practiceblock active';">
-            <span class="img-block">
-                <img src="../images/astronaut.png" alt="calendar">
+        <div class="col-lg-12 proceed-practice">
+
+            <span class="col-lg-9 clsstartenddate">
+                <div class="col-lg-6">
+                    <p> <img src="../images/calander.png"> Start Date: <span> @mission.StartDate.ToShortDateString() </span></p>
+                </div>
+                <div class="col-lg-6">
+                    <p> <img src="../images/calander.png"> End Date & Time: <span> @mission.EndDate.ToString() </span></p>
+                </div>
             </span>
-            <h4 class="practicetitle"> Intake Process </h4>
-        </div>
-
-        <div class="col-lg-2 practiceblock" onclick="$(this)[0].className = 'col-lg-2 practiceblock active';">
-            <span class="img-block">
-                <img src="../images/black-hole.png" alt="calendar">
+            <span class="col-lg-3">
+                <input formaction="" name="practice-proceed" onclick="window.location.href = '../Team/Measures?journeyId=@mission.TeamJourneyId';" class="proceedcls" type="submit" value="Proceed Practice">
             </span>
-            <h4 class="practicetitle"> Manage Work </h4>
-
         </div>
-
-        <div class="col-lg-2 practiceblock" onclick="$(this)[0].className = 'col-lg-2 practiceblock active';">
-            <span class="img-block">
-                <img src="../images/event-schedule.png" alt="calendar">
-            </span>
-            <h4> Event Schedule </h4>
-        </div>
-
-        <div class="col-lg-2 practiceblock" onclick="$(this)[0].className = 'col-lg-2 practiceblock active';">
-            <span class="img-block">
-                <img src="../images/recycling.png" alt="calendar">
-            </span>
-            <h4> Manage Backlog </h4>
-        </div>
-
-    </div>
-
-</div>
-
-<div class="col-lg-12 proceed-practice">
-
-    <span class="col-lg-9 clsstartenddate">
-        <div class="col-lg-6">
-            <p> <img src="../images/calander.png"> Start Date: <span> 07/07/2018 </span></p>
-        </div>
-        <div class="col-lg-6">
-            <p> <img src="../images/calander.png"> End Date & Time: <span> 14/07/2018 - 06:15 AM </span></p>
-        </div>
-    </span>
-    <span class="col-lg-3">
-        <input formaction="" name="practice-proceed" class="proceedcls" type="submit" value="Proceed Practice">
-    </span>
-</div>
+    }
+}

@@ -3,7 +3,7 @@
 
 @font-face {
 font-family: "Jura";
-src: url(font/Jura-Regular.ttf);
+src: url(../../Content/css/font/Jura-Regular.ttf);
 }
 
 body{font-family: "Jura";}
@@ -149,7 +149,7 @@ body{font-family: "Jura";}
 .createteam-form input {background: #fafafa; border: solid 1px #e1e1e1 !important; border-radius: 5px !important; height: 36px; float: left; width: 65% !important;}
 .form-control.avatharspace {float: left; width: 35% !important; margin-left: 2%; padding: 0px;}
 .avatharimg img {width: 60%; height: 60%; margin: 20%;}
-.create-team-btn-bg {float: left; width: 100% !important; border-radius: 0 0 25px 25px !important; padding: 25px 0; background-color: #f7a539; border: solid 3px #f7a539;}
+.create-team-btn-bg {float: left; width: 100% !important; border-radius: 0 0 25px 25px !important; padding: 25px 0; background-color: #f7a539; border: solid 3px #f7a539; text-align: center;}
 .create-team-btn {color: #f1f1f1;background: #ba5919 !important;border: none !important; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; line-height:16px;}
 .create-team-btn:hover{background: #ae4702 !important;}
 .create-team-area {padding-bottom:0;}
@@ -304,7 +304,7 @@ body{font-family: "Jura";}
 .memberarea .right-links {float: left; width: 100%; height: auto;}
 .memberarea .teams-control {float: left; width: 100%; height: auto;}
 .memberarea .panel-heading {background-color: #f8f8f8; border: solid 1px #eaeaea;}
-.team-details {float: left; padding: 20px 10px; background-color: #f1f1f1;}
+.team-details {float: left; /*padding: 20px 10px;*/ padding: 0; background-color: #f1f1f1;}
 .memberarea .missionhead h3 {padding: 0px 2%; font-size: 21px;}
 .memberarea .missionhead {background-color: transparent;}
 .memberarea .practiceblock {margin: 10px 0.5% 0; padding: 10px 10px; opacity: 0.5; min-height: 135px;box-shadow: 0px 5px 5px #e1e1e1;}
@@ -325,3 +325,7 @@ body{font-family: "Jura";}
 .clsstartenddate p {font-size: 16px; margin: 0; padding: 5px 0; color: #c65629;line-height: 34px;}
 .clsstartenddate p img {float: left; padding-right: 10px;}
 .clsstartenddate p span {color: #2c4156; letter-spacing: 2px;}
+.active-check{ float: left;
+    right: 6px;
+    position: absolute;
+    top: 3px; }

@@ -75,6 +75,7 @@ Mission.prototype.missionClicked = function () {
             success: function (result) {
                 if (result.data.status == "true") {
                     alert(result.data.message);
+                    window.location.href = '../Journey/Index';
                 }
                 else {
                     alert(result.data.message);

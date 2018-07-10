@@ -23,7 +23,7 @@ namespace GEM.Controllers.API
         {
             try
             {
-                var practice = objMission.Getpractice(teamjourneyid);
+                var practice = objMission.Getpractice(teamjourneyid).Take(5).ToList();
                 var list = new List<object>();
 
                 for (int i = 0; i < practice.Count(); i++)

@@ -12,6 +12,7 @@ namespace GEM.Models
         public string Name { get; set; }
         public int SequenceNum { get; set; }
         public int PrerequisiteNum { get; set; }
-        public virtual fluency_level fluency_level { get; set; }
+        public fluency_level fluency_level { get; set; }
+        public List<measure> measures { get; set; }
     }
 }

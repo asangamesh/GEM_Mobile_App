@@ -44,11 +44,11 @@ namespace GEM.Controllers
                 model.JourneyList = journey;
                 var teams = objTeam.GetTeams(journeyId, memberId);
 
-                string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)teams).Content);
+                string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)teams).Content.Data);
                 var teamDetails = JObject.Parse(responseData);
 
-                model.Teams = JsonConvert.DeserializeObject<List<Team_Journey>>(JsonConvert.SerializeObject(teamDetails["Data"]));
-                model.InstanceTeamName = Convert.ToString("Team" + teamDetails["Count"].ToString() + ' ' + "[Name me soon]");
+                model.Teams = JsonConvert.DeserializeObject<List<Team_Journey>>(JsonConvert.SerializeObject(teamDetails["TeamJourney"]));
+                model.InstanceTeamName = Convert.ToString("Team" + (teamDetails["Instance"].ToString().Length > 1 ? "" : "0") + teamDetails["Instance"].ToString() + ' ' + "[Name me soon]");
 
                 return View("SelectJourney", model);
             }

@@ -7,37 +7,25 @@ using Gem.BusinessEntities;
 using GEM.BusinessLogics;
 using static GEM.Utilities.HelperEnum;
 using GEM.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GEM.Controllers
 {
     public class TeamController : Controller
     {
         // GET: Team
-        TeamServices objTeam = new TeamServices();
-        public ActionResult Create()
+        public ActionResult Measures(int journeyId)
         {
-            return View("CreateTeam");
-        }
+            var objTeam = new API.TeamController();
+            var model = new Models.mission();
 
-        public ActionResult Team_list()
-        {
-            
-            var Team = objTeam.GetTeam();
-            var model = new List<ModelTeam>();
-            foreach (var item in Team)
-            {
-                model.Add(new ModelTeam
-                {
-                    teamId = item.TeamId,
-                    teamName = item.Name,
-                    Desc= item.Description,
-                    createdby= Convert .ToInt32(item.CreatedBy),
-                    createddate= Convert.ToDateTime(item.CreatedDate)
+            var json = objTeam.GetMission(journeyId);
+            string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)json).Content);
+            var teamDetails = JObject.Parse(responseData);
 
-                });
-            }
-
-            return View(model);
+            model = JsonConvert.DeserializeObject<Models.mission>(JsonConvert.SerializeObject(teamDetails["Data"]));
+            return View("TeamMeasure", model);
         }
 
     }
