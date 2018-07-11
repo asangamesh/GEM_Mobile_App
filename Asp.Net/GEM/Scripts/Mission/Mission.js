@@ -41,30 +41,29 @@ Mission.prototype.CreateTeamClicked = function () {
 }
 
 Mission.prototype.missionClicked = function () {
-    
-    var startdate = $("#dateStartdate").val();
-    var enddate = $("#dateEnddate").val();
-    var endtime = $("#timeEndtime").val();
+
+    var startDate = $("#dateStartdate").val();
+    var endDate = $("#dateEnddate").val();
+    var endTime = $("#timeEndtime").val();
 
     var elements = document.getElementById('divPractice').children;
-    var Practiceids = new Array();
-   
+    var practiceIds = new Array();
+
     for (i = 0; i < elements.length; i++) {
-        if (elements[i].classList.length == 3)
-        {
-            Practiceids[i] = elements[i].id;
+        if (elements[i].classList.length == 3) {
+            practiceIds[i] = elements[i].id;
         }
     }
 
-    var enddatetime = enddate + ' ' + endtime;
-    var teamjourneyid = this.teamJourneyId;
-    var practiceid = Practiceids;
+    var endDateTime = endDate + ' ' + endTime;
+    var teamJourneyId = this.teamJourneyId;
+    var practiceId = practiceIds;
 
-    var model = { startdate: startdate, enddate: enddatetime, teamjourneyid: teamjourneyid, practiceid: practiceid };
+    var model = { startDate: startDate, endDate: endDateTime, teamJourneyId: teamJourneyId, practiceId: practiceId };
 
-    if (startdate == '') { alert('please enter startdate'); $("#dateStartdate").focus(); }
-    else if (enddate == '') { alert('please enter enddate'); $("#dateEnddate").focus(); }
-    else if (practiceid.length == 0) { alert('Practice selection is missing'); $("#dateEnddate").focus(); }
+    if (startDate == '') { alert('please enter startdate'); $("#dateStartdate").focus(); }
+    else if (endDate == '') { alert('please enter enddate'); $("#dateEnddate").focus(); }
+    else if (practiceId.length == 0) { alert('please select practices'); }
     else {
         $.ajax({
             url: "/api/Mission",
@@ -73,13 +72,8 @@ Mission.prototype.missionClicked = function () {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                if (result.data.status == "true") {
                     alert(result.data.message);
-                    window.location.href = '../Journey/Index';
-                }
-                else {
-                    alert(result.data.message);
-                }
+                    window.location.href = '../Mission/Index?teamJourneyId='+teamJourneyId+'';
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("You have entered wrong details..!");

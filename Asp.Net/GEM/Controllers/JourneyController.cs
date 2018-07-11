@@ -58,17 +58,17 @@ namespace GEM.Controllers
             }
         }
 
-        public ActionResult RemoveMember(int tjmemberid)
+        public ActionResult RemoveMember(int tjMemberId)
         {
             var objTeam = new API.TeamController();
-            objTeam.DeleteTeamMemberId(tjmemberid);
+            objTeam.DeleteTeamMemberId(tjMemberId);
             return Create();
         }
 
-        public ActionResult MakeLeader(int tjmemberid)
+        public ActionResult MakeLeader(int tjMemberId)
         {
             var objTeam = new API.TeamController();
-            objTeam.UpdateMemberRole(tjmemberid);
+            objTeam.UpdateMemberRole(tjMemberId);
             return Create();
         }
 
@@ -80,8 +80,17 @@ namespace GEM.Controllers
             string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)json).Content);
             var teamDetails = JObject.Parse(responseData);
 
-            var count = Convert.ToInt16(teamDetails["Count"]);
-            return Json(new { success = count > 1 }, JsonRequestBehavior.AllowGet);
+            if (teamDetails["Data"]["Status"].ToString() == "True")
+            {
+                var count = Convert.ToInt16(teamDetails.Count);
+                return Json(new {success = count > 1 }, JsonRequestBehavior.AllowGet);
+            }
+           else
+            {
+                var count = Convert.ToInt16(teamDetails["Count"]);
+                return Json(new { Message = teamDetails["Data"]["Message"].ToString(), success = count > 1 }, JsonRequestBehavior.AllowGet);
+            }
+
         }
 
         public ActionResult View()
@@ -124,7 +133,7 @@ namespace GEM.Controllers
         private bool ValidateSessionID(string sessionId)
         {
             if (Session == null || Session.Count == 0) return false;
-            else if ( Session[sessionId] != null) return true;
+            else if (Session[sessionId] != null) return true;
             else return false;
         }
     }

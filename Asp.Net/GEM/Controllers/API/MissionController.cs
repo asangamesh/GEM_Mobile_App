@@ -19,11 +19,11 @@ namespace GEM.Controllers.API
         JourneyServices objJourney = new JourneyServices();
 
         [HttpGet, Route("api/missionfluency")]
-        public IHttpActionResult GetFluency(int teamjourneyid)
+        public IHttpActionResult GetFluency(int teamJourneyId)
         {
             try
             {
-                var practice = objMission.Getpractice(teamjourneyid).Take(5).ToList();
+                var practice = objMission.GetPractice(teamJourneyId).ToList();
                 var list = new List<object>();
 
                 for (int i = 0; i < practice.Count(); i++)
@@ -34,21 +34,26 @@ namespace GEM.Controllers.API
                         FluencyLevelId = Convert.ToInt32(practice[i].FluencyLevelId),
                         Name = practice[i].Name,
                         SequenceNum = Convert.ToInt32(practice[i].SequenceNum),
-                        PrerequisiteNum = Convert.ToInt32(practice[i].PrerequisiteNum)
+                        PrerequisiteNum = Convert.ToInt32(practice[i].PrerequisiteNum),
+                        fluency = new Models.fluency_level
+                        {
+                            FluencyLevelId = practice[i].fluency_level.FluencyLevelId,
+                            Number = practice[i].fluency_level.Number,
+                            Name = practice[i].fluency_level.Name,
+                            ShortName = practice[i].fluency_level.ShortName
+                        }
+
                     });
                 }
 
                 return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
                 {
-                    FluencyPractice = new
-                    {
-                        ShortName = practice[0].fluency_level.ShortName,
-                        Number = practice[0].fluency_level.Number,
-                        FluencyLevelId = practice[0].fluency_level.FluencyLevelId,
-                        Name = practice[0].fluency_level.Name,
-                        practice = list
-                    },
+
+                    Data = list,
+                    Status = true
+
                 }).Content));
+
             }
             catch (Exception ex)
             {
@@ -57,14 +62,14 @@ namespace GEM.Controllers.API
         }
 
         [HttpGet, Route("api/Mission")]
-        public IHttpActionResult GetTeam_Journey(int teamjourneyid)
+        public IHttpActionResult GetTeam_Journey(int teamJourneyId)
         {
             try
             {
-                var team_Journey = objMission.GetTeam_journey(teamjourneyid);
+                var team_Journey = objMission.GetTeam_Journey(teamJourneyId);
                 if (team_Journey == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content", Json(new { Message = "error", Status = false }).Content));
 
-                var journeyMember = objJourney.GetTeamJourneyMember(teamjourneyid);
+                var journeyMember = objJourney.GetTeamJourneyMember(teamJourneyId);
                 if (journeyMember == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
 
                 var teamJourneymember = new List<Models.team_journey_member>();
@@ -80,8 +85,11 @@ namespace GEM.Controllers.API
                         member = new Models.member
                         {
                             MemberId = team_journey_member.member.MemberId,
-                            EmailAddress = team_journey_member.member.EmailAddress
+                            EmailAddress = team_journey_member.member.EmailAddress,
+                            CreatedBy = team_journey_member.member.CreatedBy,
+                            CreatedDate = team_journey_member.member.CreatedDate
                         }
+
                     });
                 }
 
@@ -93,7 +101,7 @@ namespace GEM.Controllers.API
                     team = new Models.team
                     {
                         TeamId = team_Journey.team.TeamId,
-                        Name = team_Journey.team.Name,
+                        Name = team_Journey.team.Name
                     },
                     team_journey_member = teamJourneymember
                 }));
@@ -112,22 +120,35 @@ namespace GEM.Controllers.API
             {
                 var json = (JToken)JObject.Parse(JsonConvert.SerializeObject(data));
 
-                string startdate = Convert.ToString(json["startdate"]);
-                string enddate = Convert.ToString(json["enddate"]);
-                int teamjourneyid = Convert.ToInt32(json["teamjourneyid"]);
-                JArray practiceid = JArray.Parse(json["practiceid"].ToString());
+                mission mission = new mission();
+                string startdate = Convert.ToString(json["startDate"]);
+                string enddate = Convert.ToString(json["endDate"]);
+                int teamJourneyId = Convert.ToInt32(json["teamJourneyId"]);
+                mission.TeamJourneyId = teamJourneyId;
+                JArray practiceid = JArray.Parse(json["practiceId"].ToString());
+
+
+                var availablemission = objMission.GetMission(mission);
+                if (availablemission != null)
+                {
+                    var missionavailable = objMission.GetMissioAvailable(teamJourneyId);
+                    if (missionavailable != null)
+                    {
+                        return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Existing mission is not complete", Status = false }).Content));
+                    }
+                }
 
                 if (string.IsNullOrEmpty(startdate)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing StartDate field", Status = false }).Content));
-                else if (string.IsNullOrEmpty(enddate)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing enddate field", Status = false }).Content));
+                else if (string.IsNullOrEmpty(enddate)) return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Missing EndDate field", Status = false }).Content));
 
                 if (Convert.ToDateTime(startdate) <= Convert.ToDateTime(enddate))
                 {
-                    var missionname = objMission.GetMissionName(teamjourneyid);
+                    var missionname = objMission.GetMissionName(teamJourneyId);
                     var jsonMission = JObject.Parse(JsonConvert.SerializeObject(missionname));
                     var MissionNamedet = jsonMission["Name"] + " " + jsonMission["TeamName"];
 
-                    mission mission = new mission();
-                    mission.TeamJourneyId = teamjourneyid;
+                    mission = new mission();
+                    mission.TeamJourneyId = teamJourneyId;
                     mission.Name = MissionNamedet;
                     mission.StartDate = Convert.ToDateTime(startdate);
                     mission.EndDate = Convert.ToDateTime(enddate);
@@ -143,7 +164,7 @@ namespace GEM.Controllers.API
                                 mission_practice mission_practice = new mission_practice();
                                 mission_practice.MissionId = missionDetail.MissionId;
                                 mission_practice.PracticeId = Convert.ToInt32(practiceid[i]);
-                                result = objMission.AddorUpdatemissionpractice(mission_practice);
+                                result = objMission.AddorUpdateMissionPractice(mission_practice);
                             }
                         }
 

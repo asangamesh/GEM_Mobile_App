@@ -104,10 +104,24 @@ namespace GEM.Controllers.API
         {
             try
             {
+                var objmission = new MissionServices();
+                mission mission = new mission();
+                mission.TeamJourneyId = teamJourneyId;
                 var journeyMember = objJourney.GetTeamJourneyMember(teamJourneyId);
-                if (journeyMember == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
-
-               var teamJourneymember = new List<Models.team_journey_member>();
+                var availablemission = objmission.GetMission(mission);
+                if (availablemission != null)
+                {
+                    var missionavailable = objmission.GetMissioAvailable(teamJourneyId);
+                    if (missionavailable != null)
+                    {
+                        return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Existing mission is not complete", Status = false }).Content));
+                    }
+                }
+                if (journeyMember == null || journeyMember.Count == 1)
+                {
+                    return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData("", 400, "Bad Request", Json(new { Message = "Add member to team", Status = false }).Content));
+                }
+                var teamJourneymember = new List<Models.team_journey_member>();
 
                 foreach (var team_journey_member in journeyMember.OrderBy(x => x.TeamJourneyMemberRoleId).ToList())
                 {
@@ -125,7 +139,7 @@ namespace GEM.Controllers.API
                     });
                 }
 
-                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamJourneymember, teamJourneymember.Count));
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { teamJourneymember, Status = true }).Content));
             }
             catch (Exception ex)
             {
@@ -148,7 +162,7 @@ namespace GEM.Controllers.API
 
                 if (role == "1")
                 {
-                    var memberDetails = objUser.GetUserDetails(new member { MemberId = Convert.ToInt16(createdBy)});
+                    var memberDetails = objUser.GetUserDetails(new member { MemberId = Convert.ToInt16(createdBy) });
                     if (memberDetails != null) emailAddress = memberDetails.EmailAddress;
                 }
 
@@ -235,7 +249,8 @@ namespace GEM.Controllers.API
                                     PracticeId = mission_practice.practice.PracticeId,
                                     Name = mission_practice.practice.Name,
                                     FluencyLevelId = mission_practice.practice.FluencyLevelId.Value,
-                                    fluency_level = new Models.fluency_level {
+                                    fluency_level = new Models.fluency_level
+                                    {
                                         FluencyLevelId = mission_practice.practice.fluency_level.FluencyLevelId,
                                         Number = mission_practice.practice.fluency_level.Number,
                                         Name = mission_practice.practice.fluency_level.Name,

@@ -44,7 +44,6 @@ Journey.prototype.InviteClicked = function () {
 Journey.prototype.SelectJourneyClicked = function () {
     var memberId = this.sessionID;
     var teamJourneyId = $('#Team_Journey_Id').val();
-
     if (teamJourneyId == undefined || teamJourneyId == '') { alert("please select team first.."); }
     else if (memberId == undefined || memberId == '') { alert('Session has been expired!'); window.location.href = '../Journey/Index'; }
     else {
@@ -60,7 +59,7 @@ Journey.prototype.SelectJourneyClicked = function () {
                     window.location.href = '../Mission/Index?teamJourneyId=' + teamJourneyId;
                 }
                 else {
-                    alert("Add member to start mission.");
+                    alert(result.Message);
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

@@ -33,12 +33,13 @@ namespace GEM.Controllers
                 model.teams = JsonConvert.DeserializeObject<Team_Journey>(JsonConvert.SerializeObject(userdetail));
 
                 response = objmission.GetFluency(teamJourneyId);
+
                 responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)response).Content.Data);
                 var fluencydetail = JObject.Parse(responseData);
 
-                model.fluencyname = fluencydetail["FluencyPractice"]["ShortName"].ToString();
+                model.fluencyname = fluencydetail["Data"][0]["fluency"]["ShortName"].ToString();
 
-                foreach (var item in fluencydetail["FluencyPractice"]["practice"])
+                foreach (var item in fluencydetail["Data"])
                 {
                     loadPractice.Add(new Practice
                     {
@@ -48,12 +49,12 @@ namespace GEM.Controllers
                         SequenceNum = Convert.ToInt32(item["SequenceNum"]),
                         PrerequisiteNum = Convert.ToInt32(item["PrerequisiteNum"])
                     });
-
                 }
 
                 model.practiceList = loadPractice;
                 model.teamjourneyid = teamJourneyId;
                 return View("Index", model);
+               // return RedirectToAction("Request");
             }
             else
             {
