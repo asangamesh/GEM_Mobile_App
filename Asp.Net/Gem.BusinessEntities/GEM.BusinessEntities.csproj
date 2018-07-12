@@ -136,12 +136,6 @@
     <Compile Include="team_journey_practice.cs">
       <DependentUpon>GEMEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="team_member.cs">
-      <DependentUpon>GEMEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="team_member_role.cs">
-      <DependentUpon>GEMEntity.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

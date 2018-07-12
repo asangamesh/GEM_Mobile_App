@@ -14,7 +14,14 @@ namespace Gem.BusinessEntities
     
     public partial class team_journey_member_role
     {
+        public team_journey_member_role()
+        {
+            this.team_journey_member = new HashSet<team_journey_member>();
+        }
+    
         public int TeamJourneyMemberRoleId { get; set; }
         public string Name { get; set; }
+    
+        public virtual ICollection<team_journey_member> team_journey_member { get; set; }
     }
 }

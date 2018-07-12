@@ -27,7 +27,6 @@ namespace Gem.BusinessEntities
         public System.DateTime CreatedDate { get; set; }
         public int CreatedBy { get; set; }
     
-        public virtual member member { get; set; }
         public virtual ICollection<journey_practice> journey_practice { get; set; }
         public virtual ICollection<team_journey> team_journey { get; set; }
         public virtual team_focus team_focus { get; set; }

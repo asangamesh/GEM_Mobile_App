@@ -191,6 +191,8 @@ namespace GEM.Controllers.API
             {
                 var mission = objJourney.GetTeamPractice(teamJourneyId);
 
+                if (mission == null) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "No mission was found", Status = false }).Content));
+
                 var teamMission = new Models.mission();
                 var missionPractices = new List<Models.mission_practice>();
 
@@ -246,6 +248,85 @@ namespace GEM.Controllers.API
                 };
 
                 return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamMission, null));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
+        [HttpGet, Route("api/memberPractice")]
+        public IHttpActionResult GetMissionbyMember(int memberid)
+        {
+            try
+            {
+                var missions = objJourney.GetMemberPractice(memberid);
+
+                var gmissions = missions.GroupBy(x => x.MissionId).ToList();
+
+                if (missions == null) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "No mission was found", Status = false }).Content));
+
+                var teamMission = new List<Models.mission>();
+                var missionPractices = new List<Models.mission_practice>();
+
+                foreach (var gmission in gmissions)
+                {
+                    var mission = gmission.ToList().FirstOrDefault();
+
+                    foreach (var practice in mission.mission_practice)
+                    {
+                        var measures = new List<Models.measure>();
+                        foreach (var measure in practice.practice.measures.ToList())
+                        {
+                            measures.Add(new Models.measure
+                            {
+                                MeasureId = measure.MeasureId,
+                                PracticeId = measure.PracticeId.Value,
+                                Measure1 = measure.Measure1,
+                                Description = measure.Description
+                            });
+                        }
+
+                        missionPractices.Add(new Models.mission_practice
+                        {
+                            MissionPracticeId = practice.MissionPracticeId,
+                            PracticeId = practice.PracticeId,
+                            practice = new Models.Practice
+                            {
+                                PracticeId = practice.practice.PracticeId,
+                                Name = practice.practice.Name,
+                                FluencyLevelId = practice.practice.FluencyLevelId.Value,
+                                SequenceNum = practice.practice.SequenceNum.Value,
+                                PrerequisiteNum = practice.practice.PrerequisiteNum.Value,
+                                fluency_level = new Models.fluency_level
+                                {
+                                    FluencyLevelId = practice.practice.fluency_level.FluencyLevelId,
+                                    Name = practice.practice.fluency_level.Name,
+                                    Number = practice.practice.fluency_level.Number,
+                                    ShortName = practice.practice.fluency_level.ShortName
+                                },
+                                measures = measures
+                            }
+                        });
+                    };
+
+                    teamMission.Add(new Models.mission
+                    {
+                        MissionId = mission.MissionId,
+                        TeamJourneyId = mission.TeamJourneyId,
+                        Name = mission.Name,
+                        StartDate = mission.StartDate,
+                        EndDate = mission.EndDate,
+                        mission_practice = missionPractices,
+                        team = new Models.team
+                        {
+                            TeamId = mission.team_journey.team.TeamId,
+                            Name = mission.team_journey.team.Name,
+                        }
+                    });
+                }
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamMission, teamMission.Count));
             }
             catch (Exception ex)
             {

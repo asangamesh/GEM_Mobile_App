@@ -16,11 +16,8 @@ namespace Gem.BusinessEntities
     {
         public member()
         {
-            this.journeys = new HashSet<journey>();
-            this.teams = new HashSet<team>();
             this.mission_member_measure_assesment = new HashSet<mission_member_measure_assesment>();
             this.team_journey_member = new HashSet<team_journey_member>();
-            this.teams1 = new HashSet<team>();
         }
     
         public int MemberId { get; set; }
@@ -28,10 +25,7 @@ namespace Gem.BusinessEntities
         public System.DateTime CreatedDate { get; set; }
         public int CreatedBy { get; set; }
     
-        public virtual ICollection<journey> journeys { get; set; }
-        public virtual ICollection<team> teams { get; set; }
         public virtual ICollection<mission_member_measure_assesment> mission_member_measure_assesment { get; set; }
         public virtual ICollection<team_journey_member> team_journey_member { get; set; }
-        public virtual ICollection<team> teams1 { get; set; }
     }
 }

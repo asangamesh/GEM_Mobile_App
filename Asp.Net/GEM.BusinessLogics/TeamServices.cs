@@ -30,15 +30,6 @@ namespace GEM.BusinessLogics
             return objteam;
         }
 
-        public List<team> GetTeam(int userid)
-        {
-            gemdb = new gemEntities1();
-
-            var objteam = (from t in gemdb.teams join tm in gemdb.team_member on t.TeamId equals tm.TeamId where tm.MemberId == userid select t) .ToList();
-
-            return objteam;
-        }
-
         public team GetTeamById(int teamId)
         {
             gemdb = new gemEntities1();
@@ -46,15 +37,6 @@ namespace GEM.BusinessLogics
             var objteam = (from t in gemdb.teams where t.TeamId == teamId select t).FirstOrDefault();
 
             return objteam;
-        }
-
-        public List<team_member> GetTeamMembers(int TeamId)
-        {
-            gemdb = new gemEntities1();
-
-            var objteamMember = (from tm in gemdb.team_member where tm.TeamId == TeamId select tm).ToList();
-
-            return objteamMember;
         }
 
         public List<team> GetTeam(team team)

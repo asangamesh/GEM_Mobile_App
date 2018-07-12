@@ -40,7 +40,5 @@ namespace Gem.BusinessEntities
         public DbSet<team_journey_member> team_journey_member { get; set; }
         public DbSet<team_journey_member_role> team_journey_member_role { get; set; }
         public DbSet<team_journey_practice> team_journey_practice { get; set; }
-        public DbSet<team_member> team_member { get; set; }
-        public DbSet<team_member_role> team_member_role { get; set; }
     }
 }

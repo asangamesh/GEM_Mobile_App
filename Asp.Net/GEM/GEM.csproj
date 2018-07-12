@@ -384,6 +384,7 @@
     <Content Include="Views\Journey\ViewTeamMember.cshtml" />
     <Content Include="Views\Journey\Mission.cshtml" />
     <Content Include="Views\Team\TeamMeasure.cshtml" />
+    <Content Include="Views\Team\Measures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

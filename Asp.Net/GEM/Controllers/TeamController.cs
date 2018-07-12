@@ -15,18 +15,58 @@ namespace GEM.Controllers
     public class TeamController : Controller
     {
         // GET: Team
-        public ActionResult Measures(int journeyId)
+        public ActionResult Measures(int journeyId = 0)
         {
-            var objTeam = new API.TeamController();
-            var model = new Models.mission();
+            if (ValidateSessionID("LoginMemberID"))
+            {
+                if (journeyId == 0) return Index();
 
-            var json = objTeam.GetMission(journeyId);
-            string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)json).Content);
-            var teamDetails = JObject.Parse(responseData);
+                int memberId = Convert.ToInt16(Session["LoginMemberID"]);
 
-            model = JsonConvert.DeserializeObject<Models.mission>(JsonConvert.SerializeObject(teamDetails["Data"]));
-            return View("TeamMeasure", model);
+                var objTeam = new API.TeamController();
+                var model = new Models.mission();
+
+                var json = objTeam.GetMission(journeyId);
+                string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)json).Content);
+                var teamDetails = JObject.Parse(responseData);
+
+                model = JsonConvert.DeserializeObject<Models.mission>(JsonConvert.SerializeObject(teamDetails["Data"]));
+                return View("TeamMeasure", model);
+            }
+            else
+            {
+                return View("../Users/Index");
+            }
         }
 
+        // GET: Team
+        public ActionResult Index()
+        {
+            if (ValidateSessionID("LoginMemberID"))
+            {
+                int memberId = Convert.ToInt16(Session["LoginMemberID"]);
+
+                var objTeam = new API.TeamController();
+                var model = new List<Models.mission>();
+
+                var json = objTeam.GetMissionbyMember(memberId);
+                string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)json).Content);
+                var teamDetails = JObject.Parse(responseData);
+
+                model = JsonConvert.DeserializeObject<List<Models.mission>>(JsonConvert.SerializeObject(teamDetails["Data"]));
+                return View("Measures", model);
+            }
+            else
+            {
+                return View("../Users/Index");
+            }
+        }
+
+        private bool ValidateSessionID(string sessionId)
+        {
+            if (Session == null || Session.Count == 0) return false;
+            else if (Session[sessionId] != null) return true;
+            else return false;
+        }
     }
 }

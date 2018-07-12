@@ -30,33 +30,6 @@ namespace GEM.BusinessLogics
             return objJourney;
         }
 
-        public journey GetJourney(int JourneyId, int memberId)
-        {
-            gemdb = new gemEntities1();
-
-            var objJourney = (from j in gemdb.journeys join tj in gemdb.team_journey on j.JourneyId equals tj.JourneyId join tm in gemdb.team_journey_member on tj.TeamJourneyId equals tm.TeamJourneyId where j.JourneyId == JourneyId && tm.MemberId == memberId select j).FirstOrDefault();
-
-            return objJourney;
-        }
-
-        public List<journey> GetJourneybyTeamId(int TeamId)
-        {
-            gemdb = new gemEntities1();
-
-            var objJourneys = (from j in gemdb.journeys join tj in gemdb.team_journey on j.JourneyId equals tj.JourneyId where tj.TeamId == TeamId select j).ToList();
-
-            return objJourneys;
-        }
-
-        public List<journey> GetJourneybyUserId(int MemberId)
-        {
-            gemdb = new gemEntities1();
-
-            var objJourneys = (from j in gemdb.journeys join tj in gemdb.team_journey on j.JourneyId equals tj.JourneyId join tm in gemdb.team_journey_member on tj.TeamJourneyId equals tm.TeamJourneyId where tm.MemberId == MemberId select j).ToList();
-
-            return objJourneys;
-        }
-
         public List<team_journey> GetTeams(int journeyId, int memberId)
         {
             gemdb = new gemEntities1();
@@ -121,6 +94,15 @@ namespace GEM.BusinessLogics
             gemdb = new gemEntities1();
 
             var objMission = (from p in gemdb.practices join mp in gemdb.mission_practice on p.PracticeId equals mp.PracticeId join m in gemdb.missions on mp.MissionId equals m.MissionId join tj in gemdb.team_journey on m.TeamJourneyId equals tj.TeamJourneyId where tj.TeamJourneyId == teamJourneyId select m).FirstOrDefault();
+
+            return objMission;
+        }
+
+        public List<mission> GetMemberPractice(int memberid)
+        {
+            gemdb = new gemEntities1();
+
+            var objMission = (from p in gemdb.practices join mp in gemdb.mission_practice on p.PracticeId equals mp.PracticeId join m in gemdb.missions on mp.MissionId equals m.MissionId join tj in gemdb.team_journey on m.TeamJourneyId equals tj.TeamJourneyId join tjm in gemdb.team_journey_member on tj.TeamJourneyId equals tjm.TeamJourneyId where tjm.MemberId == memberid select m).ToList();
 
             return objMission;
         }

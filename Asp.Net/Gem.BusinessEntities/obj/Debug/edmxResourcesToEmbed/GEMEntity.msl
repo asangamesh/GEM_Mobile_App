@@ -153,25 +153,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="team_member">
-      <EntityTypeMapping TypeName="gemModel.team_member">
-        <MappingFragment StoreEntitySet="team_member">
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="TeamMemberRoleId" ColumnName="TeamMemberRoleId" />
-          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
-          <ScalarProperty Name="TeamMemberId" ColumnName="TeamMemberId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="team_member_role">
-      <EntityTypeMapping TypeName="gemModel.team_member_role">
-        <MappingFragment StoreEntitySet="team_member_role">
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="TeamMemberRoleId" ColumnName="TeamMemberRoleId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

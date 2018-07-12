@@ -65,16 +65,31 @@ namespace GEM.Controllers.API
                 }
 
                 if (loginUser == null) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "There isn't an account for this email address", Status = false }).Content));
-                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
+                else
                 {
-                    User = new
+                    var teamMemberRole = new List<object>();
+                    foreach (var teamJourneyMemberRole in loginUser.team_journey_member.ToList()) teamMemberRole.Add(new
                     {
-                        UserId = loginUser.MemberId,
-                        EmailAddress = loginUser.EmailAddress,
-                        CreatedDate= loginUser.CreatedDate,
-                    },
-                    Status = true
-                }).Content));
+                        TeamJourneyId = teamJourneyMemberRole.team_journey.TeamJourneyId,
+                        JourneyId = teamJourneyMemberRole.team_journey.JourneyId,
+                        TeamId = teamJourneyMemberRole.team_journey.TeamId,
+                        TeamName = teamJourneyMemberRole.team_journey.team.Name,
+                        MemberRoleId = teamJourneyMemberRole.team_journey_member_role.TeamJourneyMemberRoleId,
+                        MemberRole = teamJourneyMemberRole.team_journey_member_role.Name
+                    });
+
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
+                    {
+                        User = new
+                        {
+                            UserId = loginUser.MemberId,
+                            EmailAddress = loginUser.EmailAddress,
+                            CreatedDate = loginUser.CreatedDate,
+                            TeamMemberRole = teamMemberRole
+                        },
+                        Status = true
+                    }).Content, null));
+                }
             }
             catch(Exception ex)
             {
@@ -89,16 +104,30 @@ namespace GEM.Controllers.API
             {
                 var loginUser = objLogin.GetUserDetails(new member { MemberId = memberId });
                 if (loginUser == null) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "you entered member id is not found", Status = false }).Content));
-                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
+                else
                 {
-                    User = new
+                    var teamMemberRole = new List<object>();
+                    foreach (var teamJourneyMemberRole in loginUser.team_journey_member.ToList()) teamMemberRole.Add(new
                     {
-                        UserId = loginUser.MemberId,
-                        EmailAddress = loginUser.EmailAddress,
-                        CreatedDate = loginUser.CreatedDate,
-                    },
-                    Status = true
-                }).Content));
+                        TeamId = teamJourneyMemberRole.team_journey.team.TeamId,
+                        JourneyId = teamJourneyMemberRole.team_journey.JourneyId,
+                        TeamName = teamJourneyMemberRole.team_journey.team.Name,
+                        MemberRoleId = teamJourneyMemberRole.team_journey_member_role.TeamJourneyMemberRoleId,
+                        MemberRole = teamJourneyMemberRole.team_journey_member_role.Name
+                    });
+
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
+                    {
+                        User = new
+                        {
+                            UserId = loginUser.MemberId,
+                            EmailAddress = loginUser.EmailAddress,
+                            CreatedDate = loginUser.CreatedDate,
+                            TeamMemberRole = teamMemberRole
+                        },
+                        Status = true
+                    }).Content, null));
+                }
             }
             catch (Exception ex)
             {

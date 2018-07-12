@@ -52,7 +52,8 @@ User.prototype.LoginClicked = function () {
             async: false,
             data: { 'email': email },
             success: function (result) {
-                window.location.href = '../Journey/Create';
+                if (result.RoleAccess == 1) window.location.href = '../Journey/Create';
+                else window.location.href = '../Team/Index';
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("You have entered incorrect username and password");

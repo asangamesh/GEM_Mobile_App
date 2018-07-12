@@ -24,7 +24,7 @@ namespace GEM.Controllers
             return View("Index");
         }
 
-        public ActionResult Logon(string email)
+        public JsonResult Logon(string email)
         {
             var objLogin = new API.UserController();
             try
@@ -39,7 +39,18 @@ namespace GEM.Controllers
                 CreateSession("LoginMemberID", userId);
                 CreateSession("LoginEmail", emailAddress);
 
-                return Content("success", "OK");
+                var role = 1;
+                var memberRoles = user["User"]["TeamMemberRole"];
+                foreach (var mRole in memberRoles)
+                {
+                    if (Convert.ToInt16(mRole["MemberRoleId"]) == 2)
+                    {
+                        role = 2;
+                        break;
+                    }
+                }
+
+                return Json(new { Status = true, RoleAccess = role }, JsonRequestBehavior.AllowGet);
             }
             catch(Exception ex)
             {

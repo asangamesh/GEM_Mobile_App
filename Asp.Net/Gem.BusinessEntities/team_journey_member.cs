@@ -21,5 +21,6 @@ namespace Gem.BusinessEntities
     
         public virtual member member { get; set; }
         public virtual team_journey team_journey { get; set; }
+        public virtual team_journey_member_role team_journey_member_role { get; set; }
     }
 }

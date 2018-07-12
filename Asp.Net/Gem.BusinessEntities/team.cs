@@ -27,8 +27,6 @@ namespace Gem.BusinessEntities
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
     
-        public virtual member member { get; set; }
-        public virtual member member1 { get; set; }
         public virtual ICollection<team_journey> team_journey { get; set; }
     }
 }
