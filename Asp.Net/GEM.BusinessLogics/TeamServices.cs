@@ -71,5 +71,11 @@ namespace GEM.BusinessLogics
             gemdb.team_journey_member.RemoveRange(teamjourneymember);
             return gemdb.SaveChanges();
         }
+        public int AddorUpdateTeamMemberMeasure(mission_member_measure_assesment missionMemberMeasureAssesment)
+        {
+            gemdb = new gemEntities1();
+            gemdb.mission_member_measure_assesment.AddOrUpdate(missionMemberMeasureAssesment);
+            return gemdb.SaveChanges();
+        }
     }
 }

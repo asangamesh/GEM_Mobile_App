@@ -91,7 +91,7 @@ namespace GEM.Controllers.API
                 foreach (var team in teams)
                 {
                     teamJourneymember = new List<Models.team_journey_member>();
-                    foreach (var team_journey_member in team.team_journey_member.OrderBy(x=>x.TeamJourneyMemberRoleId).ToList())
+                    foreach (var team_journey_member in team.team_journey_member.OrderBy(x => x.TeamJourneyMemberRoleId).ToList())
                     {
                         teamJourneymember.Add(new Models.team_journey_member
                         {
@@ -164,7 +164,7 @@ namespace GEM.Controllers.API
                 if (result == 1)
                 {
                     var Team = objTeam.GetTeam(team);
-                    
+
                     team_journey teamJourney = new team_journey();
                     teamJourney.TeamId = Team[0].TeamId;
                     teamJourney.JourneyId = Convert.ToInt32(journeyId);
@@ -176,6 +176,33 @@ namespace GEM.Controllers.API
                 }
 
                 else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request is not saved, try again later!", Status = false }).Content));
+
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
+        [HttpPost, Route("api/PostAssesment")]
+        public IHttpActionResult PostAssesment([FromBody]dynamic data)
+        {
+            try
+            {
+                var json = (JToken)JObject.Parse(JsonConvert.SerializeObject(data));
+                JArray measure = JArray.Parse(json["array"].ToString());
+                string Id = Convert.ToString(json["TeamId"]);
+                for (int i = 0; i < measure.Count; i++)
+                {
+                    mission_member_measure_assesment memberMeasure = new mission_member_measure_assesment();
+                    memberMeasure.MissionId = Convert.ToInt32(measure[i]["missionId"]);
+                    memberMeasure.MemberId = Convert.ToInt32(measure[i]["memberId"]);
+                    memberMeasure.MeasureId = Convert.ToInt32(measure[i]["measureId"]);
+                    memberMeasure.Assesment = Convert.ToInt32(measure[i]["assesment"]);
+                    var result = objTeam.AddorUpdateTeamMemberMeasure(memberMeasure);
+                }
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "your request is saved", Status = true }).Content));
 
             }
             catch (Exception ex)
@@ -231,7 +258,7 @@ namespace GEM.Controllers.API
                             measures = measures
                         }
                     });
-                 };
+                };
 
                 teamMission = new Models.mission
                 {
@@ -241,7 +268,8 @@ namespace GEM.Controllers.API
                     StartDate = mission.StartDate,
                     EndDate = mission.EndDate,
                     mission_practice = missionPractices,
-                    team = new Models.team {
+                    team = new Models.team
+                    {
                         TeamId = mission.team_journey.team.TeamId,
                         Name = mission.team_journey.team.Name,
                     }
@@ -360,8 +388,8 @@ namespace GEM.Controllers.API
                 if (objtjmember == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
 
                 var journey = objTeam.DeleteTeamMember(objtjmember);
-              
-                if(journey == 1) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { MemberID = objtjmember.member.EmailAddress, Message = "Member has been removed from team", Status = true }).Content));
+
+                if (journey == 1) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { MemberID = objtjmember.member.EmailAddress, Message = "Member has been removed from team", Status = true }).Content));
                 else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { MemberID = objtjmember.member.EmailAddress, Message = "The request process does not completed please try again!", Status = true }).Content));
             }
             catch (Exception ex)
@@ -378,7 +406,7 @@ namespace GEM.Controllers.API
                 team_journey_member objtjmember = objTeam.GetTeamJourneyMember(tjmemberId);
                 if (objtjmember == null) return Content(HttpStatusCode.NoContent, CommonHelper.ResponseData("", 204, "No Content"));
 
-                var leaders = objJourney.GetTeamJourneyMember(objtjmember.TeamJourneyId.Value).Where(x=>x.TeamJourneyMemberRoleId == 1).ToList();
+                var leaders = objJourney.GetTeamJourneyMember(objtjmember.TeamJourneyId.Value).Where(x => x.TeamJourneyMemberRoleId == 1).ToList();
                 foreach (var leader in leaders)
                 {
                     leader.TeamJourneyMemberRoleId = 2;

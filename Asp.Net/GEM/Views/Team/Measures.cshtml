@@ -1,41 +1,41 @@
-﻿@model List< GEM.Models.mission>
+﻿@model List<GEM.Models.mission>
 
 @{
     ViewBag.Title = "View Practice";
 }
-
 @if (Model != null)
 {
     foreach (var mission in Model)
     {
-    <section class="col-lg-12">
+        <section class="col-lg-12">
 
-        <div class="container">
+            <div class="container">
 
-            <div class="col-lg-12 dashboardcontent memberarea">
+                <div class="col-lg-12 dashboardcontent memberarea">
 
-                <div class="col-lg-12 right-links">
+                    <div class="col-lg-12 right-links">
 
-                    <div class="col-lg-12 topbararea">
-                        <img src="../images/rocket.png" alr="Team"> <h4 class="journeytitle"> @mission.team.Name </h4>
-                    </div>
+                        <div class="col-lg-12 topbararea">
+                            <img src="../images/rocket.png" alr="Team"> <h4 class="journeytitle"> @mission.team.Name </h4>
+                        </div>
 
-                    <div class="row">
+                        <div class="row">
+                            <input type="hidden" id="missionId" value="@mission.MissionId" />
+                            <input type="hidden" id="memberId" value="@Session["LoginMemberId"].ToString()" />
+                            <div class="col-lg-12 teams-control">
 
-                        <div class="col-lg-12 teams-control">
-
-                            <div class="bs-example">
-                                <div class="panel-group" id="accordion">
-                                    @foreach (var practice in mission.mission_practice)
-                                    {
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_@practice.practice.PracticeId"> <img src="../images/rocket.png"> @practice.practice.Name <i> [ @practice.practice.fluency_level.ShortName ]</i><span> <img src="../images/add-icon.png" alt="+"> </span></a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseOne_@practice.practice.PracticeId" class="panel-collapse collapse" style="width: 100%;">
-                                                <div class="panel-body">
+                                <div class="bs-example">
+                                    <div class="panel-group" id="accordion">
+                                        @foreach (var practice in mission.mission_practice)
+                                        {
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_@practice.practice.PracticeId"> <img src="../images/rocket.png"> @practice.practice.Name <i> [ @practice.practice.fluency_level.ShortName ]</i><span> <img src="../images/add-icon.png" alt="+"> </span></a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseOne_@practice.practice.PracticeId" class="panel-collapse collapse" style="width: 100%;">
+                                                    @*<div class="panel-body">*@
 
                                                     <div class="col-lg-12 team-details">
                                                         <div class="rating-content">
@@ -50,7 +50,9 @@
                                                                     <li class="@classname">
                                                                         <span class="rating-item"> @(i + 1) . @practice.practice.measures[i].Measure1</span>
                                                                         <span class="rating-icons">
-                                                                            <span class="rating-icons1"><a href="#"><i class="fa fa-thumbs-up active" style="font-size:24px"></i></a></span><span class="rating-icons2"><a href="#"><i class="fa fa-thumbs-down" style="font-size:24px"></i></a></span><span class="rating-icons3"><a href="#"><i class="fa fa-thumbs-down" style="font-size:24px"></i></a></span>
+                                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@practice.practice.measures[i].MeasureId" onclick="vote(@practice.practice.measures[i].MeasureId, 1)" class="fa fa-thumbs-up " style="font-size:22px"></a></span>
+                                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@practice.practice.measures[i].MeasureId" onclick="vote(@practice.practice.measures[i].MeasureId, 2)" class="fa fa-thumbs-down " style="font-size:22px"></a></span>
+                                                                            <span class="rating-icons3"><a href="#" id="thumbs3_@practice.practice.measures[i].MeasureId" onclick="vote(@practice.practice.measures[i].MeasureId, 3)" class="fa fa-thumbs-down " style="font-size:22px"></a></span>
                                                                         </span>
                                                                     </li>
                                                                 }
@@ -60,19 +62,22 @@
 
                                                     </div>
 
+                                                    @*</div>*@
                                                 </div>
-                                            </div>
-                                        </div> <!-- panel default 1 -->
+                                            </div> <!-- panel default 1 -->
 
-                                    }
+                                        }
 
-                                    <div class="mission-member-buttons col-md-12">
-                                        <div class="row">
-                                            <div class="review-submit-content">
-                                                <button type="submit" class="btn btn-primary review-submission">submit Review</button>
+                                        <div class="mission-member-buttons col-md-12">
+                                            <div class="row">
+                                                <div class="review-submit-content">
+                                                    <input type="button" id="btnSubmitReview" class="btn btn-primary review-submission" value="submit Review" />
+                                                    @*<button type="submit" class="btn btn-primary review-submission">submit Review</button>*@
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
 
                             </div>
@@ -81,66 +86,149 @@
 
                     </div>
 
-                </div>
-
-            </div> <!-- /1 dashboardbg -->
+                </div> <!-- /1 dashboardbg -->
 
 
-            <div id="myMemberModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title"> <img src="../images/rocket.png"> Form Delivery Team </h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="col-md-12 clspracticedesc">
-                                <h4> Description: </h4>
-                                <p>Vestibulum ultrices blandit quam. Phasellus ex nunc, vulputate sed dignissim eget, vehicula non ipsum. Suspendisse fermentum lacus magna. Fusce vel malesuada ex. Fusce rutrum libero ut ligula tristique, quis posuere urna maximus. Fusce commodo commodo varius. Cras tincidunt feugiat congue. </p>
+                <div id="myMemberModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title"> <img src="../images/rocket.png"> Form Delivery Team </h4>
                             </div>
-                            <div class="col-md-12 clsmissionduration">
-                                <h4> Start Date: <span> 12/12/2018 </span> </h4>
-                                <h4> End Date: <span> 17/12/2018 </span> </h4>
+                            <div class="modal-body">
+                                <div class="col-md-12 clspracticedesc">
+                                    <h4> Description: </h4>
+                                    <p>Vestibulum ultrices blandit quam. Phasellus ex nunc, vulputate sed dignissim eget, vehicula non ipsum. Suspendisse fermentum lacus magna. Fusce vel malesuada ex. Fusce rutrum libero ut ligula tristique, quis posuere urna maximus. Fusce commodo commodo varius. Cras tincidunt feugiat congue. </p>
+                                </div>
+                                <div class="col-md-12 clsmissionduration">
+                                    <h4> Start Date: <span> 12/12/2018 </span> </h4>
+                                    <h4> End Date: <span> 17/12/2018 </span> </h4>
+                                </div>
+                                <a class="gff-base-link" href="#"> More info from GFF Base </a>
                             </div>
-                            <a class="gff-base-link" href="#"> More info from GFF Base </a>
-                        </div>
-                        <div class="modal-footer">
-                            <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-                            <button type="submit" class="btn btn-primary">Accept Mission</button>
-                            <button id="reject-practice-btn" type="submit" class="btn btn-danger">Reject Mission</button>
-                        </div>
+                            <div class="modal-footer">
+                                <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+                                <button type="submit" class="btn btn-primary">Accept Mission</button>
+                                <button id="reject-practice-btn" type="submit" class="btn btn-danger">Reject Mission</button>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
-            <div id="rejectionModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title"> <img src="../images/rocket.png"> Form Delivery Team </h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="col-md-12 clspracticedesc rejectionform">
-                                <h4> Please enter the reason for rejection: </h4>
-                                <textarea name="reason" class="rejection-text" placeholder="Enter the reason"> </textarea>
+                <div id="rejectionModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title"> <img src="../images/rocket.png"> Form Delivery Team </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-md-12 clspracticedesc rejectionform">
+                                    <h4> Please enter the reason for rejection: </h4>
+                                    <textarea name="reason" class="rejection-text" placeholder="Enter the reason"> </textarea>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+                                <input type="button" id="btnSubmitMeasure" class="btn btn-primary" value="Submit" />
                             </div>
 
-
                         </div>
-                        <div class="modal-footer">
-                            <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-
                     </div>
                 </div>
-            </div>
 
-    </section>
+        </section>
 
     }
 }
+
+<script>
+
+    function vote(id, thumbs) {
+
+        var thumbsId = $('#thumbs' + thumbs + '_' + id)[0].id;
+        var nameList = thumbsId.split('_');
+
+        $('#thumbs' + 1 + '_' + id)[0].className = $('#thumbs' + 1 + '_' + id)[0].className.replace("active", "")
+        $('#thumbs' + 2 + '_' + id)[0].className = $('#thumbs' + 2 + '_' + id)[0].className.replace("active", "")
+        $('#thumbs' + 3 + '_' + id)[0].className = $('#thumbs' + 3 + '_' + id)[0].className.replace("active", "")
+
+        if (nameList[0] == 'thumbs1') {
+
+            $('#thumbs' + 1 + '_' + id)[0].className = $('#thumbs' + 1 + '_' + id)[0].className + "active"
+        }
+        else if (nameList[0] == 'thumbs2') {
+
+            $('#thumbs' + 2 + '_' + id)[0].className = $('#thumbs' + 2 + '_' + id)[0].className + "active"
+
+        }
+        else if (nameList[0] == 'thumbs3') {
+
+            $('#thumbs' + 3 + '_' + id)[0].className = $('#thumbs' + 3 + '_' + id)[0].className + "active"
+        }
+    }
+</script>
+
+<script>
+    debugger;
+    $("#btnSubmitReview").click(function () {
+        debugger;
+
+        var assesment = 0;
+
+        var missionId = 124;
+        var memberId = 91;
+        var array = new Array();
+        for (i = 1 ; i < $('.active').length; i++) {
+            var thumbs = $('.active')[i].id.split('_');
+            var measureId = thumbs[1];
+            switch (thumbs[0]) {
+                case 'thumbs1':
+                    assesment = 5;
+                    break;
+                case 'thumbs2':
+                    assesment = 3;
+                    break;
+                case 'thumbs3':
+                    assesment = 1;
+                    break;
+                    missionId
+            }
+            array[i - 1] = {
+                missionId: missionId,
+                memberId: memberId,
+                measureId: measureId,
+                assesment: assesment
+            }
+
+        }
+
+        var model = { array: array };
+        $.ajax({
+            url: "/api/PostAssesment",
+            type: 'post',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                alert(result.data.message);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("team creation is failed..!");
+            }
+        });
+
+    });
+    $(".btnSubmitMeasure").click(function () {
+        debugger;
+        alert("Hello");
+    });
+
+</script>
