@@ -43,12 +43,14 @@ namespace GEM.Controllers
                 var memberRoles = user["User"]["TeamMemberRole"];
                 foreach (var mRole in memberRoles)
                 {
-                    if (Convert.ToInt16(mRole["MemberRoleId"]) == 2)
+                    if (Convert.ToInt16(mRole["Member"]["MemberRoleId"]) == 2)
                     {
                         role = 2;
                         break;
                     }
                 }
+
+                CreateSession("LoginRole", role.ToString());
 
                 return Json(new { Status = true, RoleAccess = role }, JsonRequestBehavior.AllowGet);
             }

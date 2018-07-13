@@ -71,11 +71,21 @@ namespace GEM.Controllers.API
                     foreach (var teamJourneyMemberRole in loginUser.team_journey_member.ToList()) teamMemberRole.Add(new
                     {
                         TeamJourneyId = teamJourneyMemberRole.team_journey.TeamJourneyId,
-                        JourneyId = teamJourneyMemberRole.team_journey.JourneyId,
-                        TeamId = teamJourneyMemberRole.team_journey.TeamId,
-                        TeamName = teamJourneyMemberRole.team_journey.team.Name,
-                        MemberRoleId = teamJourneyMemberRole.team_journey_member_role.TeamJourneyMemberRoleId,
-                        MemberRole = teamJourneyMemberRole.team_journey_member_role.Name
+                        Team = new
+                        {
+                            TeamId = teamJourneyMemberRole.team_journey.team.TeamId,
+                            TeamName = teamJourneyMemberRole.team_journey.team.Name
+                        },
+                        Journey = new
+                        {
+                            JourneyId = teamJourneyMemberRole.team_journey.JourneyId.Value,
+                            Name = Utilities.HelperEnum.JourneyInformation(true)[teamJourneyMemberRole.team_journey.JourneyId.Value]
+                        },
+                        Member = new
+                        {
+                            MemberRoleId = teamJourneyMemberRole.team_journey_member_role.TeamJourneyMemberRoleId,
+                            MemberRole = teamJourneyMemberRole.team_journey_member_role.Name
+                        }
                     });
 
                     return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new
@@ -109,11 +119,22 @@ namespace GEM.Controllers.API
                     var teamMemberRole = new List<object>();
                     foreach (var teamJourneyMemberRole in loginUser.team_journey_member.ToList()) teamMemberRole.Add(new
                     {
-                        TeamId = teamJourneyMemberRole.team_journey.team.TeamId,
-                        JourneyId = teamJourneyMemberRole.team_journey.JourneyId,
-                        TeamName = teamJourneyMemberRole.team_journey.team.Name,
-                        MemberRoleId = teamJourneyMemberRole.team_journey_member_role.TeamJourneyMemberRoleId,
-                        MemberRole = teamJourneyMemberRole.team_journey_member_role.Name
+                        TeamJourneyId = teamJourneyMemberRole.team_journey.TeamJourneyId,
+                        Team = new
+                        {
+                            TeamId = teamJourneyMemberRole.team_journey.team.TeamId,
+                            TeamName = teamJourneyMemberRole.team_journey.team.Name
+                        },
+                        Journey = new 
+                        {
+                            JourneyId = teamJourneyMemberRole.team_journey.JourneyId.Value,
+                            Name = Utilities.HelperEnum.JourneyInformation(true)[teamJourneyMemberRole.team_journey.JourneyId.Value]
+                        },
+                        Member = new
+                        {
+                            MemberRoleId = teamJourneyMemberRole.team_journey_member_role.TeamJourneyMemberRoleId,
+                            MemberRole = teamJourneyMemberRole.team_journey_member_role.Name
+                        }
                     });
 
                     return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new

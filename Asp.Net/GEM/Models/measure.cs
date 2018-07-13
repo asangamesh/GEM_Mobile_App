@@ -13,5 +13,7 @@ namespace GEM.Models
         public string Description { get; set; }
         public string Why { get; set; }
         public string When { get; set; }
+
+        public List<mission_member_measure_assesment> mission_member_measure_assesment { get; set; }
     }
 }

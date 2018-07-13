@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "View Practice";
 }
+<script src="~/Scripts/Team/Team.js" type="text/jscript"></script>
 @if (Model != null)
 {
     foreach (var mission in Model)
@@ -16,17 +17,18 @@
                     <div class="col-lg-12 right-links">
 
                         <div class="col-lg-12 topbararea">
-                            <img src="../images/rocket.png" alr="Team"> <h4 class="journeytitle"> @mission.team.Name </h4>
+                            <img src="../images/rocket.png" alr="Team"> <h4 class="journeytitle"> @mission.Journey.Name </h4> 
+                            <h4 class="" style="float: left; width: 100%; position: relative; top: -40px; text-align: left; left: 80px;"> @mission.Team.Name </h4>
                         </div>
 
                         <div class="row">
                             <input type="hidden" id="missionId" value="@mission.MissionId" />
-                            <input type="hidden" id="memberId" value="@Session["LoginMemberId"].ToString()" />
+                            <input type="hidden" id="memberId" value="@Session["LoginMemberID"].ToString()" />
                             <div class="col-lg-12 teams-control">
 
                                 <div class="bs-example">
                                     <div class="panel-group" id="accordion">
-                                        @foreach (var practice in mission.mission_practice)
+                                        @foreach (var practice in mission.MissionPractice)
                                         {
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
@@ -42,22 +44,50 @@
                                                             <ul class="rating-list">
                                                                 @for (int i = 0; i < practice.practice.measures.Count; i++)
                                                                 {
-                                                                    var classname = "even";
-                                                                    if (i % 2 == 0)
+                                                                    var assessmentId = 0;
+                                                                    var assessment = 0;
+                                                                    var measure = practice.practice.measures[i];
+                                                                    string classname = "even", thumbsUp = "", thumbsDown = "", thumbsSideway = "";
+                                                                    if (i % 2 == 0) { classname = "odd"; }
+
+                                                                    if (measure.mission_member_measure_assesment.Count > 0)
                                                                     {
-                                                                        classname = "odd";
+                                                                        assessmentId = measure.mission_member_measure_assesment[0].MissionAssesmentId;
+
+                                                                        assessment = measure.mission_member_measure_assesment[0].Assesment;
+                                                                        if (assessment.Equals(5)) { thumbsUp = "active"; }
+                                                                        else if (assessment.Equals(1)) { thumbsDown = "active"; }
+                                                                        else if (assessment.Equals(3)) { thumbsSideway = "active"; }
                                                                     }
+
                                                                     <li class="@classname">
-                                                                        <span class="rating-item"> @(i + 1) . @practice.practice.measures[i].Measure1</span>
+                                                                        <span class="rating-item"> @(i + 1) . @measure.Measure1</span>
                                                                         <span class="rating-icons">
-                                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@practice.practice.measures[i].MeasureId" onclick="vote(@practice.practice.measures[i].MeasureId, 1)" class="fa fa-thumbs-up " style="font-size:22px"></a></span>
-                                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@practice.practice.measures[i].MeasureId" onclick="vote(@practice.practice.measures[i].MeasureId, 2)" class="fa fa-thumbs-down " style="font-size:22px"></a></span>
-                                                                            <span class="rating-icons3"><a href="#" id="thumbs3_@practice.practice.measures[i].MeasureId" onclick="vote(@practice.practice.measures[i].MeasureId, 3)" class="fa fa-thumbs-down " style="font-size:22px"></a></span>
+                                                                            <input type="hidden" id="Assessment_@measure.MeasureId" value="@assessmentId" />
+                                                                            @if(assessment == 5)
+                                                                            {
+                                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
+                                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
+                                                                            <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" onclick="vote(@measure.MeasureId, 1)" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
+                                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" onclick="vote(@measure.MeasureId, 2)" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
+                                                                            <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" onclick="vote(@measure.MeasureId, 3)" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
+                                                                            }
                                                                         </span>
                                                                     </li>
                                                                 }
-                                                            </ul>
 
+                                                            </ul>
+                                                            <div class="mission-member-buttons col-md-12">
+                                                                <div class="row">
+                                                                    <div class="review-submit-content">
+                                                                        <input type="button" id="btnSubmitReview" class="btn btn-primary review-submission" value="Submit" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -68,14 +98,13 @@
 
                                         }
 
-                                        <div class="mission-member-buttons col-md-12">
+                                        @*<div class="mission-member-buttons col-md-12">
                                             <div class="row">
                                                 <div class="review-submit-content">
                                                     <input type="button" id="btnSubmitReview" class="btn btn-primary review-submission" value="submit Review" />
-                                                    @*<button type="submit" class="btn btn-primary review-submission">submit Review</button>*@
-                                                </div>
+                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
                                     </div>
 
                                 </div>
@@ -88,35 +117,29 @@
 
                 </div> <!-- /1 dashboardbg -->
 
-
                 <div id="myMemberModal" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title"> <img src="../images/rocket.png"> Form Delivery Team </h4>
+                                <h4 class="modal-title">  @mission.Journey.Name </h4>
                             </div>
                             <div class="modal-body">
-                                <div class="col-md-12 clspracticedesc">
-                                    <h4> Description: </h4>
-                                    <p>Vestibulum ultrices blandit quam. Phasellus ex nunc, vulputate sed dignissim eget, vehicula non ipsum. Suspendisse fermentum lacus magna. Fusce vel malesuada ex. Fusce rutrum libero ut ligula tristique, quis posuere urna maximus. Fusce commodo commodo varius. Cras tincidunt feugiat congue. </p>
-                                </div>
+
                                 <div class="col-md-12 clsmissionduration">
-                                    <h4> Start Date: <span> 12/12/2018 </span> </h4>
-                                    <h4> End Date: <span> 17/12/2018 </span> </h4>
+                                    <h4> Team Name: <span> @mission.Team.Name </span> </h4>
+                                    <h4> Start Date: <span> @mission.StartDate.ToShortDateString() </span> </h4>
+                                    <h4> End Date: <span> @mission.EndDate.ToString() </span> </h4>
                                 </div>
-                                <a class="gff-base-link" href="#"> More info from GFF Base </a>
                             </div>
                             <div class="modal-footer">
-                                <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-                                <button type="submit" class="btn btn-primary">Accept Mission</button>
+                                <button type="submit" id="accept-practice-btn" class="btn btn-primary">Accept Mission</button>
                                 <button id="reject-practice-btn" type="submit" class="btn btn-danger">Reject Mission</button>
                             </div>
 
                         </div>
                     </div>
                 </div>
-
 
                 <div id="rejectionModal" class="modal fade">
                     <div class="modal-dialog">
@@ -147,88 +170,8 @@
 
     }
 }
-
 <script>
-
-    function vote(id, thumbs) {
-
-        var thumbsId = $('#thumbs' + thumbs + '_' + id)[0].id;
-        var nameList = thumbsId.split('_');
-
-        $('#thumbs' + 1 + '_' + id)[0].className = $('#thumbs' + 1 + '_' + id)[0].className.replace("active", "")
-        $('#thumbs' + 2 + '_' + id)[0].className = $('#thumbs' + 2 + '_' + id)[0].className.replace("active", "")
-        $('#thumbs' + 3 + '_' + id)[0].className = $('#thumbs' + 3 + '_' + id)[0].className.replace("active", "")
-
-        if (nameList[0] == 'thumbs1') {
-
-            $('#thumbs' + 1 + '_' + id)[0].className = $('#thumbs' + 1 + '_' + id)[0].className + "active"
-        }
-        else if (nameList[0] == 'thumbs2') {
-
-            $('#thumbs' + 2 + '_' + id)[0].className = $('#thumbs' + 2 + '_' + id)[0].className + "active"
-
-        }
-        else if (nameList[0] == 'thumbs3') {
-
-            $('#thumbs' + 3 + '_' + id)[0].className = $('#thumbs' + 3 + '_' + id)[0].className + "active"
-        }
-    }
-</script>
-
-<script>
-    debugger;
-    $("#btnSubmitReview").click(function () {
-        debugger;
-
-        var assesment = 0;
-
-        var missionId = 124;
-        var memberId = 91;
-        var array = new Array();
-        for (i = 1 ; i < $('.active').length; i++) {
-            var thumbs = $('.active')[i].id.split('_');
-            var measureId = thumbs[1];
-            switch (thumbs[0]) {
-                case 'thumbs1':
-                    assesment = 5;
-                    break;
-                case 'thumbs2':
-                    assesment = 3;
-                    break;
-                case 'thumbs3':
-                    assesment = 1;
-                    break;
-                    missionId
-            }
-            array[i - 1] = {
-                missionId: missionId,
-                memberId: memberId,
-                measureId: measureId,
-                assesment: assesment
-            }
-
-        }
-
-        var model = { array: array };
-        $.ajax({
-            url: "/api/PostAssesment",
-            type: 'post',
-            data: JSON.stringify(model),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-
-                alert(result.data.message);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("team creation is failed..!");
-            }
-        });
-
-    });
-    $(".btnSubmitMeasure").click(function () {
-        debugger;
-        alert("Hello");
-    });
-
+    var sessionId = '@Session["LoginMemberID"]';
+    var _TeamDet = new TeamDet(sessionId);
+    _TeamDet.Load();
 </script>

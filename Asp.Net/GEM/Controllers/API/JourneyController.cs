@@ -99,7 +99,7 @@ namespace GEM.Controllers.API
             }
         }
 
-        [HttpGet, Route("api/TeamMember")]
+        [HttpGet, Route("api/TeamMember/{teamJourneyId}")]
         public IHttpActionResult GetTeamJourney(int teamJourneyId)
         {
             try
@@ -267,7 +267,7 @@ namespace GEM.Controllers.API
                             Name = team_mission.Name,
                             StartDate = team_mission.StartDate,
                             EndDate = team_mission.EndDate,
-                            mission_practice = missionPractice
+                            MissionPractice = missionPractice
                         });
                         break;
                     }

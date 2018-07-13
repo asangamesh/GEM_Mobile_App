@@ -9,6 +9,7 @@ using static GEM.Utilities.HelperEnum;
 using GEM.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Drawing;
 
 namespace GEM.Controllers
 {

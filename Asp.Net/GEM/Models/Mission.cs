@@ -12,7 +12,8 @@ namespace GEM.Models
         public string Name { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
-        public virtual List<mission_practice> mission_practice { get; set; }
-        public virtual team team { get; set; }
+        public virtual List<mission_practice> MissionPractice { get; set; }
+        public virtual team Team { get; set; }
+        public virtual JourneyInformation Journey { get; set; }
     }
 }

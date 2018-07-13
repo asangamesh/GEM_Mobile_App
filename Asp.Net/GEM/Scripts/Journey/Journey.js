@@ -20,7 +20,7 @@ Journey.prototype.InviteClicked = function () {
     else {
         var model = { TeamJourneyId: teamJourneyId, MemberId: memberId, EmailAddress: email, Role: 2 }
         $.ajax({
-            url: "/api/journey",
+            url: "/api/teamMember",
             type: 'post',
             cache: false,
             data: JSON.stringify(model),

@@ -225,6 +225,7 @@
     <Compile Include="Models\member.cs" />
     <Compile Include="Models\mission.cs" />
     <Compile Include="Models\Mission_Info.cs" />
+    <Compile Include="Models\mission_member_measure_assesment.cs" />
     <Compile Include="Models\mission_practice.cs" />
     <Compile Include="Models\Practice.cs" />
     <Compile Include="Models\ResponseData.cs" />
