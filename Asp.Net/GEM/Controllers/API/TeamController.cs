@@ -99,15 +99,18 @@ namespace GEM.Controllers.API
         {
             try
             {
+                var objmission = new MissionServices();
                 var teams = objJourney.GetTeams(journeyId, memberId);
                 var teamName = objTeam.GetTeambyName(journeyId, memberId);
 
                 var teamJourney = new List<Models.Team_Journey>();
-                var teamJourneymember = new List<Models.team_journey_member>();
 
+                var teamJourneymember = new List<Models.team_journey_member>();
+                var missions = new List<Models.mission>();
                 foreach (var team in teams)
                 {
                     teamJourneymember = new List<Models.team_journey_member>();
+                    missions = new List<Models.mission>();
                     foreach (var team_journey_member in team.team_journey_member.OrderBy(x => x.TeamJourneyMemberRoleId).ToList())
                     {
                         teamJourneymember.Add(new Models.team_journey_member
@@ -116,19 +119,35 @@ namespace GEM.Controllers.API
                             TeamJourneyMemberId = team_journey_member.TeamJourneyMemberId,
                             TeamJourneyMemberRoleId = team_journey_member.TeamJourneyMemberRoleId,
                             MemberId = team_journey_member.MemberId,
+
                             member = new Models.member
                             {
                                 MemberId = team_journey_member.member.MemberId,
                                 EmailAddress = team_journey_member.member.EmailAddress
                             }
                         });
-                    }
 
+                    }
+                    foreach (var mission in team.missions.ToList())
+                    {
+                        if (mission.EndDate > DateTime.Now)
+                        {
+                            missions.Add(new Models.mission
+                            {
+                                MissionId = mission.MissionId,
+                                TeamJourneyId = mission.TeamJourneyId,
+                                Name = mission.Name,
+                                StartDate = mission.StartDate,
+                                EndDate = mission.EndDate
+                            });
+                        }
+                    }
                     teamJourney.Add(new Models.Team_Journey
                     {
                         TeamJourneyId = team.TeamJourneyId,
                         JourneyId = team.JourneyId,
                         TeamId = team.TeamId,
+                        missions = missions,
                         team = new Models.team
                         {
                             TeamId = team.team.TeamId,

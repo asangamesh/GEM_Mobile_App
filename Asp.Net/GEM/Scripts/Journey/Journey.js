@@ -42,6 +42,7 @@ Journey.prototype.InviteClicked = function () {
 }
 
 Journey.prototype.SelectJourneyClicked = function () {
+    debugger;
     var memberId = this.sessionID;
     var teamJourneyId = $('#Team_Journey_Id').val();
     if (teamJourneyId == undefined || teamJourneyId == '') { alert("please select team first.."); }

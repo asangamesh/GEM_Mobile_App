@@ -9,11 +9,21 @@ TeamDet.prototype.Load = function () {
     $("#btnSubmitReview").off("click");
     $("#btnSubmitReview").on("click", $.proxy(this.SubmitClicked, this));
 
+
     $(document).load("load", function () {
-        jQuery('#myMemberModal').modal('show');
+        debugger;
+        if ($('.active').length == 1) {
+            console.log(typeof sessionStorage.getItem('closeManually'));
+            if (sessionStorage.getItem('closeManually') !== 'yes') {
+                jQuery('#myMemberModal').modal('show');
+                sessionStorage.setItem('closeManually', 'yes');
+                debugger;
+            }
+        }
     });
 
     $(document).ready(function () {
+
         $('#accept-practice-btn').click(function () {
             $('#myMemberModal').modal('hide');
         });
@@ -33,7 +43,7 @@ TeamDet.prototype.CreateTeamClicked = function () {
     var teamId = $("#txtTeamId").val();
     var journeyId = $("#txtJourneyId").val();
     var memberId = this.sessionID;
- 
+
     if (name == '') { alert('please enter TeamName'); $("#txtTeamName").focus(); }
     else if (memberId == undefined || memberId == '') { alert('Session has been expired!'); window.location.href = '../Journey/Index'; }
     else {
@@ -156,7 +166,7 @@ TeamDet.prototype.SubmitClicked = function () {
         }
     }
 
-    var model = { Assesments : array };
+    var model = { Assesments: array };
     $.ajax({
         url: "/api/MissionAssesment",
         type: 'post',

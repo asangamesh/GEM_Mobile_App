@@ -27,9 +27,42 @@
                 <div id="collapseOne_@team.TeamId" class="panel-collapse collapse">
                     <div class="panel-body">
                         @Html.Partial("TeamMember", @team.team_journey_member.ToList())
+                        @if (team.team_journey_member.Count > 0)
+                        {
+                            int leaderId = 0;
+                            foreach (var member in team.team_journey_member)
+                            {
+                                if (member.TeamJourneyMemberRoleId == 1) { leaderId = member.MemberId.Value; }
+                            }
+                            if (Session["LoginMemberID"].ToString() == leaderId.ToString())
+                            {
+
+                                if (@team.missions.Count > 0)
+                                {
+                                    <ul class="team-member-list">
+                                        <li class="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32"> <i> Add Member </i></li>
+
+                                        <span class="start-button-cls">
+                                            <input type="submit" class="start-btn btnStartJourney" disabled="disabled" Id="btnStartJourney" value="Start Journey">
+                                        </span>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <ul class="team-member-list">
+                                        <li class="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32"> <i> Add Member </i></li>
+
+                                        <span class="start-button-cls">
+                                            <input type="submit" class="start-btn btnStartJourney active" Id="btnStartJourney" value="Start Journey">
+                                        </span>
+                                    </ul>
+                                }
+                            }
+                        }
                     </div>
                 </div>
             </div>
+
         }
     }
     <div class="panel panel-default">

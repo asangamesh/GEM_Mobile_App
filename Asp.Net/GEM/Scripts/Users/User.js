@@ -20,7 +20,7 @@ User.prototype.CreateClicked = function () {
             type: 'post',
             cache: false,
             async: false,
-            data: JSON.stringify( model),
+            data: JSON.stringify(model),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
@@ -40,7 +40,7 @@ User.prototype.CreateClicked = function () {
 }
 
 User.prototype.LoginClicked = function () {
-
+    debugger;
     var email = $("#txtEmail").val();
     if (email == '') { alert('please enter email address'); $("#txtEmail").focus(); }
     else if (validateForm(email)) alert("Not valid email address");
@@ -52,6 +52,8 @@ User.prototype.LoginClicked = function () {
             async: false,
             data: { 'email': email },
             success: function (result) {
+                debugger;
+                sessionStorage.setItem('closeManually', 'no');
                 if (result.RoleAccess == 1) window.location.href = '../Journey/Create';
                 else window.location.href = '../Team/Index';
             },

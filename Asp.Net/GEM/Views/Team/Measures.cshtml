@@ -17,7 +17,7 @@
                     <div class="col-lg-12 right-links">
 
                         <div class="col-lg-12 topbararea">
-                            <img src="../images/rocket.png" alr="Team"> <h4 class="journeytitle"> @mission.Journey.Name </h4> 
+                            <img src="../images/rocket.png" alr="Team"> <h4 class="journeytitle"> @mission.Journey.Name </h4>
                             <h4 class="" style="float: left; width: 100%; position: relative; top: -40px; text-align: left; left: 80px;"> @mission.Team.Name </h4>
                         </div>
 
@@ -64,17 +64,17 @@
                                                                         <span class="rating-item"> @(i + 1) . @measure.Measure1</span>
                                                                         <span class="rating-icons">
                                                                             <input type="hidden" id="Assessment_@measure.MeasureId" value="@assessmentId" />
-                                                                            @if(assessment == 5)
+                                                                            @if (assessment == 5)
                                                                             {
-                                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
-                                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
-                                                                            <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
+                                                                                <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
+                                                                                <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
+                                                                                <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
                                                                             }
                                                                             else
                                                                             {
-                                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" onclick="vote(@measure.MeasureId, 1)" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
-                                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" onclick="vote(@measure.MeasureId, 2)" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
-                                                                            <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" onclick="vote(@measure.MeasureId, 3)" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
+                                                                                <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" onclick="vote(@measure.MeasureId, 1)" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
+                                                                                <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" onclick="vote(@measure.MeasureId, 2)" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
+                                                                                <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" onclick="vote(@measure.MeasureId, 3)" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
                                                                             }
                                                                         </span>
                                                                     </li>
@@ -99,12 +99,12 @@
                                         }
 
                                         @*<div class="mission-member-buttons col-md-12">
-                                            <div class="row">
-                                                <div class="review-submit-content">
-                                                    <input type="button" id="btnSubmitReview" class="btn btn-primary review-submission" value="submit Review" />
-                                                 </div>
-                                            </div>
-                                        </div>*@
+                                                <div class="row">
+                                                    <div class="review-submit-content">
+                                                        <input type="button" id="btnSubmitReview" class="btn btn-primary review-submission" value="submit Review" />
+                                                     </div>
+                                                </div>
+                                            </div>*@
                                     </div>
 
                                 </div>
@@ -133,8 +133,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="accept-practice-btn" class="btn btn-primary">Accept Mission</button>
-                                <button id="reject-practice-btn" type="submit" class="btn btn-danger">Reject Mission</button>
+                                <button type="submit" id="accept-practice-btn" class="btn btn-primary">Accept</button>
+                                <button id="reject-practice-btn" type="submit" class="btn btn-danger">Reject</button>
                             </div>
 
                         </div>
@@ -171,6 +171,7 @@
     }
 }
 <script>
+    debugger;
     var sessionId = '@Session["LoginMemberID"]';
     var _TeamDet = new TeamDet(sessionId);
     _TeamDet.Load();
