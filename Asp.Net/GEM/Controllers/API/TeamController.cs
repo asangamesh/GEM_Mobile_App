@@ -99,18 +99,17 @@ namespace GEM.Controllers.API
         {
             try
             {
-                var objmission = new MissionServices();
                 var teams = objJourney.GetTeams(journeyId, memberId);
                 var teamName = objTeam.GetTeambyName(journeyId, memberId);
 
                 var teamJourney = new List<Models.Team_Journey>();
-
                 var teamJourneymember = new List<Models.team_journey_member>();
                 var missions = new List<Models.mission>();
+
                 foreach (var team in teams)
                 {
                     teamJourneymember = new List<Models.team_journey_member>();
-                    missions = new List<Models.mission>();
+
                     foreach (var team_journey_member in team.team_journey_member.OrderBy(x => x.TeamJourneyMemberRoleId).ToList())
                     {
                         teamJourneymember.Add(new Models.team_journey_member
@@ -119,15 +118,15 @@ namespace GEM.Controllers.API
                             TeamJourneyMemberId = team_journey_member.TeamJourneyMemberId,
                             TeamJourneyMemberRoleId = team_journey_member.TeamJourneyMemberRoleId,
                             MemberId = team_journey_member.MemberId,
-
                             member = new Models.member
                             {
                                 MemberId = team_journey_member.member.MemberId,
                                 EmailAddress = team_journey_member.member.EmailAddress
                             }
                         });
-
                     }
+
+                    missions = new List<Models.mission>();
                     foreach (var mission in team.missions.ToList())
                     {
                         if (mission.EndDate > DateTime.Now)
@@ -142,6 +141,7 @@ namespace GEM.Controllers.API
                             });
                         }
                     }
+
                     teamJourney.Add(new Models.Team_Journey
                     {
                         TeamJourneyId = team.TeamJourneyId,
@@ -322,7 +322,7 @@ namespace GEM.Controllers.API
                         Journey = new Models.JourneyInformation
                         {
                             JourneyId = mission.team_journey.JourneyId.Value,
-                            Name = Utilities.HelperEnum.JourneyInformation(true)[mission.team_journey.JourneyId.Value]
+                            Name = Utilities.HelperEnum.JourneyInformation(true)[mission.team_journey.JourneyId.Value - 1]
                         },
                         Team = new Models.team
                         {
@@ -383,7 +383,7 @@ namespace GEM.Controllers.API
 
                     var team_journey = objJourney.GetTeamJourney(teamJourney.TeamId.Value, teamJourney.JourneyId.Value);
 
-                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { TeamJourneyId = team_journey.TeamJourneyId, Message = "your request is saved", Status = true }).Content));
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { TeamJourneyId = team_journey.TeamJourneyId, TeamId = teamJourney.TeamId, Message = string.IsNullOrEmpty(Id) ? "New team is created successfully!..." : "Team details are updated!...", Status = true }).Content));
                 }
 
                 else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request is not saved, try again later!", Status = false }).Content));
@@ -448,7 +448,7 @@ namespace GEM.Controllers.API
 
                 if (result == 1)
                 {
-                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "your request is saved.", Status = true }).Content));
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "New team member is added.", Status = true }).Content));
                 }
                 else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request is not saved.", Status = false }).Content));
             }
@@ -502,7 +502,7 @@ namespace GEM.Controllers.API
                 }
                 else
                 {
-                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your observation records are empty please vote first.", Status = false }).Content));
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "You have missing observation details.", Status = false }).Content));
                 }
 
             }

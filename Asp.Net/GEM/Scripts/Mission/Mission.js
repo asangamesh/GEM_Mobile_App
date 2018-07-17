@@ -6,41 +6,46 @@ function Mission(teamJourneyIdVal) {
 Mission.prototype.Load = function () {
 
     $("#btncreateMission").off("click");
-    $("#btncreateMission").on("click", $.proxy(this.missionClicked, this));
+    $("#btncreateMission").on("click", $.proxy(this.MissionClicked, this));
 
-    $("#btnCreateTeam").off("click");
-    $("#btnCreateTeam").on("click", $.proxy(this.CreateTeamClicked, this));
+    jQuery(document).ready(function () {
 
-}
-
-Mission.prototype.CreateTeamClicked = function () {
-    var name = $("#txtTeamName").val();
-    var model = { Name: name, JourneyId: 1, MemberId: 1 };
-
-    if (name == '') { alert('please enter TeamName'); $("#txtTeamName").focus(); }
-    else {
-        $.ajax({
-            url: "/api/team",
-            type: 'post',
-            data: JSON.stringify(model),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                if (result.status == "OK") {
-                    alert("team created Successfully..!");
-                }
-                else {
-                    alert("team created failed..!");
-                }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("You have entered wrong details..!");
-            }
+        jQuery('.navbar-toggle').click(function () {
+            jQuery('.navbar-right').toggle();
         });
-    }
+    });
+
+    $(document).ready(function () {
+        $('#accept-practice-btn').click(function () {
+            $('#myMemberModal').modal('hide');
+        });
+        $('#reject-practice-btn').click(function () {
+            $('#myMemberModal').modal('hide');
+            $('#rejectionModal').modal('show');
+        });
+
+        var date_input = $('input[name="date"]'); //our date input has the name "date"
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+            format: 'mm/dd/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        })
+
+        $('input.timepicker').timepicker({
+            timeFormat: 'hh:mm p',
+            // year, month, day and seconds are not important
+            minTime: new Date(0, 0, 0, 0, 1, 0),
+            maxTime: new Date(0, 0, 0, 23, 59, 0),
+            startTime: new Date(0, 0, 0, 0, 0, 0),
+            interval: 30,
+        });
+
+    });
 }
 
-Mission.prototype.missionClicked = function () {
+Mission.prototype.MissionClicked = function () {
 
     var startDate = $("#dateStartdate").val();
     var endDate = $("#dateEnddate").val();
@@ -72,12 +77,55 @@ Mission.prototype.missionClicked = function () {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                    alert(result.data.message);
-                    window.location.href = '../Mission/Index?teamJourneyId='+teamJourneyId+'';
+                //alert(result.data.message);
+                $.ajax({
+                    url: "../Mission/Index?teamJourneyId=" + teamJourneyId,
+                    type: 'get',
+                    cache: false,
+                    async: false,
+                    success: function (result) {
+                        window.location.href = '../Journey/View';
+                    }
+                });
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("You have entered wrong details..!");
             }
         });
     }
+}
+
+function myFunction() {
+    var x = document.getElementById("timeEndtime").defaultValue;
+    document.getElementById("demo").innerHTML = x;
+}
+
+function SelectdPractice(id) {
+    var str = $("#" + id).attr("class");
+    if (str.indexOf("active") != -1) {
+        $("#" + id).removeClass("active");
+        $('#chk_' + id).prop('checked', '')
+    }
+    else {
+        $("#" + id).addClass("active");
+        $('#chk_' + id).prop('checked', 'true')
+    }
+}
+
+function MemberProcess(url, tjmemberId, tjId) {
+    $.ajax({
+        url: url,
+        type: 'get',
+        cache: false,
+        data: { tjmemberid: tjmemberId },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (result.success = false) window.location.href = '../Mission/Index?teamJourneyId=' + tjId;
+            else window.location.href = '../Journey/Index';
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            window.location.href = '../Journey/Index';
+        }
+    });
 }

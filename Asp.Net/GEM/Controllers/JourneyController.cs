@@ -65,11 +65,11 @@ namespace GEM.Controllers
             return Create();
         }
 
-        public ActionResult MakeLeader(int tjMemberId)
+        public JsonResult MakeLeader(int tjMemberId)
         {
             var objTeam = new API.TeamController();
             objTeam.UpdateMemberRole(tjMemberId);
-            return Create();
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CreateMission(int teamJourneyId)

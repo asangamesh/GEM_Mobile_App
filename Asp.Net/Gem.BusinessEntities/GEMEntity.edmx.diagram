@@ -5,39 +5,39 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="dae4f2160dd64296b861a1a7d194fbe2" Name="Diagram1" ZoomLevel="54">
-        <EntityTypeShape EntityType="gemModel.fluency_level" Width="1.5" PointX="9.625" PointY="12.625" />
-        <EntityTypeShape EntityType="gemModel.journey" Width="1.5" PointX="5.375" PointY="9.5" />
-        <EntityTypeShape EntityType="gemModel.journey_practice" Width="1.5" PointX="8.25" PointY="10" />
-        <EntityTypeShape EntityType="gemModel.measure" Width="1.5" PointX="15" PointY="10.125" />
-        <EntityTypeShape EntityType="gemModel.member" Width="1.5" PointX="1.75" PointY="0.875" />
-        <EntityTypeShape EntityType="gemModel.mission" Width="1.5" PointX="10.625" PointY="4" />
-        <EntityTypeShape EntityType="gemModel.mission_member_measure_assesment" Width="1.5" PointX="14.625" PointY="2.125" />
-        <EntityTypeShape EntityType="gemModel.mission_practice" Width="1.5" PointX="13.375" PointY="5.5" />
-        <EntityTypeShape EntityType="gemModel.practice" Width="1.5" PointX="12.125" PointY="10.5" />
-        <EntityTypeShape EntityType="gemModel.team" Width="1.5" PointX="4" PointY="2" />
-        <EntityTypeShape EntityType="gemModel.team_focus" Width="1.5" PointX="3.125" PointY="11.75" />
-        <EntityTypeShape EntityType="gemModel.team_journey" Width="1.5" PointX="6.375" PointY="3.875" />
-        <EntityTypeShape EntityType="gemModel.team_journey_member" Width="1.5" PointX="1.75" PointY="4.5" />
-        <EntityTypeShape EntityType="gemModel.team_journey_member_role" Width="1.5" PointX="1.375" PointY="8.125" />
-        <EntityTypeShape EntityType="gemModel.team_journey_practice" Width="1.5" PointX="8.375" PointY="7.25" />
+        <EntityTypeShape EntityType="gemModel.fluency_level" Width="1.5" PointX="3" PointY="2" />
+        <EntityTypeShape EntityType="gemModel.journey" Width="1.5" PointX="3" PointY="9" />
+        <EntityTypeShape EntityType="gemModel.journey_practice" Width="1.5" PointX="5.25" PointY="9.25" />
+        <EntityTypeShape EntityType="gemModel.measure" Width="1.5" PointX="7.5" PointY="15.75" />
+        <EntityTypeShape EntityType="gemModel.member" Width="1.5" PointX="5.25" PointY="15.25" />
+        <EntityTypeShape EntityType="gemModel.member_mission_practice" Width="1.5" PointX="15" PointY="11.875" />
+        <EntityTypeShape EntityType="gemModel.mission" Width="1.5" PointX="7.5" PointY="11.75" />
+        <EntityTypeShape EntityType="gemModel.mission_member_measure_assesment" Width="1.5" PointX="9.75" PointY="11.75" />
+        <EntityTypeShape EntityType="gemModel.mission_practice" Width="1.5" PointX="12.75" PointY="12" />
+        <EntityTypeShape EntityType="gemModel.practice" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="gemModel.team" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="gemModel.team_focus" Width="1.5" PointX="0.75" PointY="9.375" />
+        <EntityTypeShape EntityType="gemModel.team_journey" Width="1.5" PointX="5.25" PointY="6" />
+        <EntityTypeShape EntityType="gemModel.team_journey_member" Width="1.5" PointX="7.5" PointY="6" />
+        <EntityTypeShape EntityType="gemModel.team_journey_member_role" Width="1.5" PointX="5.25" PointY="12.875" />
+        <EntityTypeShape EntityType="gemModel.team_journey_practice" Width="1.5" PointX="7.5" PointY="3.25" />
         <AssociationConnector Association="gemModel.FluencyLevelIdPractice" />
         <AssociationConnector Association="gemModel.JourneyIdJP" />
         <AssociationConnector Association="gemModel.JourneyIdTJ" />
         <AssociationConnector Association="gemModel.TeamFocusIdJourney" />
         <AssociationConnector Association="gemModel.PracticeIdJP" />
         <AssociationConnector Association="gemModel.MeasureIdMMM" />
-        <AssociationConnector Association="gemModel.PracticeIdMeasure" ManuallyRouted="false" >
-        </AssociationConnector>
+        <AssociationConnector Association="gemModel.PracticeIdMeasure" />
         <AssociationConnector Association="gemModel.MemberIdMMM" />
+        <AssociationConnector Association="gemModel.MemberIdMMP" />
         <AssociationConnector Association="gemModel.MemberIdTJM" />
-        <AssociationConnector Association="gemModel.MissionIdMMM" ManuallyRouted="false" >
-        </AssociationConnector>
+        <AssociationConnector Association="gemModel.MissionPracticeIDMMP" />
+        <AssociationConnector Association="gemModel.MissionIdMMM" />
         <AssociationConnector Association="gemModel.MissionIdMP" />
         <AssociationConnector Association="gemModel.TeamJourneyIdMission" />
         <AssociationConnector Association="gemModel.PracticeIdMP" />
         <AssociationConnector Association="gemModel.PracticeIdTJP" />
-        <AssociationConnector Association="gemModel.TeamIdTJ" ManuallyRouted="false" >
-        </AssociationConnector>
+        <AssociationConnector Association="gemModel.TeamIdTJ" />
         <AssociationConnector Association="gemModel.TeamJourneyIdTJM" />
         <AssociationConnector Association="gemModel.TeamJourneyIdTJP" />
         <AssociationConnector Association="gemModel.TeamJourneyMemberIdTJM" />

@@ -105,6 +105,9 @@
     <Compile Include="member.cs">
       <DependentUpon>GEMEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="member_mission_practice.cs">
+      <DependentUpon>GEMEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="mission.cs">
       <DependentUpon>GEMEntity.tt</DependentUpon>
     </Compile>

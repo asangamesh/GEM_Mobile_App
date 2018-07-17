@@ -18,8 +18,9 @@ namespace GEM.Controllers
         // GET: Mission
         public ActionResult Index(int teamJourneyId = 0)
         {
-            if (ValidateSessionID("LoginMemberID") && teamJourneyId > 0)
+            if (ValidateSessionID("LoginMemberID"))
             {
+                if(teamJourneyId == 0) return Observe();
                 var model = new Mission_Info();
                 var loadPractice = new List<Practice>();
 
@@ -54,7 +55,54 @@ namespace GEM.Controllers
                 model.practiceList = loadPractice;
                 model.teamjourneyid = teamJourneyId;
                 return View("Index", model);
-               // return RedirectToAction("Request");
+            }
+            else
+            {
+                return View("../Users/Index");
+            }
+        }
+
+        // GET: Observe
+        public ActionResult teamObserve(int teamJourneyId = 0)
+        {
+            if (ValidateSessionID("LoginMemberID"))
+            {
+                if (teamJourneyId == 0) return Observe();
+
+                int memberId = Convert.ToInt16(Session["LoginMemberID"]);
+
+                var objTeam = new API.TeamController();
+                var model = new Models.mission();
+
+                var json = objTeam.GetMission(teamJourneyId);
+                string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)json).Content);
+                var teamDetails = JObject.Parse(responseData);
+
+                model = JsonConvert.DeserializeObject<Models.mission>(JsonConvert.SerializeObject(teamDetails["Data"]));
+                return View("TeamMeasure", model);
+            }
+            else
+            {
+                return View("../Users/Index");
+            }
+        }
+
+        // GET: Observe
+        public ActionResult Observe()
+        {
+            if (ValidateSessionID("LoginMemberID"))
+            {
+                int memberId = Convert.ToInt16(Session["LoginMemberID"]);
+
+                var objTeam = new API.TeamController();
+                var model = new List<Models.mission>();
+
+                var json = objTeam.GetMissionbyMember(memberId);
+                string responseData = JsonConvert.SerializeObject(((System.Web.Http.Results.NegotiatedContentResult<GEM.Models.ResponseData<object>>)json).Content);
+                var teamDetails = JObject.Parse(responseData);
+
+                model = JsonConvert.DeserializeObject<List<Models.mission>>(JsonConvert.SerializeObject(teamDetails["Data"]));
+                return View("Measures", model);
             }
             else
             {

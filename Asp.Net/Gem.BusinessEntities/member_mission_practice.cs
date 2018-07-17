@@ -12,19 +12,15 @@ namespace Gem.BusinessEntities
     using System;
     using System.Collections.Generic;
     
-    public partial class mission_practice
+    public partial class member_mission_practice
     {
-        public mission_practice()
-        {
-            this.member_mission_practice = new HashSet<member_mission_practice>();
-        }
+        public int MemberMissionPracticeId { get; set; }
+        public Nullable<int> MemberId { get; set; }
+        public Nullable<int> MissionPracticeId { get; set; }
+        public string RejectForReason { get; set; }
+        public Nullable<sbyte> Status { get; set; }
     
-        public int MissionPracticeId { get; set; }
-        public int MissionId { get; set; }
-        public int PracticeId { get; set; }
-    
-        public virtual ICollection<member_mission_practice> member_mission_practice { get; set; }
-        public virtual mission mission { get; set; }
-        public virtual practice practice { get; set; }
+        public virtual member member { get; set; }
+        public virtual mission_practice mission_practice { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model  List<GEM.Models.mission>
 
-@if (Model != null && Model.Count > 0)
+@if(Model != null && Model.Count > 0)
 {
     foreach (var mission in Model)
     {
@@ -9,16 +9,81 @@
             <div class="col-lg-12 mission-practices">
 
                 <div class="col-lg-12 missionhead">
-                    <h3> Launch Team <span>[ Fluency Level 1 ]</span> </h3>
+                    <h3> Launch Team </h3>
                 </div>
 
                 @foreach (var practice in mission.MissionPractice)
                 {
                     <div class="col-lg-2 practiceblock">
                         <span class="img-block">
-                            <img src='@string.Concat("../images/practice", practice.practice.PracticeId, ".png")' alt="calendar">
+                            <img class="MemberModel" id="@practice.MissionPracticeId" src='@string.Concat("../images/practice/practice", practice.practice.PracticeId, ".png")' alt="calendar">
                             <h4> @practice.practice.Name </h4>
                         </span>
+                    </div>
+
+
+                    <div id="ObservationModal_@practice.MissionPracticeId" class="modal fade">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <img src='@string.Concat("../images/Practice/practice",practice.practice.PracticeId,".png")' style="width: 36px; height: 36px; background-color:white; border-radius:inherit; border:none;"> @practice.practice.Name @*<i> [ @practice.practice.fluency_level.ShortName ]</i>*@
+                                </h4>
+
+                                <div class="col-lg-12 team-details">
+                                    <div class="rating-content">
+                                        <ul class="rating-list">
+                                            @for (int i = 0; i < practice.practice.measures.Count; i++)
+                                            {
+                                                var assessmentId = 0;
+                                                var assessment = 0;
+                                                var measure = practice.practice.measures[i];
+                                                string classname = "even", thumbsUp = "", thumbsDown = "", thumbsSideway = "";
+                                                if (i % 2 == 0) { classname = "odd"; }
+
+                                                if (measure.mission_member_measure_assesment.Count > 0)
+                                                {
+                                                    assessmentId = measure.mission_member_measure_assesment[0].MissionAssesmentId;
+
+                                                    assessment = measure.mission_member_measure_assesment[0].Assesment;
+                                                    if (assessment.Equals(5)) { thumbsUp = "active"; }
+                                                    else if (assessment.Equals(1)) { thumbsDown = "active"; }
+                                                    else if (assessment.Equals(3)) { thumbsSideway = "active"; }
+                                                }
+
+                                                <li class="@classname">
+                                                    <span class="rating-item"> @(i + 1) . @measure.Measure1</span>
+                                                    <span class="rating-icons practice_@practice.practice.PracticeId">
+                                                        <input type="hidden" id="Assessment_@measure.MeasureId" value="@assessmentId" />
+                                                        @if (assessment == 5)
+                                                        {
+                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
+                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
+                                                                                        <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" onclick="vote(@measure.MeasureId, 1)" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
+                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" onclick="vote(@measure.MeasureId, 2)" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
+                                                                                        <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" onclick="vote(@measure.MeasureId, 3)" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
+                                                        }
+                                                    </span>
+                                                </li>
+                                            }
+
+                                        </ul>
+                                        <div class="mission-member-buttons col-md-12">
+                                            <div class="row">
+                                                <div class="review-submit-content">
+                                                    <input type="button" id="btnSubmit_@practice.practice.PracticeId" onclick="submitObservation(@practice.practice.PracticeId);" class="btn btn-primary review-submission" value="Submit" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div> <!-- panel default 1 -->
                     </div>
                 }
             </div>
@@ -34,9 +99,16 @@
                     <p> <img src="../images/calander.png"> End Date & Time: <span> @mission.EndDate.ToString() </span></p>
                 </div>
             </span>
-            <span class="col-lg-3">
-                <input formaction="" name="practice-proceed" onclick="window.location.href = '../Team/Measures?journeyId=@mission.TeamJourneyId';" class="proceedcls" type="submit" value="Proceed Practice">
-            </span>
+            @*<span class="col-lg-3">
+                    <input formaction="" name="practice-proceed" onclick="window.location.href = '../Team/Measures?journeyId=@mission.TeamJourneyId';" class="proceedcls" type="submit" value="Proceed Practice">
+                </span>*@
         </div>
     }
 }
+
+<script>
+    jQuery('.MemberModel').click(function () {
+        var practiceId = this.id;
+        jQuery('#ObservationModal_' + practiceId).modal('show');
+    });
+</script>

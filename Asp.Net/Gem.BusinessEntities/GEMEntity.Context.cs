@@ -30,6 +30,7 @@ namespace Gem.BusinessEntities
         public DbSet<journey_practice> journey_practice { get; set; }
         public DbSet<measure> measures { get; set; }
         public DbSet<member> members { get; set; }
+        public DbSet<member_mission_practice> member_mission_practice { get; set; }
         public DbSet<mission> missions { get; set; }
         public DbSet<mission_member_measure_assesment> mission_member_measure_assesment { get; set; }
         public DbSet<mission_practice> mission_practice { get; set; }

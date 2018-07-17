@@ -24,8 +24,6 @@ namespace Gem.BusinessEntities
         public Nullable<int> TeamFocusId { get; set; }
         public Nullable<int> SelectJourneyId { get; set; }
         public Nullable<int> Status { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public int CreatedBy { get; set; }
     
         public virtual ICollection<journey_practice> journey_practice { get; set; }
         public virtual ICollection<team_journey> team_journey { get; set; }

@@ -31,17 +31,6 @@
                             <img src="~/images/gem-logo.png" alt="GEM">
                         </a>
 
-                        <!--<div class="menubutton">
-                          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar7">
-                          <h2> MENU </h2>
-                            <span class="sr-only">Toggle navigation</span>
-                            <img src="images/menu-icon.png" alt="-">
-                            <!--<span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>--
-                          </button>
-                        </div> -->
-
                         <div class="menubar col-lg-12" style="display:none">
                             <div class="container">
                                 <div class="col-lg-3 userprofilehead" id="head-profile">
@@ -123,23 +112,6 @@
             </nav>
         </div>
 
-        <div class="container headerdropdowns">
-            <!--<div class="view-profile viewdd">
-                <span class="profileimagedd">
-                    <img src="images/profile-placeholder.png" alt="Avathar" class="thumbnail">
-                    <h2> John Mc Kency </h2>
-                    <h4> <a href="#"> <img src="images/edit-icon.png"> Edit Profile  </a> </h4>
-                    <h4> <a href="#"> <img src="images/log-out-icon.png"> Logout  </a> </h4>
-                </span>
-            </div>-->
-            <!--<div class="view-journeys viewdd">
-                <p> Journey - <br> <span> Launch and Delivery Team </span> </p>
-                <p> Fluency Level - <br> <span> Leader Delivery Team and Events </span> </p>
-                <p> Practice - <br> <span> Form Delaivery Team </span> </p>
-            </div>-->
-        </div>
-
-
     </header>
 
     <section class="col-lg-12 formarea">
@@ -153,34 +125,16 @@
                     <span class="input-group-text" id="basic-addon2"><img src="../images/email-icon.png"></span>
                 </div>
             </div>
-            @*<div class="input-group">
-                    <input type="password" id="txtPassword" class="form-control required" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <span class="input-group-text" id="basic-addon2"><img src="~/images/psw-icon.png"></span>
-                    </div>
-                </div>*@
 
             <div class="input-group">
                 <input id="btnLogin" type="button" class="form-control btn-join" value="Go">
             </div>
         </form>
 
-        @*<p class="alter-link"> Already have an account? <a href="~/Users/Create"> Create an Account! </a> </p>*@
-
     </section>
 
 
 </body>
-
-<script>
-    jQuery(document).ready(function () {
-
-        jQuery('.navbar-toggle').click(function () {
-            jQuery('.navbar-right').toggle();
-        });
-
-    });
-</script>
 
 <script>
     var _user = new User();

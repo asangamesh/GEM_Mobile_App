@@ -17,6 +17,7 @@ namespace Gem.BusinessEntities
         public member()
         {
             this.mission_member_measure_assesment = new HashSet<mission_member_measure_assesment>();
+            this.member_mission_practice = new HashSet<member_mission_practice>();
             this.team_journey_member = new HashSet<team_journey_member>();
         }
     
@@ -26,6 +27,7 @@ namespace Gem.BusinessEntities
         public int CreatedBy { get; set; }
     
         public virtual ICollection<mission_member_measure_assesment> mission_member_measure_assesment { get; set; }
+        public virtual ICollection<member_mission_practice> member_mission_practice { get; set; }
         public virtual ICollection<team_journey_member> team_journey_member { get; set; }
     }
 }

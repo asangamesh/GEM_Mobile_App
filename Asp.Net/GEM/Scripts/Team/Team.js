@@ -6,24 +6,7 @@ TeamDet.prototype.Load = function () {
     $("#btnCreateTeam").off("click");
     $("#btnCreateTeam").on("click", $.proxy(this.CreateTeamClicked, this));
 
-    $("#btnSubmitReview").off("click");
-    $("#btnSubmitReview").on("click", $.proxy(this.SubmitClicked, this));
-
-
-    $(document).load("load", function () {
-        debugger;
-        if ($('.active').length == 1) {
-            console.log(typeof sessionStorage.getItem('closeManually'));
-            if (sessionStorage.getItem('closeManually') !== 'yes') {
-                jQuery('#myMemberModal').modal('show');
-                sessionStorage.setItem('closeManually', 'yes');
-                debugger;
-            }
-        }
-    });
-
     $(document).ready(function () {
-
         $('#accept-practice-btn').click(function () {
             $('#myMemberModal').modal('hide');
         });
@@ -31,10 +14,6 @@ TeamDet.prototype.Load = function () {
             $('#myMemberModal').modal('hide');
             $('#rejectionModal').modal('show');
         });
-        $('#btnSubmitMeasure').click(function () {
-
-        });
-
     });
 }
 
@@ -97,7 +76,6 @@ function InviteTeamLeader(memberId, teamJourneyID) {
 }
 
 function myFunction() {
-    debugger;
     var formData = new FormData();
     var files = document.getElementById("file");
     formData.append("data", files.src);
@@ -108,7 +86,6 @@ function myFunction() {
         contentType: "multipart/form-data",
         dataType: 'json',
         success: function (result) {
-            debugger;
             if (result.status == "success") {
                 alert("success.");
             }
@@ -131,57 +108,96 @@ function vote(id, thumbs) {
     thumbsId[0].className = thumbsId[0].className + "active"
 }
 
-TeamDet.prototype.SubmitClicked = function () {
+TeamDet.prototype.SubmitClicked = function (practiceId) {
     var memberId = this.sessionID;
     if (memberId == undefined || memberId == '') { alert('Session has been expired!'); window.location.href = '../Journey/Index'; }
+    else if ($('.practice_' + practiceId).length != $('.practice_' + practiceId + ' .active').length) { alert('You have missing observation details'); }
+    else {
+        var missionId = $('#missionId').val();
+        var array = new Array();
+        for (i = 0 ; i < $('.practice_' + practiceId + ' .active').length; i++) {
+            var thumbs = $('.practice_' + practiceId + ' .active')[i].id.split('_');
+            var measureId = thumbs[1];
+            var assesment = 0;
+            var missionAssesmentId = $('#Assessment_' + measureId).val();
 
-    var missionId = $('#missionId').val();
-    var array = new Array();
-    for (i = 0 ; i < $('.active').length; i++) {
-        var thumbs = $('.active')[i].id.split('_');
-        var measureId = thumbs[1];
-        var assesment = 0;
-        var missionAssesmentId = $('#Assessment_' + measureId).val();
+            switch (thumbs[0]) {
+                case 'thumbs1':
+                    assesment = 5;
+                    break;
+                case 'thumbs2':
+                    assesment = 3;
+                    break;
+                case 'thumbs3':
+                    assesment = 1;
+                    break;
+            }
 
-        switch (thumbs[0]) {
-            case 'thumbs1':
-                assesment = 5;
-                break;
-            case 'thumbs2':
-                assesment = 3;
-                break;
-            case 'thumbs3':
-                assesment = 1;
-                break;
+            if (assesment > 0) {
+                array.push({
+                    missionId: missionId,
+                    memberId: memberId,
+                    measureId: measureId,
+                    assesment: assesment,
+                    missionAssesmentId: missionAssesmentId
+                });
+            }
         }
 
-        if (assesment > 0) {
-            array.push({
-                missionId: missionId,
-                memberId: memberId,
-                measureId: measureId,
-                assesment: assesment,
-                missionAssesmentId: missionAssesmentId
-            });
-        }
+        var model = { Assesments: array };
+        $.ajax({
+            url: "/api/MissionAssesment",
+            type: 'post',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.data.status) {
+                    alert("Thanks for the Feedback...");
+                    window.location.href = "../mission/observe";
+                }
+                else alert(result.data.message);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                window.location.href = "../mission/observe";
+            }
+        });
     }
 
-    var model = { Assesments: array };
-    $.ajax({
-        url: "/api/MissionAssesment",
-        type: 'post',
-        data: JSON.stringify(model),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            if (result.data.status) {
-                alert("Thanks for the Feedback...");
-            }
-            else alert(result.data.message);
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("An error occured on ..!");
-        }
-    });
+}
 
+TeamDet.prototype.DeclineClicked = function (missionpracticeId) {
+    var memberId = this.sessionID;
+    if (memberId == undefined || memberId == '') { alert('Session has been expired!'); window.location.href = '../Journey/Index'; }
+    else if ($('.practice_' + practiceId).length != $('.practice_' + practiceId + ' .active').length) { alert('You have missing observation details'); }
+    else {
+        var model = { MissionPracticeId: missionpracticeId, MemberId: memberId }
+        $.ajax({
+            url: "/api/DeclineAssesment",
+            type: 'post',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.data.status) {
+                    window.location.href = "../mission/observe";
+                }
+                else alert(result.data.message);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                window.location.href = "../mission/observe";
+            }
+        });
+    }
+
+}
+
+function submitObservation(practiceId) {
+    var _TeamDet = new TeamDet(sessionId);
+    _TeamDet.SubmitClicked(practiceId);
+}
+
+function declineObservation(missionpracticeId) {
+    var _TeamDet = new TeamDet(sessionId);
+    _TeamDet.DeclineClicked(missionpracticeId);
 }

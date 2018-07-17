@@ -10,7 +10,7 @@
             if (member.TeamJourneyMemberRoleId == 1)
             {
                 leaderId = member.MemberId.Value;
-                <li> <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span> <p> Leader </p> @*<a href=""><img src="../images/remove.png" width="16" height="16"> </a>*@</span> </li>
+                <li> <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span> <p> Leader </p> </span> </li>
             }
             else
             {
@@ -18,12 +18,13 @@
                     <img src="../images/man(1).png" width="36" height="36"> @member.member.EmailAddress <span>
                         @if (Session["LoginMemberID"].ToString() == leaderId.ToString())
                         {
-                            @*<p> <a href="#">Make Leader</a> </p> <a href="../Journey/RemoveMember?tjmemberid=@member.TeamJourneyMemberId"><img src="../images/remove.png" width="16" height="16"> </a>*@
-                            <p> Member </p> @*<a href="../Journey/RemoveMember?tjmemberid=@member.TeamJourneyMemberId"><img src="../images/remove.png" width="16" height="16"> </a>*@
+                            <p> Member </p>
+                            @*<p> <a href="#" onclick="MemberProcess('../Journey/MakeLeader', @member.TeamJourneyMemberId,@member.TeamJourneyId );">Make Leader</a> </p> <a href="#" onclick="MemberProcess('../Journey/RemoveMember', @member.TeamJourneyMemberId,@member.TeamJourneyId);"><img src="../images/remove.png" width="16" height="16"> </a>*@
                         }
                         else if (Session["LoginMemberID"].ToString() == member.MemberId.Value.ToString())
                         {
                             <p> Member </p>
+                            @*<p> <a href="#" onclick="MemberProcess('../Journey/RemoveMember', @member.TeamJourneyMemberId,@member.TeamJourneyId);">Leave Team</a> </p> <a href="#" onclick="MemberProcess('../Journey/RemoveMember', @member.TeamJourneyMemberId,@member.TeamJourneyId);"><img src="../images/remove.png" width="16" height="16"> </a>*@
                         }
                         else
                         {
@@ -33,5 +34,9 @@
                 </li>
             }
         }
+        @*if (Session["LoginMemberID"].ToString() == leaderId.ToString())
+        {
+            <li class="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32"> <i> Add Member </i></li>
+        }*@
     }
 </ul>

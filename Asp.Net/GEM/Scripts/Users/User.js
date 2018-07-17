@@ -40,7 +40,7 @@ User.prototype.CreateClicked = function () {
 }
 
 User.prototype.LoginClicked = function () {
-    debugger;
+
     var email = $("#txtEmail").val();
     if (email == '') { alert('please enter email address'); $("#txtEmail").focus(); }
     else if (validateForm(email)) alert("Not valid email address");
@@ -52,10 +52,8 @@ User.prototype.LoginClicked = function () {
             async: false,
             data: { 'email': email },
             success: function (result) {
-                debugger;
-                sessionStorage.setItem('closeManually', 'no');
                 if (result.RoleAccess == 1) window.location.href = '../Journey/Create';
-                else window.location.href = '../Team/Index';
+                else window.location.href = '../Mission/Observe';
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("You have entered incorrect username and password");

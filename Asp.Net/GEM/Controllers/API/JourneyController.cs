@@ -237,8 +237,37 @@ namespace GEM.Controllers.API
                     foreach (var team_mission in team.missions.OrderByDescending(x => x.MissionId).ToList())
                     {
                         var missionPractice = new List<Models.mission_practice>();
-                        foreach (var mission_practice in team_mission.mission_practice.ToList())
+                        foreach (var mission_practice in team_mission.  mission_practice.ToList())
                         {
+                            var measures = new List<Models.measure>();
+                            foreach (var measure in mission_practice.practice.measures.ToList())
+                            {
+                                var memberAssesment = new List<Models.mission_member_measure_assesment>();
+                                foreach (var assesment in measure.mission_member_measure_assesment.ToList())
+                                {
+                                    if (memberId == assesment.MemberId.Value)
+                                    {
+                                        memberAssesment.Add(new Models.mission_member_measure_assesment
+                                        {
+                                            MissionAssesmentId = assesment.MissionAssesmentId,
+                                            MissionId = assesment.MissionId.Value,
+                                            MeasureId = assesment.MeasureId.Value,
+                                            MemberId = assesment.MemberId.Value,
+                                            Assesment = assesment.Assesment.Value
+                                        });
+                                    }
+                                }
+
+                                measures.Add(new Models.measure
+                                {
+                                    MeasureId = measure.MeasureId,
+                                    PracticeId = measure.PracticeId.Value,
+                                    Measure1 = measure.Measure1,
+                                    Description = measure.Description,
+                                    mission_member_measure_assesment = memberAssesment
+                                });
+                            }
+
                             missionPractice.Add(new Models.mission_practice
                             {
                                 MissionPracticeId = mission_practice.MissionPracticeId,
@@ -255,7 +284,8 @@ namespace GEM.Controllers.API
                                         Number = mission_practice.practice.fluency_level.Number,
                                         Name = mission_practice.practice.fluency_level.Name,
                                         ShortName = mission_practice.practice.fluency_level.ShortName
-                                    }
+                                    },
+                                    measures = measures
                                 }
                             });
                         }

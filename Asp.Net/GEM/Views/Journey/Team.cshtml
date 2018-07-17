@@ -19,46 +19,38 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" id="txtTeam_@team.TeamId" data-parent="#accordion" href="#collapseOne_@team.TeamId" onclick="$('#Team_Journey_Id').val(@team.TeamJourneyId);" ondblclick="editTeamName(this,@team.TeamId,@role);">
-                            <img src="../images/rocket.png"> @team.team.Name
+                            <img src='@string.Concat("../images/Team/team",team.TeamId,".png")'> @team.team.Name
                             <input type="text" class="edit_teamName" value="@team.team.Name" id="txtTeam_@team.TeamId" style="display:none;" />
                         </a> @*<span> <a href="#" onclick="editTeamName(@team.TeamId);"><img src="../images/edit.png" width="16" height="16"> Edit </a> </span>*@
                     </h4>
                 </div>
                 <div id="collapseOne_@team.TeamId" class="panel-collapse collapse">
                     <div class="panel-body">
-                        @Html.Partial("TeamMember", @team.team_journey_member.ToList())
-                        @if (team.team_journey_member.Count > 0)
-                        {
-                            int leaderId = 0;
-                            foreach (var member in team.team_journey_member)
+                        <ul class="team-member-list">
+                            @Html.Partial("TeamMember", @team.team_journey_member.ToList())
+                            @if (team.team_journey_member.Count > 0)
                             {
-                                if (member.TeamJourneyMemberRoleId == 1) { leaderId = member.MemberId.Value; }
-                            }
-                            if (Session["LoginMemberID"].ToString() == leaderId.ToString())
-                            {
-
-                                if (@team.missions.Count > 0)
+                                int leaderId = 0;
+                                foreach (var member in team.team_journey_member)
                                 {
-                                    <ul class="team-member-list">
-                                        <li class="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32"> <i> Add Member </i></li>
-
-                                        <span class="start-button-cls">
-                                            <input type="submit" class="start-btn btnStartJourney" disabled="disabled" Id="btnStartJourney" value="Start Journey">
-                                        </span>
-                                    </ul>
+                                    if (member.TeamJourneyMemberRoleId == 1) { leaderId = member.MemberId.Value; }
                                 }
-                                else
+                                if (Session["LoginMemberID"].ToString() == leaderId.ToString())
                                 {
-                                    <ul class="team-member-list">
-                                        <li class="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32"> <i> Add Member </i></li>
-
-                                        <span class="start-button-cls">
-                                            <input type="submit" class="start-btn btnStartJourney active" Id="btnStartJourney" value="Start Journey">
-                                        </span>
-                                    </ul>
+                                    <li class="add-new-member"> <img src="../images/add-avathar-icon.png" width="32" height="32"> <i> Add Member </i></li>
+                                    <span class="start-button-cls">
+                                        @if (@team.missions.Count > 0)
+                                        {
+                                        <input type="submit" class="start-btn btnStartJourney" disabled="disabled" style="opacity: 0.5;" Id="btnStartJourney" value="Start Journey">
+                                        }
+                                        else
+                                        {
+                                        <input type="submit" class="start-btn btnStartJourney active" Id="btnStartJourney" value="Start Journey">
+                                        }
+                                    </span>
                                 }
                             }
-                        }
+                        </ul>
                     </div>
                 </div>
             </div>

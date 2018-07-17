@@ -172,12 +172,12 @@ namespace GEM.Controllers.API
                     }
                     else
                     {
-                        return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request is not saved, try again later!", Status = false }).Content));
+                        return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request is not saved, please try again later!", Status = false }).Content));
                     }
                 }
                 else
                 {
-                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Enddate greater then to Startdate.. ", Status = false }).Content));
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "End date greater then to Start date.. ", Status = false }).Content));
                 }
             }
             catch (Exception ex)

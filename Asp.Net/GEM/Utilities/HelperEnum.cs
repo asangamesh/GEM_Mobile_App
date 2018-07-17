@@ -20,10 +20,10 @@ namespace GEM.Utilities
             var journey = new List<string>();
             if (fullname)
             {
-                journey.Add("Delivery Team - # Deliver Value to Customer");
-                journey.Add("Product Team - # Vision to Challange the Norm");
-                journey.Add("Enterprise Team - # Protectors and Gaurdians of Value");
-                journey.Add("Strategy Team - # Guides Strategy and Value");
+                journey.Add("Delivery Team - #Deliver Value to Customer");
+                journey.Add("Product Team - #Vision to Challange the Norm");
+                journey.Add("Enterprise Team - #Protectors and Gaurdians of Value");
+                journey.Add("Strategy Team - #Guides Strategy and Value");
             }
             else
             {
