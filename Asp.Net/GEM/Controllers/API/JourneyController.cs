@@ -236,58 +236,63 @@ namespace GEM.Controllers.API
                     var teamMission = new List<Models.mission>();
                     foreach (var team_mission in team.missions.OrderByDescending(x => x.MissionId).ToList())
                     {
+                        if(team_mission.EndDate < DateTime.Now) break;
+
                         var missionPractice = new List<Models.mission_practice>();
                         foreach (var mission_practice in team_mission.  mission_practice.ToList())
                         {
-                            var measures = new List<Models.measure>();
-                            foreach (var measure in mission_practice.practice.measures.ToList())
+                            if (mission_practice.member_mission_practice.Count == 0 || mission_practice.member_mission_practice.Where(m => m.MemberId == memberId).Count() == 0)
                             {
-                                var memberAssesment = new List<Models.mission_member_measure_assesment>();
-                                foreach (var assesment in measure.mission_member_measure_assesment.ToList())
+                                var measures = new List<Models.measure>();
+                                foreach (var measure in mission_practice.practice.measures.ToList())
                                 {
-                                    if (memberId == assesment.MemberId.Value)
+                                    var memberAssesment = new List<Models.mission_member_measure_assesment>();
+                                    foreach (var assesment in measure.mission_member_measure_assesment.ToList())
                                     {
-                                        memberAssesment.Add(new Models.mission_member_measure_assesment
+                                        if (memberId == assesment.MemberId.Value && team_mission.MissionId == assesment.MissionId)
                                         {
-                                            MissionAssesmentId = assesment.MissionAssesmentId,
-                                            MissionId = assesment.MissionId.Value,
-                                            MeasureId = assesment.MeasureId.Value,
-                                            MemberId = assesment.MemberId.Value,
-                                            Assesment = assesment.Assesment.Value
-                                        });
+                                            memberAssesment.Add(new Models.mission_member_measure_assesment
+                                            {
+                                                MissionAssesmentId = assesment.MissionAssesmentId,
+                                                MissionId = assesment.MissionId.Value,
+                                                MeasureId = assesment.MeasureId.Value,
+                                                MemberId = assesment.MemberId.Value,
+                                                Assesment = assesment.Assesment.Value
+                                            });
+                                        }
                                     }
+
+                                    measures.Add(new Models.measure
+                                    {
+                                        MeasureId = measure.MeasureId,
+                                        PracticeId = measure.PracticeId.Value,
+                                        Measure1 = measure.Measure1,
+                                        Description = measure.Description,
+                                        mission_member_measure_assesment = memberAssesment
+                                    });
                                 }
 
-                                measures.Add(new Models.measure
+                                missionPractice.Add(new Models.mission_practice
                                 {
-                                    MeasureId = measure.MeasureId,
-                                    PracticeId = measure.PracticeId.Value,
-                                    Measure1 = measure.Measure1,
-                                    Description = measure.Description,
-                                    mission_member_measure_assesment = memberAssesment
+                                    MissionPracticeId = mission_practice.MissionPracticeId,
+                                    MissionId = mission_practice.MissionId,
+                                    PracticeId = mission_practice.PracticeId,
+                                    practice = new Models.Practice
+                                    {
+                                        PracticeId = mission_practice.practice.PracticeId,
+                                        Name = mission_practice.practice.Name,
+                                        FluencyLevelId = mission_practice.practice.FluencyLevelId.Value,
+                                        fluency_level = new Models.fluency_level
+                                        {
+                                            FluencyLevelId = mission_practice.practice.fluency_level.FluencyLevelId,
+                                            Number = mission_practice.practice.fluency_level.Number,
+                                            Name = mission_practice.practice.fluency_level.Name,
+                                            ShortName = mission_practice.practice.fluency_level.ShortName
+                                        },
+                                        measures = measures
+                                    }
                                 });
                             }
-
-                            missionPractice.Add(new Models.mission_practice
-                            {
-                                MissionPracticeId = mission_practice.MissionPracticeId,
-                                MissionId = mission_practice.MissionId,
-                                PracticeId = mission_practice.PracticeId,
-                                practice = new Models.Practice
-                                {
-                                    PracticeId = mission_practice.practice.PracticeId,
-                                    Name = mission_practice.practice.Name,
-                                    FluencyLevelId = mission_practice.practice.FluencyLevelId.Value,
-                                    fluency_level = new Models.fluency_level
-                                    {
-                                        FluencyLevelId = mission_practice.practice.fluency_level.FluencyLevelId,
-                                        Number = mission_practice.practice.fluency_level.Number,
-                                        Name = mission_practice.practice.fluency_level.Name,
-                                        ShortName = mission_practice.practice.fluency_level.ShortName
-                                    },
-                                    measures = measures
-                                }
-                            });
                         }
 
                         teamMission.Add(new Models.mission
@@ -302,19 +307,22 @@ namespace GEM.Controllers.API
                         break;
                     }
 
-                    teamJourney.Add(new Models.Team_Journey
+                    if (teamMission.Count > 0)
                     {
-                        TeamJourneyId = team.TeamJourneyId,
-                        JourneyId = team.JourneyId,
-                        TeamId = team.TeamId,
-                        team = new Models.team
+                        teamJourney.Add(new Models.Team_Journey
                         {
-                            TeamId = team.team.TeamId,
-                            Name = team.team.Name
-                        },
-                        team_journey_member = teamJourneymember,
-                        missions = teamMission
-                    });
+                            TeamJourneyId = team.TeamJourneyId,
+                            JourneyId = team.JourneyId,
+                            TeamId = team.TeamId,
+                            team = new Models.team
+                            {
+                                TeamId = team.team.TeamId,
+                                Name = team.team.Name
+                            },
+                            team_journey_member = teamJourneymember,
+                            missions = teamMission
+                        });
+                    }
                 }
 
                 return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamJourney, teamJourney.Count));

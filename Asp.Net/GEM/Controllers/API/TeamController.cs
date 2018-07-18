@@ -267,81 +267,91 @@ namespace GEM.Controllers.API
                 foreach (var gMission in gMissions)
                 {
                     var mission = gMission.ToList().FirstOrDefault();
+                    missionPractices = new List<Models.mission_practice>();
 
                     foreach (var practice in mission.mission_practice)
                     {
-                        var measures = new List<Models.measure>();
-                        foreach (var measure in practice.practice.measures.ToList())
+                        if (practice.member_mission_practice.Count == 0 || practice.member_mission_practice.Where(m => m.MemberId == memberid).Count() == 0)
                         {
-                            var memberAssesment = new List<Models.mission_member_measure_assesment>();
-                            foreach (var assesment in measure.mission_member_measure_assesment.ToList())
+                            var measures = new List<Models.measure>();
+                            foreach (var measure in practice.practice.measures.ToList())
                             {
-                                if (memberid == assesment.MemberId.Value)
+                                var memberAssesment = new List<Models.mission_member_measure_assesment>();
+                                foreach (var assesment in measure.mission_member_measure_assesment.ToList())
                                 {
-                                    memberAssesment.Add(new Models.mission_member_measure_assesment
+                                    if (memberid == assesment.MemberId.Value && mission.MissionId == assesment.MissionId)
                                     {
-                                        MissionAssesmentId = assesment.MissionAssesmentId,
-                                        MissionId = assesment.MissionId.Value,
-                                        MeasureId = assesment.MeasureId.Value,
-                                        MemberId = assesment.MemberId.Value,
-                                        Assesment = assesment.Assesment.Value
-                                    });
+                                        memberAssesment.Add(new Models.mission_member_measure_assesment
+                                        {
+                                            MissionAssesmentId = assesment.MissionAssesmentId,
+                                            MissionId = assesment.MissionId.Value,
+                                            MeasureId = assesment.MeasureId.Value,
+                                            MemberId = assesment.MemberId.Value,
+                                            Assesment = assesment.Assesment.Value
+                                        });
+                                    }
                                 }
-                            }
 
-                            measures.Add(new Models.measure
-                            {
-                                MeasureId = measure.MeasureId,
-                                PracticeId = measure.PracticeId.Value,
-                                Measure1 = measure.Measure1,
-                                Description = measure.Description,
-                                mission_member_measure_assesment = memberAssesment
-                            });
-                        }
-
-                        missionPractices.Add(new Models.mission_practice
-                        {
-                            MissionPracticeId = practice.MissionPracticeId,
-                            MissionId = practice.MissionId,
-                            PracticeId = practice.PracticeId,
-                            practice = new Models.Practice
-                            {
-                                PracticeId = practice.practice.PracticeId,
-                                Name = practice.practice.Name,
-                                FluencyLevelId = practice.practice.FluencyLevelId.Value,
-                                SequenceNum = practice.practice.SequenceNum.Value,
-                                PrerequisiteNum = practice.practice.PrerequisiteNum.Value,
-                                fluency_level = new Models.fluency_level
+                                measures.Add(new Models.measure
                                 {
-                                    FluencyLevelId = practice.practice.fluency_level.FluencyLevelId,
-                                    Name = practice.practice.fluency_level.Name,
-                                    Number = practice.practice.fluency_level.Number,
-                                    ShortName = practice.practice.fluency_level.ShortName
-                                },
-                                measures = measures
+                                    MeasureId = measure.MeasureId,
+                                    PracticeId = measure.PracticeId.Value,
+                                    Measure1 = measure.Measure1,
+                                    Description = measure.Description,
+                                    mission_member_measure_assesment = memberAssesment
+                                });
                             }
-                        });
+
+                            if (mission.MissionId == practice.MissionId)
+                            {
+                                missionPractices.Add(new Models.mission_practice
+                                {
+                                    MissionPracticeId = practice.MissionPracticeId,
+                                    MissionId = practice.MissionId,
+                                    PracticeId = practice.PracticeId,
+                                    practice = new Models.Practice
+                                    {
+                                        PracticeId = practice.practice.PracticeId,
+                                        Name = practice.practice.Name,
+                                        FluencyLevelId = practice.practice.FluencyLevelId.Value,
+                                        SequenceNum = practice.practice.SequenceNum.Value,
+                                        PrerequisiteNum = practice.practice.PrerequisiteNum.Value,
+                                        fluency_level = new Models.fluency_level
+                                        {
+                                            FluencyLevelId = practice.practice.fluency_level.FluencyLevelId,
+                                            Name = practice.practice.fluency_level.Name,
+                                            Number = practice.practice.fluency_level.Number,
+                                            ShortName = practice.practice.fluency_level.ShortName
+                                        },
+                                        measures = measures
+                                    }
+                                });
+                            }
+                        }
                     };
 
-                    teamMission.Add(new Models.mission
+                    if (mission.EndDate >= DateTime.Now)
                     {
-                        MissionId = mission.MissionId,
-                        TeamJourneyId = mission.TeamJourneyId,
-                        Name = mission.Name,
-                        StartDate = mission.StartDate,
-                        EndDate = mission.EndDate,
-                        MissionPractice = missionPractices,
-                        Journey = new Models.JourneyInformation
+                        teamMission.Add(new Models.mission
                         {
-                            JourneyId = mission.team_journey.JourneyId.Value,
-                            Name = Utilities.HelperEnum.JourneyInformation(true)[mission.team_journey.JourneyId.Value - 1]
-                        },
-                        Team = new Models.team
-                        {
-                            TeamId = mission.team_journey.team.TeamId,
-                            Name = mission.team_journey.team.Name,
-                        }
-                    });
+                            MissionId = mission.MissionId,
+                            TeamJourneyId = mission.TeamJourneyId,
+                            Name = mission.Name,
+                            StartDate = mission.StartDate,
+                            EndDate = mission.EndDate,
+                            MissionPractice = missionPractices,
+                            Journey = new Models.JourneyInformation
+                            {
+                                JourneyId = mission.team_journey.JourneyId.Value,
+                                Name = Utilities.HelperEnum.JourneyInformation(true)[mission.team_journey.JourneyId.Value - 1]
+                            },
+                            Team = new Models.team
+                            {
+                                TeamId = mission.team_journey.team.TeamId,
+                                Name = mission.team_journey.team.Name,
+                            }
+                        });
+                    }
                 }
 
                 return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", teamMission, teamMission.Count));
@@ -509,6 +519,7 @@ namespace GEM.Controllers.API
                 JArray measures = JArray.Parse(json["Assesments"].ToString());
                 if (measures.Count > 0)
                 {
+                    var isPracticeComplete = true;
                     foreach (var measure in measures)
                     {
                         var memberMeasure = new mission_member_measure_assesment();
@@ -518,6 +529,17 @@ namespace GEM.Controllers.API
                         memberMeasure.MeasureId = Convert.ToInt32(measure["measureId"]);
                         memberMeasure.Assesment = Convert.ToInt32(measure["assesment"]);
                         var result = objTeam.AddorUpdateTeamMemberMeasure(memberMeasure);
+
+                        if (memberMeasure.Assesment != 5) isPracticeComplete = false;
+                    }
+
+                    if (isPracticeComplete)
+                    {
+                        var memberId = Convert.ToInt32(measures[0]["memberId"]);
+                        var missionPracticeId = Convert.ToInt32(measures[0]["missionPracticeId"]);
+
+                        var completedData = new { MissionPracticeId = missionPracticeId, MemberId = memberId, RejectForReason = "", Status = true };
+                        DeclineAssesment(completedData);
                     }
 
                     return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your observation records have been saved!...", Status = true }).Content));
@@ -531,6 +553,29 @@ namespace GEM.Controllers.API
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, CommonHelper.ResponseData(ex.Message, 500, "Internal Server Error"));
+            }
+        }
+
+        [HttpPost, Route("api/DeclineAssesment")]
+        public IHttpActionResult DeclineAssesment([FromBody]dynamic data)
+        {
+            try
+            {
+                var measure = (JToken)JObject.Parse(JsonConvert.SerializeObject(data));
+
+                var memberPractice = new member_mission_practice();
+                memberPractice.MissionPracticeId = Convert.ToInt32(measure["MissionPracticeId"]);
+                memberPractice.MemberId = Convert.ToInt32(measure["MemberId"]);
+                memberPractice.RejectForReason = measure["RejectForReason"].ToString();
+                memberPractice.Status = Convert.ToSByte(measure["Status"]);
+                var result = objTeam.AddorUpdateMemberMissionPractice(memberPractice);
+
+                if (result == 1) return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Observation declain request is saved!...", Status = true }).Content));
+                else return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "Your request not saved.", Status = false }).Content));
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, CommonHelper.ResponseData(ex.Message, 400, "Bad Request"));
             }
         }
 

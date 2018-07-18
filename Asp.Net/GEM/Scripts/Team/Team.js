@@ -14,6 +14,22 @@ TeamDet.prototype.Load = function () {
             $('#myMemberModal').modal('hide');
             $('#rejectionModal').modal('show');
         });
+
+        jQuery('.RejectionModal').click(function () {
+            var practiceId = this.id;
+            jQuery('#ObservationModal_' + practiceId).modal('hide');
+            jQuery('#rejectionModal_' + practiceId).modal('show');
+        });
+
+        jQuery('#add-new-member').click(function () {
+            jQuery('#myModal').modal('show');
+        });
+
+        jQuery('.ObservationModal').click(function () {
+            var practiceId = this.id;
+            $('#missionId').val($('#missionId_' + practiceId).val());
+            jQuery('#ObservationModal_' + practiceId).modal('show');
+        });
     });
 }
 
@@ -59,7 +75,7 @@ function InviteTeamLeader(memberId, teamJourneyID) {
         url: "/api/teamMember",
         type: 'post',
         cache: false,
-        async:true,
+        async: true,
         data: JSON.stringify(model),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -92,14 +108,13 @@ function myFunction(teamId) {
             contentType: false,
             processData: false,
             data: fileData,
-            success: function (result)
-            {
+            success: function (result){
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(errorThrown);
             }
         });
-    } 
+    }
 }
 
 function vote(id, thumbs) {
@@ -111,18 +126,18 @@ function vote(id, thumbs) {
     thumbsId[0].className = thumbsId[0].className + "active"
 }
 
-TeamDet.prototype.SubmitClicked = function (practiceId) {
+TeamDet.prototype.SubmitClicked = function (practiceId, missionId) {
     var memberId = this.sessionID;
     if (memberId == undefined || memberId == '') { alert('Session has been expired!'); window.location.href = '../Journey/Index'; }
-    else if ($('.practice_' + practiceId).length != $('.practice_' + practiceId + ' .active').length) { alert('You have missing observation details'); }
+    else if ($('.practice_' + practiceId).length != $('.practice_' + practiceId + ' .active').length) { alert('Missing observation details'); }
     else {
-        var missionId = $('#missionId').val();
+        if (missionId == undefined || missionId == '' || missionId.toString() == '0') missionId = $('#missionId').val();
         var array = new Array();
         for (i = 0 ; i < $('.practice_' + practiceId + ' .active').length; i++) {
             var thumbs = $('.practice_' + practiceId + ' .active')[i].id.split('_');
             var measureId = thumbs[1];
             var assesment = 0;
-            var missionAssesmentId = $('#Assessment_' + measureId).val();
+            var missionAssesmentId = $('#Assessment_' + measureId + "_" + practiceId).val();
 
             switch (thumbs[0]) {
                 case 'thumbs1':
@@ -142,7 +157,8 @@ TeamDet.prototype.SubmitClicked = function (practiceId) {
                     memberId: memberId,
                     measureId: measureId,
                     assesment: assesment,
-                    missionAssesmentId: missionAssesmentId
+                    missionAssesmentId: missionAssesmentId,
+                    missionPracticeId: practiceId
                 });
             }
         }
@@ -171,10 +187,10 @@ TeamDet.prototype.SubmitClicked = function (practiceId) {
 
 TeamDet.prototype.DeclineClicked = function (missionpracticeId) {
     var memberId = this.sessionID;
+    var rejectReason = $('#rejectReason_' + missionpracticeId)[0].value;
     if (memberId == undefined || memberId == '') { alert('Session has been expired!'); window.location.href = '../Journey/Index'; }
-    else if ($('.practice_' + practiceId).length != $('.practice_' + practiceId + ' .active').length) { alert('You have missing observation details'); }
     else {
-        var model = { MissionPracticeId: missionpracticeId, MemberId: memberId }
+        var model = { MissionPracticeId: missionpracticeId, MemberId: memberId, RejectForReason: rejectReason, Status: true }
         $.ajax({
             url: "/api/DeclineAssesment",
             type: 'post',
@@ -195,12 +211,12 @@ TeamDet.prototype.DeclineClicked = function (missionpracticeId) {
 
 }
 
-function submitObservation(practiceId) {
+function submitObservation(missionpracticeId, missionId) {
     var _TeamDet = new TeamDet(sessionId);
-    _TeamDet.SubmitClicked(practiceId);
+    _TeamDet.SubmitClicked(missionpracticeId, missionId);
 }
 
-function declineObservation(missionpracticeId) {
+function declineObservation(missionpracticeId, missionId) {
     var _TeamDet = new TeamDet(sessionId);
     _TeamDet.DeclineClicked(missionpracticeId);
 }

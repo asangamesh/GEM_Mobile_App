@@ -23,6 +23,7 @@
 
                         <div class="bs-example">
                             <div class="panel-group" id="accordion">
+                                <input type="hidden" id="missionId" value="0" />
                                 @if (Model != null && Model.Teams != null && Model.Teams.Count > 0)
                                 {
                                     foreach (var team in Model.Teams)
@@ -30,7 +31,7 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_@team.TeamId"> <img src="../images/rocket.png"> @team.team.Name  <span> <img src="../images/add-icon.png" alt="+"> </span></a>
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_@team.TeamId"> <img src='@string.Concat("../images/Team/team",team.TeamId,".png")'> @team.team.Name  <span> <img src="../images/add-icon.png" alt="+"> </span></a>
                                                 </h4>
                                             </div>
                                             <div id="collapseOne_@team.TeamId" class="panel-collapse collapse">
@@ -58,78 +59,11 @@
             </div>
 
         </div> <!-- /1 dashboardbg -->
-
-
-        <div id="myMemberModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title"> <img src="../images/rocket.png"> Form Delivery Team </h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-md-12 clspracticedesc">
-                            <h4> Description: </h4>
-                            <p>Vestibulum ultrices blandit quam. Phasellus ex nunc, vulputate sed dignissim eget, vehicula non ipsum. Suspendisse fermentum lacus magna. Fusce vel malesuada ex. Fusce rutrum libero ut ligula tristique, quis posuere urna maximus. Fusce commodo commodo varius. Cras tincidunt feugiat congue. </p>
-                        </div>
-                        <div class="col-md-12 clsmissionduration">
-                            <h4> Start Date: <span> 12/12/2018 </span> </h4>
-                            <h4> End Date: <span> 17/12/2018 </span> </h4>
-                        </div>
-                        <a class="gff-base-link" href="#"> More info from GFF Base </a>
-                    </div>
-                    <div class="modal-footer">
-                        <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-                        <button type="submit" class="btn btn-primary">Accept Mission</button>
-                        <button id="reject-practice-btn" type="submit" class="btn btn-danger">Reject Mission</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
-        <div id="rejectionModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title"> <img src="../images/rocket.png"> Form Delivery Team </h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-md-12 clspracticedesc rejectionform">
-                            <h4> Please enter the reason for rejection: </h4>
-                            <textarea name="reason" class="rejection-text" placeholder="Enter the reason"> </textarea>
-                        </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
 </section>
 
+<script src="../Scripts/Team/Team.js" type="text/jscript"></script>
 <script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery('#add-new-member').click(function () {
-            jQuery('#myModal').modal('show');
-        });
-        jQuery('#add-new-team').click(function () {
-            jQuery('#teamModal').modal('show');
-        });
-        jQuery('#MemberModel').click(function () {
-            jQuery('#myMemberModal').modal('show');
-        });
-        jQuery('#reject-practice-btn').click(function () {
-            jQuery('#myMemberModal').modal('hide');
-            jQuery('#rejectionModal').modal('show');
-        });
-    });
+    var sessionId = '@Session["LoginMemberID"]';
+    var _TeamDet = new TeamDet(sessionId);
+    _TeamDet.Load();
 </script>

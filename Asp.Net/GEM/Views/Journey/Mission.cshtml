@@ -1,6 +1,6 @@
 ﻿@model  List<GEM.Models.mission>
 
-@if(Model != null && Model.Count > 0)
+@if (Model != null && Model.Count > 0)
 {
     foreach (var mission in Model)
     {
@@ -16,21 +16,22 @@
                 {
                     <div class="col-lg-2 practiceblock">
                         <span class="img-block">
-                            <img class="MemberModel" id="@practice.MissionPracticeId" src='@string.Concat("../images/practice/practice", practice.practice.PracticeId, ".png")' alt="calendar">
+                            <img class="ObservationModal" id="@practice.MissionPracticeId" src='@string.Concat("../images/practice/practice", practice.practice.PracticeId, ".png")' alt="calendar">
                             <h4> @practice.practice.Name </h4>
                         </span>
                     </div>
 
-
                     <div id="ObservationModal_@practice.MissionPracticeId" class="modal fade">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <img src='@string.Concat("../images/Practice/practice",practice.practice.PracticeId,".png")' style="width: 36px; height: 36px; background-color:white; border-radius:inherit; border:none;"> @practice.practice.Name @*<i> [ @practice.practice.fluency_level.ShortName ]</i>*@
-                                </h4>
-
-                                <div class="col-lg-12 team-details">
-                                    <div class="rating-content">
+                        <div class="modal-dialog" style="width: 65%;">
+                            <div class="modal-content" style="text-align:left;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="panel-title">
+                                        <img src='@string.Concat("../images/Practice/practice",practice.practice.PracticeId,".png")' style="width: 36px; height: 36px; background-color:white; border-radius:inherit; border:none;"> @practice.practice.Name @*<i> [ @practice.practice.fluency_level.ShortName ]</i>*@
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-lg-12 team-details">
                                         <ul class="rating-list">
                                             @for (int i = 0; i < practice.practice.measures.Count; i++)
                                             {
@@ -52,38 +53,58 @@
 
                                                 <li class="@classname">
                                                     <span class="rating-item"> @(i + 1) . @measure.Measure1</span>
-                                                    <span class="rating-icons practice_@practice.practice.PracticeId">
-                                                        <input type="hidden" id="Assessment_@measure.MeasureId" value="@assessmentId" />
+                                                    <span class="rating-icons practice_@practice.MissionPracticeId">
+                                                        <input type="hidden" id='@string.Concat("Assessment_",@measure.MeasureId,"_",@practice.MissionPracticeId)' value="@assessmentId" />
                                                         @if (assessment == 5)
                                                         {
-                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
-                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
-                                                                                        <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
+                                                            <span class="rating-icons1"><a href="#" id='@string.Concat("thumbs1_",@measure.MeasureId,"_",@practice.MissionId)' class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
+                                                            <span class="rating-icons2"><a href="#" id='@string.Concat("thumbs2_",@measure.MeasureId,"_",@practice.MissionId)' class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
+                                                            <span class="rating-icons3"><a href="#" id='@string.Concat("thumbs3_",@measure.MeasureId,"_",@practice.MissionId)' class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
                                                         }
                                                         else
                                                         {
-                                                            <span class="rating-icons1"><a href="#" id="thumbs1_@measure.MeasureId" onclick="vote(@measure.MeasureId, 1)" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
-                                                            <span class="rating-icons2"><a href="#" id="thumbs2_@measure.MeasureId" onclick="vote(@measure.MeasureId, 2)" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
-                                                                                        <span class="rating-icons3"><a href="#" id="thumbs3_@measure.MeasureId" onclick="vote(@measure.MeasureId, 3)" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
+                                                            <span class="rating-icons1"><a href="#" id='@string.Concat("thumbs1_",@measure.MeasureId,"_",@practice.MissionId)' onclick="vote('@string.Concat(@measure.MeasureId,"_",@practice.MissionId)', 1);" class="fa fa-thumbs-up @thumbsUp" style="font-size:22px"></a></span>
+                                                            <span class="rating-icons2"><a href="#" id='@string.Concat("thumbs2_",@measure.MeasureId,"_",@practice.MissionId)' onclick="vote('@string.Concat(@measure.MeasureId,"_",@practice.MissionId)', 2);" class="fa fa-thumbs-down @thumbsSideway" style="font-size:22px"></a></span>
+                                                            <span class="rating-icons3"><a href="#" id='@string.Concat("thumbs3_",@measure.MeasureId,"_",@practice.MissionId)' onclick="vote('@string.Concat(@measure.MeasureId,"_",@practice.MissionId)', 3);" class="fa fa-thumbs-down @thumbsDown" style="font-size:22px"></a></span>
                                                         }
                                                     </span>
                                                 </li>
                                             }
 
                                         </ul>
-                                        <div class="mission-member-buttons col-md-12">
-                                            <div class="row">
-                                                <div class="review-submit-content">
-                                                    <input type="button" id="btnSubmit_@practice.practice.PracticeId" onclick="submitObservation(@practice.practice.PracticeId);" class="btn btn-primary review-submission" value="Submit" />
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="button" id="btnSubmit_@practice.MissionPracticeId" onclick="submitObservation(@practice.MissionPracticeId,@practice.MissionId);" class="btn btn-primary review-submission" value="Submit" />
+                                    @if (practice.practice.measures[0].mission_member_measure_assesment.Count == 0)
+                                    {
+                                        <input type="button" id="@practice.MissionPracticeId" class="btn btn-danger review-submission RejectionModal" value="Decline" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div id="rejectionModal_@practice.MissionPracticeId" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title"> <img src="../images/rocket.png"> Form Delivery Team </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-md-12 clspracticedesc rejectionform">
+                                        <h4> Please enter the reason for rejection: </h4>
+                                        <textarea name="reason" id="rejectReason_@practice.MissionPracticeId" class="rejection-text" placeholder="Enter the reason"> </textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <input type="button" id="btnDecline_@practice.MissionPracticeId" onclick="declineObservation(@practice.MissionPracticeId,@practice.MissionId);" class="btn btn-primary review-submission" value="Submit" />
                                 </div>
 
                             </div>
-                        </div> <!-- panel default 1 -->
+                        </div>
                     </div>
                 }
             </div>
@@ -100,15 +121,8 @@
                 </div>
             </span>
             @*<span class="col-lg-3">
-                    <input formaction="" name="practice-proceed" onclick="window.location.href = '../Team/Measures?journeyId=@mission.TeamJourneyId';" class="proceedcls" type="submit" value="Proceed Practice">
+                       <input formaction="" name="practice-proceed" onclick="window.location.href = '../Team/Measures?journeyId=@mission.TeamJourneyId';" class="proceedcls" type="submit" value="Proceed Practice">
                 </span>*@
         </div>
     }
 }
-
-<script>
-    jQuery('.MemberModel').click(function () {
-        var practiceId = this.id;
-        jQuery('#ObservationModal_' + practiceId).modal('show');
-    });
-</script>

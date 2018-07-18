@@ -90,5 +90,12 @@ namespace GEM.BusinessLogics
             gemdb.mission_member_measure_assesment.AddOrUpdate(missionMemberMeasureAssesment);
             return gemdb.SaveChanges();
         }
+
+        public int AddorUpdateMemberMissionPractice(member_mission_practice memberMissionPractice)
+        {
+            gemdb = new gemEntities1();
+            gemdb.member_mission_practice.AddOrUpdate(memberMissionPractice);
+            return gemdb.SaveChanges();
+        }
     }
 }

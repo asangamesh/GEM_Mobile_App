@@ -17,6 +17,11 @@ namespace GEM.BusinessLogics
             gemdb = new gemEntities1();
             var fluencyLevelId = 0;
 
+            var mission = (from m in gemdb.missions
+                             join tj in gemdb.team_journey on m.TeamJourneyId equals tj.TeamJourneyId
+                             where tj.TeamJourneyId == teamJourneyId && m.EndDate < DateTime.Now
+                             select m).OrderByDescending(x => x.EndDate).FirstOrDefault();
+
             var practices = (from p in gemdb.practices
                              join mp in gemdb.mission_practice on p.PracticeId equals mp.PracticeId
                              join m in gemdb.missions on mp.MissionId equals m.MissionId
@@ -37,12 +42,34 @@ namespace GEM.BusinessLogics
 
             var objPractices = (from p in gemdb.practices
                                 join f in gemdb.fluency_level on p.FluencyLevelId equals f.FluencyLevelId
+                                orderby p.PracticeId ascending
+                                select p).ToList();
+
+            if (mission != null && mission.MissionId != null)
+            {
+                var practiceAvg = (from p in gemdb.practices
+                                   join m in gemdb.measures on p.PracticeId equals m.PracticeId
+                                   join ma in gemdb.mission_member_measure_assesment on m.MeasureId equals ma.MeasureId
+                                   where ma.MissionId == mission.MissionId
+                                   select new { p.PracticeId, ma.Assesment }).GroupBy(p => p.PracticeId).
+                                  Select(g => new { PracticeId = g.Key, AVG = g.Average(a => a.Assesment.Value) }).Where(x => x.AVG < 4.25).ToList();
+
+                objPractices = (from p in objPractices
+                                where !(from mp in gemdb.mission_practice
+                                        join m in gemdb.missions on mp.MissionId equals m.MissionId
+                                        where m.TeamJourneyId == teamJourneyId
+                                        select mp.PracticeId).ToList().Contains(p.PracticeId) || practiceAvg.Where(pavg => pavg.PracticeId.Equals(p.PracticeId)).Count() > 0
+                                select p).ToList();
+            }
+            else
+            {
+                objPractices = (from p in objPractices
                                 where !(from mp in gemdb.mission_practice
                                         join m in gemdb.missions on mp.MissionId equals m.MissionId
                                         where m.TeamJourneyId == teamJourneyId
                                         select mp.PracticeId).ToList().Contains(p.PracticeId)
-                                orderby p.PracticeId ascending
                                 select p).ToList();
+            }
 
             if (objPractices.Where(p => p.FluencyLevelId == (fluencyLevelId == 0 ? 1 : fluencyLevelId)).ToList().Count > 0)
             {
@@ -97,7 +124,7 @@ namespace GEM.BusinessLogics
         {
             gemdb = new gemEntities1();
 
-            var objMission = (from m in gemdb.missions where m.TeamJourneyId == mission.TeamJourneyId select m).FirstOrDefault();
+            var objMission = (from m in gemdb.missions where m.TeamJourneyId == mission.TeamJourneyId && m.StartDate == mission.StartDate && m.EndDate == mission.EndDate select m).FirstOrDefault();
 
             return objMission;
         }
