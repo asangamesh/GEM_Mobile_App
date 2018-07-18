@@ -30,19 +30,20 @@ TeamDet.prototype.CreateTeamClicked = function () {
         $.ajax({
             url: "/api/team",
             type: 'post',
+            async: true,
             data: JSON.stringify(model),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                if (result.status == "OK") {
+                if (result.data.status == true) {
                     jQuery('#teamModal').modal('hide');
                     //jQuery('#congratsModelBox').modal('show');
-                    alert("Team detail is saved Successfully..!");
+                    myFunction(result.data.teamId);
                     if (teamId == undefined || teamId == '') InviteTeamLeader(memberId, result.data.teamJourneyId);
                     else window.location.href = '../Journey/Index';
                 }
                 else {
-                    alert("Team creation is failed..!");
+                    alert(result.data.message);
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -58,6 +59,7 @@ function InviteTeamLeader(memberId, teamJourneyID) {
         url: "/api/teamMember",
         type: 'post',
         cache: false,
+        async:true,
         data: JSON.stringify(model),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -75,28 +77,29 @@ function InviteTeamLeader(memberId, teamJourneyID) {
     });
 }
 
-function myFunction() {
-    var formData = new FormData();
-    var files = document.getElementById("file");
-    formData.append("data", files.src);
-    $.ajax({
-        url: '../api/teamAvatar',
-        method: 'post',
-        data: { data: files.src },
-        contentType: "multipart/form-data",
-        dataType: 'json',
-        success: function (result) {
-            if (result.status == "success") {
-                alert("success.");
+function myFunction(teamId) {
+    if (window.FormData != undefined) {
+
+        var fileUpload = $("#imgInp").get(0);
+        var files = fileUpload.files;
+        var newImageName = "team" + teamId;
+        var fileData = new FormData();
+
+        fileData.append(teamId, files[0]);
+        $.ajax({
+            url: '/Journey/UploadFiles?ImageName=' + newImageName + '',
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: fileData,
+            success: function (result)
+            {
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
             }
-            else {
-                alert("An error occurred during the save process.");
-            }
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("An error occurred during the save process.");
-        }
-    });
+        });
+    } 
 }
 
 function vote(id, thumbs) {

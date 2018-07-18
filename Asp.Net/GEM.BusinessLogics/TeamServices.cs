@@ -57,6 +57,19 @@ namespace GEM.BusinessLogics
             return objteamMember;
         }
 
+        public List<team> GetTeamNameExisting(string teamName, int memberId)
+        {
+            gemdb = new gemEntities1();
+
+            var objteam = (from t1 in gemdb.teams
+                           join tj in gemdb.team_journey on t1.TeamId equals tj.TeamId
+                           join tm in gemdb.team_journey_member on tj.TeamJourneyId equals tm.TeamJourneyId
+                           where tm.TeamJourneyMemberRoleId == 1 && tm.MemberId == memberId && t1.Name == teamName
+                           select t1).ToList();
+
+            return objteam;
+        }
+
         public int AddorUpdateTeam(team team)
         {
             gemdb = new gemEntities1();

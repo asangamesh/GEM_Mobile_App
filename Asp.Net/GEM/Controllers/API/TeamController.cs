@@ -157,7 +157,19 @@ namespace GEM.Controllers.API
                     });
                 }
 
-                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Instance = teamName.Count + 1, TeamJourney = teamJourney }).Content, teamJourney.Count));
+                var instanceCount = teamName.Count + 1;
+
+                var _teamName = "Team" + (instanceCount > 9 ? "" : "0") + instanceCount + " [Name me soon]";
+                var teamNameExisting = objTeam.GetTeamNameExisting(_teamName, memberId);
+
+                while (teamNameExisting.Count > 0)
+                {
+                    instanceCount++;
+                    _teamName = "Team" + (instanceCount > 9 ? "" : "0") + instanceCount + " [Name me soon]";
+                    teamNameExisting = objTeam.GetTeamNameExisting(_teamName, memberId);
+                }
+
+                return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Instance = instanceCount, TeamJourney = teamJourney }).Content, teamJourney.Count));
             }
             catch (Exception ex)
             {
@@ -370,6 +382,16 @@ namespace GEM.Controllers.API
                     team.CreatedDate = DateTime.Now;
                 }
                 team.Name = name;
+
+                var teanNameExisting = objTeam.GetTeamNameExisting(name, Convert.ToInt16(createdBy));
+                if (teanNameExisting.Count > 0 && string.IsNullOrEmpty(Id))
+                {
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "team name already exists..!", Status = false }).Content));
+                }
+                else if (teanNameExisting.Count > 0 && !string.IsNullOrEmpty(Id) && teanNameExisting[0].TeamId != Convert.ToInt16(Id))
+                {
+                    return Content(HttpStatusCode.OK, CommonHelper.ResponseData("", 200, "OK", Json(new { Message = "team name already exists..!", Status = false }).Content));
+                }
 
                 var result = objTeam.AddorUpdateTeam(team);
                 if (result == 1)

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -85,7 +86,7 @@ namespace GEM.Controllers
                 var count = Convert.ToInt16(teamDetails.Count);
                 return Json(new {success = count > 1 }, JsonRequestBehavior.AllowGet);
             }
-           else
+            else
             {
                 var count = Convert.ToInt16(teamDetails["Count"]);
                 return Json(new { Message = teamDetails["Data"]["Message"].ToString(), success = count > 1 }, JsonRequestBehavior.AllowGet);
@@ -136,5 +137,46 @@ namespace GEM.Controllers
             else if (Session[sessionId] != null) return true;
             else return false;
         }
+
+        [HttpPost]
+        public JsonResult UploadFiles(string imageName)
+        {
+            try
+            {
+                string teamfolderPath = Server.MapPath("~/images/Team/");
+                if (!Directory.Exists(teamfolderPath)) Directory.CreateDirectory(teamfolderPath);
+
+                string destFileName = Path.Combine(teamfolderPath, imageName + ".png");
+
+                if (Request.Files.Count == 0)
+                {
+                    if (!System.IO.File.Exists(destFileName))
+                    {
+                        string sourceFileName = Server.MapPath("~/images/rocket.png");
+                        System.IO.File.Copy(sourceFileName, destFileName, true);
+                        return Json(new { status = true, Message = "Default image has been upload." }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new { status = true, Message = "Image is not uploaded." }, JsonRequestBehavior.AllowGet);
+                    }
+
+                }
+                else
+                {
+                    HttpFileCollectionBase files = Request.Files;
+                    HttpPostedFileBase file = files[0];
+                    file.SaveAs(destFileName);
+
+
+                    return Json(new { status = true, Message = "Image uploaded successfully!." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { status = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

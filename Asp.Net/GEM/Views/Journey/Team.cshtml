@@ -41,11 +41,11 @@
                                     <span class="start-button-cls">
                                         @if (@team.missions.Count > 0)
                                         {
-                                        <input type="submit" class="start-btn btnStartJourney" disabled="disabled" style="opacity: 0.5;" Id="btnStartJourney" value="Start Journey">
+                                            <input type="submit" class="start-btn btnStartJourney" disabled="disabled" style="opacity: 0.5;" Id="btnStartJourney" value="Start Journey">
                                         }
                                         else
                                         {
-                                        <input type="submit" class="start-btn btnStartJourney active" Id="btnStartJourney" value="Start Journey">
+                                            <input type="submit" class="start-btn btnStartJourney active" Id="btnStartJourney" value="Start Journey">
                                         }
                                     </span>
                                 }
@@ -93,6 +93,8 @@
             $('#txtTeamId').val(id);
             $('#txtTeamName').val($(x).text().trim());
             $('#btnCreateTeam').val("Update Team");
+            var imgpath = "../images/Team/team" + id + ".png";
+            $('#file').attr('src', imgpath);
             jQuery('#teamModal').modal('show');
         }
     }
